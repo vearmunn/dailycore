@@ -1,0 +1,108 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+
+import 'package:dailycore/hive/hive_registrar.g.dart';
+import 'package:flutter/material.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_ce/hive.dart';
+import 'package:path_provider/path_provider.dart';
+
+import 'components/color_selector/color_icon_selector_cubit.dart';
+import 'components/date_picker/pick_date_cubit.dart';
+import 'components/numpad/numpad_cubit.dart';
+import 'features/expense_tracker/data/models/hive_expense.dart';
+import 'features/expense_tracker/data/models/hive_expense_category.dart';
+import 'features/expense_tracker/data/repository/hive_expense_category_repo.dart';
+import 'features/expense_tracker/data/repository/hive_expense_repo.dart';
+import 'features/expense_tracker/presentation/cubit/bar_graph/bar_graph_cubit.dart';
+import 'features/expense_tracker/presentation/cubit/expense_category/expense_category_cubit.dart';
+import 'features/expense_tracker/presentation/cubit/expense_crud/expense_crud_cubit.dart';
+import 'features/expense_tracker/presentation/cubit/monthly_total_list/monthly_total_list_cubit.dart';
+import 'features/expense_tracker/presentation/cubit/pie_chart/pie_chart_cubit.dart';
+import 'features/habit_tracker/data/models/hive_app_settings.dart';
+import 'features/habit_tracker/data/models/hive_habit.dart';
+import 'features/habit_tracker/data/repository/hive_app_settings_repo.dart';
+import 'features/habit_tracker/data/repository/hive_habit_repo.dart';
+import 'features/habit_tracker/presentation/crud_cubit/habit_crud_cubit.dart';
+import 'features/habit_tracker/presentation/heatmap_cubit/heatmap_cubit.dart';
+import 'features/home/homepage.dart';
+import 'features/todo/data/models/hive_todo.dart';
+import 'features/todo/data/models/hive_todo_category.dart';
+import 'features/todo/data/repository/hive_todo_category_repo.dart';
+import 'features/todo/data/repository/hive_todo_repo.dart';
+import 'features/todo/presentation/cubit/category_cubit/category_cubit.dart';
+import 'features/todo/presentation/cubit/crud_cubit/todo_crud_cubit.dart';
+import 'features/todo/presentation/cubit/dashboard_cubit/todo_dashboard_cubit.dart';
+import 'features/todo/presentation/cubit/upcoming_cubit/upcoming_cubit.dart';
+import 'hive_boxes/boxes.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final dir = await getApplicationDocumentsDirectory();
+
+  Hive
+    ..init(dir.path)
+    ..registerAdapters();
+
+  // open hive db
+  await Hive.openBox<TodoHive>(todoBox);
+  await Hive.openBox<TodoCategoryHive>(todoCategoryBox);
+  await Hive.openBox<AppSettingsHive>(appSettingBox);
+  await Hive.openBox<HabitHive>(habitBox);
+  await Hive.openBox<ExpenseHive>(expenseBox);
+  await Hive.openBox<ExpenseCategoryHive>(expenseCategoryBox);
+
+  await HiveAppSettingsRepo().saveFirstLaunchDate();
+
+  final hiveTodoRepo = HiveTodoRepo();
+  final hiveTodoCategoryRepo = HiveTodoCategoryRepo();
+  final hiveHabitRepo = HiveHabitRepo();
+  final hiveAppSettingsRepo = HiveAppSettingsRepo();
+  final hiveExpenseRepo = HiveExpenseRepo();
+  final hiveExpenseCategoryRepo = HiveExpenseCategoryRepo();
+
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => DateCubit()),
+        BlocProvider(create: (context) => ColorSelectorCubit()),
+        BlocProvider(create: (context) => IconSelectorCubit()),
+        BlocProvider(create: (context) => NumpadCubit()),
+        BlocProvider(create: (context) => UpcomingDateCubit()),
+        BlocProvider(create: (context) => TodoDashboardCubit()),
+        BlocProvider(create: (context) => TodoCrudCubit(hiveTodoRepo)),
+        BlocProvider(
+          create: (context) => TodoCategoryCubit(hiveTodoCategoryRepo),
+        ),
+        BlocProvider(create: (context) => HabitCrudCubit(hiveHabitRepo)),
+        BlocProvider(create: (context) => HeatmapCubit(hiveAppSettingsRepo)),
+        BlocProvider(create: (context) => ExpenseCrudCubit(hiveExpenseRepo)),
+        BlocProvider(
+          create: (context) => ExpenseCategoryCubit(hiveExpenseCategoryRepo),
+        ),
+        BlocProvider(create: (context) => BarGraphCubit(hiveExpenseRepo)),
+        BlocProvider(create: (context) => PieChartCubit(hiveExpenseRepo)),
+        BlocProvider(
+          create: (context) => MonthlyTotalListCubit(hiveExpenseRepo),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'DailyCore',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+      ),
+      home: Homepage(),
+    );
+  }
+}
