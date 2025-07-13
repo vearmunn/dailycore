@@ -12,72 +12,91 @@ class ExpenseCategoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Expense Category')),
-      body: BlocBuilder<ExpenseCategoryCubit, ExpenseCategoryState>(
-        builder: (context, state) {
-          if (state is CategoryError) {
-            return Center(child: Text(state.errMessage));
-          }
-          if (state is CategoryLoading) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (state is CategoriesLoaded) {
-            final allCategories =
-                state.categoryList
-                    .where((category) => category.name != 'none')
-                    .toList();
-            return ListView.builder(
-              itemCount: allCategories.length,
-              itemBuilder: (BuildContext context, int index) {
-                final category = allCategories[index];
-                return Dismissible(
-                  key: ValueKey(category.id),
-                  confirmDismiss: (direction) async {
-                    return await showDeleteBox(
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Expense Category'),
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(50),
+            child: TabBar(tabs: [Tab(text: 'Expense'), Tab(text: 'Income')]),
+          ),
+        ),
+        body: TabBarView(
+          children: [_buidTabCategory(true), _buidTabCategory(false)],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            showAddEditCategoryModalBottomSheet(context);
+          },
+          child: Icon(Icons.add),
+        ),
+      ),
+    );
+  }
+
+  BlocBuilder<ExpenseCategoryCubit, ExpenseCategoryState> _buidTabCategory(
+    bool isExpense,
+  ) {
+    return BlocBuilder<ExpenseCategoryCubit, ExpenseCategoryState>(
+      builder: (context, state) {
+        if (state is CategoryError) {
+          return Center(child: Text(state.errMessage));
+        }
+        if (state is CategoryLoading) {
+          return Center(child: CircularProgressIndicator());
+        }
+        if (state is CategoriesLoaded) {
+          final allCategories =
+              state.categoryList.where((category) {
+                if (isExpense) {
+                  return category.type == 'Expense' && category.id != 0;
+                } else {
+                  return category.type == 'Income' && category.id != 0;
+                }
+              }).toList();
+          return ListView.builder(
+            padding: EdgeInsets.only(top: 20),
+            itemCount: allCategories.length,
+            itemBuilder: (BuildContext context, int index) {
+              final category = allCategories[index];
+              return Dismissible(
+                key: ValueKey(category.id),
+                confirmDismiss: (direction) async {
+                  return await showDeleteBox(context, 'Delete this category?');
+                },
+                onDismissed: (direction) {
+                  context.read<ExpenseCategoryCubit>().deleteExpenseCategory(
+                    category,
+                  );
+                },
+                child: buildExpenseTile(
+                  context,
+                  color: category.color,
+                  icon: category.icon,
+                  title: category.name,
+                  margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  trailing: Icon(Icons.keyboard_arrow_right),
+                  onTap: () {
+                    showAddEditCategoryModalBottomSheet(
                       context,
-                      'Delete this category?',
+                      isUpadting: true,
+                      category: ExpenseCategory(
+                        id: category.id,
+                        name: category.name,
+                        color: category.color,
+                        icon: category.icon,
+                        type: category.type,
+                      ),
                     );
                   },
-                  onDismissed: (direction) {
-                    context.read<ExpenseCategoryCubit>().deleteExpenseCategory(
-                      category,
-                    );
-                  },
-                  child: buildExpenseTile(
-                    context,
-                    color: category.color,
-                    icon: category.icon,
-                    title: category.name,
-                    margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
-                    trailing: Icon(Icons.keyboard_arrow_right),
-                    onTap: () {
-                      showAddEditCategoryModalBottomSheet(
-                        context,
-                        isUpadting: true,
-                        category: ExpenseCategory(
-                          id: category.id,
-                          name: category.name,
-                          color: category.color,
-                          icon: category.icon,
-                          type: category.type,
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-            );
-          }
-          return SizedBox.shrink();
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showAddEditCategoryModalBottomSheet(context);
-        },
-        child: Icon(Icons.add),
-      ),
+                ),
+              );
+            },
+          );
+        }
+        return SizedBox.shrink();
+      },
     );
   }
 }

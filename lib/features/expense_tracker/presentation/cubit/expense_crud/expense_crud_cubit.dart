@@ -18,11 +18,44 @@ class ExpenseCrudCubit extends Cubit<ExpenseCrudState> {
     loadExpenses(now.year, now.month);
   }
 
+  Future searchExpenses({
+    required String noteKeywords,
+    String? type = '',
+    List<int>? categoryIdList = const [],
+  }) async {
+    try {
+      emit(ExpenseCrudLoading());
+      var expenseList = await expenseRepo.getAllExpenses();
+
+      print(noteKeywords);
+      print(categoryIdList);
+      expenseList =
+          expenseList.where((expense) {
+            final keywordsMatch = expense.note!.toLowerCase().contains(
+              noteKeywords.toLowerCase(),
+            );
+            final categoriesMatch =
+                categoryIdList == null ||
+                categoryIdList.isEmpty ||
+                categoryIdList.contains(expense.category.id);
+
+            final typeMatches =
+                type == 'All' ? type == '' : expense.category.type == type;
+            return keywordsMatch && categoriesMatch && typeMatches;
+          }).toList();
+      print(expenseList);
+      emit(ExpensesSearchSuccess(expenseList));
+    } catch (e) {
+      emit(ExpenseCrudError(e.toString()));
+    }
+  }
+
   Future loadExpenses(int year, int month) async {
     try {
       emit(ExpenseCrudLoading());
       var expenseList = await expenseRepo.getAllExpenses();
       MonthlyTotal monthlyTotal = getMonthlyTotal(expenseList, year, month);
+
       expenseList =
           expenseList
               .where(
@@ -30,6 +63,7 @@ class ExpenseCrudCubit extends Cubit<ExpenseCrudState> {
                     expense.date.year == year && expense.date.month == month,
               )
               .toList();
+
       emit(ExpenseCrudLoaded(expenseList, monthlyTotal));
     } catch (e) {
       emit(ExpenseCrudError(e.toString()));
