@@ -1,10 +1,11 @@
-import 'package:dailycore/features/expense_tracker/data/models/hive_expense.dart';
-import 'package:dailycore/features/expense_tracker/data/models/hive_expense_category.dart';
-import 'package:dailycore/features/habit_tracker/data/models/hive_app_settings.dart';
-import 'package:dailycore/features/habit_tracker/data/models/hive_habit.dart';
-import 'package:dailycore/features/todo/data/models/hive_todo.dart';
 import 'package:hive_ce/hive.dart';
 
+import '../features/expense_tracker/data/models/hive_expense.dart';
+import '../features/expense_tracker/data/models/hive_expense_category.dart';
+import '../features/expense_tracker/data/models/hive_goal.dart';
+import '../features/habit_tracker/data/models/hive_app_settings.dart';
+import '../features/habit_tracker/data/models/hive_habit.dart';
+import '../features/todo/data/models/hive_todo.dart';
 import '../features/todo/data/models/hive_todo_category.dart';
 
 @GenerateAdapters([
@@ -14,5 +15,6 @@ import '../features/todo/data/models/hive_todo_category.dart';
   AdapterSpec<HabitHive>(),
   AdapterSpec<ExpenseHive>(),
   AdapterSpec<ExpenseCategoryHive>(),
+  AdapterSpec<GoalHive>(),
 ])
 part 'hive_adapters.g.dart';

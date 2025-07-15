@@ -6,7 +6,6 @@ import 'package:flutter_custom_month_picker/flutter_custom_month_picker.dart';
 
 import '../../../../utils/colors_and_icons.dart';
 import '../../utils/expense_util.dart';
-import '../cubit/bar_graph/bar_graph_cubit.dart';
 import '../cubit/expense_crud/expense_crud_cubit.dart';
 import 'add_edit_expense_page.dart';
 
@@ -15,8 +14,6 @@ class ExpensePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<BarGraphCubit>().calculateMonthlyTotals();
-
     return Scaffold(
       appBar: AppBar(
         title: Text(

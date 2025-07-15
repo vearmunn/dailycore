@@ -1,5 +1,7 @@
-import 'package:dailycore/features/expense_tracker/presentation/pages/expense_category_page.dart';
 import 'package:flutter/material.dart';
+
+import 'expense_category_page.dart';
+import 'goal_page.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -16,14 +18,29 @@ class SettingsPage extends StatelessWidget {
         backgroundColor: Colors.white,
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ExpenseCategoryPage()),
-            );
-          },
-          child: Text('Adjust Category'),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ExpenseCategoryPage(),
+                  ),
+                );
+              },
+              child: Text('Adjust Category'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => GoalPage()),
+                );
+              },
+              child: Text('Goals'),
+            ),
+          ],
         ),
       ),
     );

@@ -7,7 +7,6 @@ import '../../../utils/dates_utils.dart';
 import '../../../utils/delete_confirmation.dart';
 import '../../../utils/spaces.dart';
 import '../domain/models/expense.dart';
-import '../presentation/cubit/bar_graph/bar_graph_cubit.dart';
 import '../presentation/cubit/expense_crud/expense_crud_cubit.dart';
 import '../presentation/pages/detail_expense_page.dart';
 import '../utils/expense_util.dart';
@@ -68,7 +67,6 @@ class ExpenseList extends StatelessWidget {
           },
           onDismissed: (direction) {
             context.read<ExpenseCrudCubit>().deleteExpense(expense);
-            context.read<BarGraphCubit>().calculateMonthlyTotals();
           },
           key: ValueKey(expense.id),
           child: buildExpenseTile(

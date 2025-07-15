@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-
 import 'package:dailycore/hive/hive_registrar.g.dart';
 import 'package:flutter/material.dart';
 
@@ -9,14 +8,17 @@ import 'package:path_provider/path_provider.dart';
 
 import 'components/color_selector/color_icon_selector_cubit.dart';
 import 'components/date_picker/pick_date_cubit.dart';
+import 'components/image_picker/image_picker_cubit.dart';
 import 'components/numpad/numpad_cubit.dart';
 import 'features/expense_tracker/data/models/hive_expense.dart';
 import 'features/expense_tracker/data/models/hive_expense_category.dart';
+import 'features/expense_tracker/data/models/hive_goal.dart';
 import 'features/expense_tracker/data/repository/hive_expense_category_repo.dart';
 import 'features/expense_tracker/data/repository/hive_expense_repo.dart';
-import 'features/expense_tracker/presentation/cubit/bar_graph/bar_graph_cubit.dart';
+import 'features/expense_tracker/data/repository/hive_goal_repo.dart';
 import 'features/expense_tracker/presentation/cubit/expense_category/expense_category_cubit.dart';
 import 'features/expense_tracker/presentation/cubit/expense_crud/expense_crud_cubit.dart';
+import 'features/expense_tracker/presentation/cubit/goal/goal_cubit.dart';
 import 'features/expense_tracker/presentation/cubit/monthly_total_list/monthly_total_list_cubit.dart';
 import 'features/expense_tracker/presentation/cubit/pie_chart/pie_chart_cubit.dart';
 import 'features/habit_tracker/data/models/hive_app_settings.dart';
@@ -52,6 +54,7 @@ void main() async {
   await Hive.openBox<HabitHive>(habitBox);
   await Hive.openBox<ExpenseHive>(expenseBox);
   await Hive.openBox<ExpenseCategoryHive>(expenseCategoryBox);
+  await Hive.openBox<GoalHive>(goalBox);
 
   await HiveAppSettingsRepo().saveFirstLaunchDate();
 
@@ -61,6 +64,7 @@ void main() async {
   final hiveAppSettingsRepo = HiveAppSettingsRepo();
   final hiveExpenseRepo = HiveExpenseRepo();
   final hiveExpenseCategoryRepo = HiveExpenseCategoryRepo();
+  final hiveGoalRepo = HiveGoalRepo();
 
   runApp(
     MultiBlocProvider(
@@ -68,6 +72,7 @@ void main() async {
         BlocProvider(create: (context) => DateCubit()),
         BlocProvider(create: (context) => ColorSelectorCubit()),
         BlocProvider(create: (context) => IconSelectorCubit()),
+        BlocProvider(create: (context) => ImagePickerCubit()),
         BlocProvider(create: (context) => NumpadCubit()),
         BlocProvider(create: (context) => UpcomingDateCubit()),
         BlocProvider(create: (context) => TodoDashboardCubit()),
@@ -81,11 +86,11 @@ void main() async {
         BlocProvider(
           create: (context) => ExpenseCategoryCubit(hiveExpenseCategoryRepo),
         ),
-        BlocProvider(create: (context) => BarGraphCubit(hiveExpenseRepo)),
         BlocProvider(create: (context) => PieChartCubit(hiveExpenseRepo)),
         BlocProvider(
           create: (context) => MonthlyTotalListCubit(hiveExpenseRepo),
         ),
+        BlocProvider(create: (context) => GoalCubit(hiveGoalRepo)),
       ],
       child: MyApp(),
     ),

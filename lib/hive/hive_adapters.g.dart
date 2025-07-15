@@ -287,3 +287,60 @@ class ExpenseCategoryHiveAdapter extends TypeAdapter<ExpenseCategoryHive> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+class GoalHiveAdapter extends TypeAdapter<GoalHive> {
+  @override
+  final typeId = 6;
+
+  @override
+  GoalHive read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return GoalHive()
+      ..id = (fields[0] as num).toInt()
+      ..title = fields[1] as String
+      ..description = fields[2] as String?
+      ..targetAmount = (fields[3] as num).toDouble()
+      ..currentAmount = (fields[4] as num).toDouble()
+      ..deadline = fields[5] as DateTime?
+      ..depositHistoryList =
+          (fields[6] as List?)
+              ?.map((e) => (e as Map).cast<String, dynamic>())
+              .toList()
+      ..imagePath = fields[7] as String;
+  }
+
+  @override
+  void write(BinaryWriter writer, GoalHive obj) {
+    writer
+      ..writeByte(8)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.title)
+      ..writeByte(2)
+      ..write(obj.description)
+      ..writeByte(3)
+      ..write(obj.targetAmount)
+      ..writeByte(4)
+      ..write(obj.currentAmount)
+      ..writeByte(5)
+      ..write(obj.deadline)
+      ..writeByte(6)
+      ..write(obj.depositHistoryList)
+      ..writeByte(7)
+      ..write(obj.imagePath);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GoalHiveAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}

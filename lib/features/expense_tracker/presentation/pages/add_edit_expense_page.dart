@@ -14,7 +14,6 @@ import '../../../../components/numpad/numpad.dart';
 import '../../../../components/numpad/numpad_cubit.dart';
 import '../../domain/models/expense.dart';
 import '../../domain/models/expense_category.dart';
-import '../cubit/bar_graph/bar_graph_cubit.dart';
 import '../cubit/expense_crud/expense_crud_cubit.dart';
 
 class AddEditExpensePage extends StatefulWidget {
@@ -204,9 +203,7 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
                                 selectedCategory!.type,
                               );
                             }
-                            context
-                                .read<BarGraphCubit>()
-                                .calculateMonthlyTotals();
+
                             context.read<DateCubit>().clearDate();
                             context.read<NumpadCubit>().clear();
 
