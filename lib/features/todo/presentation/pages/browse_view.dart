@@ -1,10 +1,11 @@
-import 'package:dailycore/features/todo/data/models/hive_todo.dart';
-import 'package:dailycore/features/todo/presentation/pages/filter_todos_view.dart';
-import 'package:dailycore/features/todo/presentation/pages/todo_category_view.dart';
-import 'package:dailycore/hive_boxes/boxes.dart';
+import 'package:dailycore/features/todo/presentation/pages/completed_todos_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
-import '../../../utils/todo_utils.dart';
+import '../../../../hive_boxes/boxes.dart';
+import '../../data/models/hive_todo.dart';
+import '../../utils/todo_utils.dart';
+import 'filter_todos_view.dart';
+import 'todo_category_view.dart';
 
 class BrowseView extends StatefulWidget {
   const BrowseView({super.key});
@@ -47,7 +48,14 @@ class _BrowseViewState extends State<BrowseView> {
                 ),
             child: Text('Category'),
           ),
-          TextButton(onPressed: () {}, child: Text('Completed')),
+          TextButton(
+            onPressed:
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CompletedTodosPage()),
+                ),
+            child: Text('Completed'),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(

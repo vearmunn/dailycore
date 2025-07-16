@@ -141,7 +141,7 @@ class TodoTile extends StatelessWidget {
                   Text(
                     todo.dueDate == null
                         ? 'No due date'
-                        : formattedDate(todo.dueDate!),
+                        : formattedDateAndTime(todo.dueDate!),
                     style: TextStyle(fontSize: 12, color: Colors.grey),
                   ),
                 ],

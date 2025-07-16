@@ -27,8 +27,6 @@ class ExpenseCrudCubit extends Cubit<ExpenseCrudState> {
       emit(ExpenseCrudLoading());
       var expenseList = await expenseRepo.getAllExpenses();
 
-      print(noteKeywords);
-      print(categoryIdList);
       expenseList =
           expenseList.where((expense) {
             final keywordsMatch = expense.note!.toLowerCase().contains(
@@ -43,7 +41,6 @@ class ExpenseCrudCubit extends Cubit<ExpenseCrudState> {
                 type == 'All' ? type == '' : expense.category.type == type;
             return keywordsMatch && categoriesMatch && typeMatches;
           }).toList();
-      print(expenseList);
       emit(ExpensesSearchSuccess(expenseList));
     } catch (e) {
       emit(ExpenseCrudError(e.toString()));

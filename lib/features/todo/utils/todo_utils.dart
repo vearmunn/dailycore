@@ -120,38 +120,24 @@ void showAddTodoBox(BuildContext context) {
                     // final initialValue = state.categoryList.indexWhere(
                     //   (category) => category.id == selectedCategory.id,
                     // );
-                    return Row(
-                      children: [
-                        Expanded(
-                          child: DropdownMenu(
-                            inputDecorationTheme: InputDecorationTheme(
-                              border: UnderlineInputBorder(),
-                            ),
-                            enableFilter: true,
-                            enableSearch: true,
-                            width: double.infinity,
-                            label: Text('Select Category'),
-                            onSelected: (value) {
-                              selectedCategory = value!;
-                            },
-                            dropdownMenuEntries: List.generate(
-                              state.categoryList.length,
-                              (index) => DropdownMenuEntry(
-                                value: state.categoryList[index],
-                                label: state.categoryList[index].name,
-                              ),
-                            ),
-                          ),
+                    return DropdownMenu(
+                      inputDecorationTheme: InputDecorationTheme(
+                        border: UnderlineInputBorder(),
+                      ),
+                      enableFilter: true,
+                      enableSearch: true,
+                      width: double.infinity,
+                      label: Text('Select Category'),
+                      onSelected: (value) {
+                        selectedCategory = value!;
+                      },
+                      dropdownMenuEntries: List.generate(
+                        state.categoryList.length,
+                        (index) => DropdownMenuEntry(
+                          value: state.categoryList[index],
+                          label: state.categoryList[index].name,
                         ),
-                        horizontalSpace(12),
-                        GestureDetector(
-                          onTap: () => showAddTodoCategoryBox(context),
-                          child: Container(
-                            padding: EdgeInsets.all(4),
-                            child: Icon(Icons.post_add_rounded),
-                          ),
-                        ),
-                      ],
+                      ),
                     );
                   }
                   return SizedBox();
@@ -160,7 +146,12 @@ void showAddTodoBox(BuildContext context) {
               verticalSpace(20),
               Text('Deadline'),
               verticalSpace(8),
-              customDatePicker(context, DateTime.now(), allowNull: true),
+              customDatePicker(
+                context,
+                DateTime.now(),
+                allowNull: true,
+                useDateAndTime: true,
+              ),
               DropdownMenu(
                 width: double.infinity,
                 inputDecorationTheme: InputDecorationTheme(
@@ -303,70 +294,6 @@ void showDeleteTodoBox(BuildContext context, Todo todo) {
                 Navigator.pop(context);
               },
               child: Text('Delete'),
-            ),
-          ],
-        ),
-  );
-}
-
-void showAddTodoCategoryBox(BuildContext context) {
-  final todoCubit = context.read<TodoCategoryCubit>();
-  final textController = TextEditingController();
-
-  showDialog(
-    context: context,
-    builder:
-        (context) => AlertDialog(
-          title: Text('Add Category'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [TextField(controller: textController)],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                todoCubit.addTodoCategory(textController.text);
-                Navigator.pop(context);
-              },
-              child: Text('Add'),
-            ),
-          ],
-        ),
-  );
-}
-
-void showEditTodoCategoryBox(BuildContext context, TodoCategory category) {
-  final categoryCubit = context.read<TodoCategoryCubit>();
-  final textController = TextEditingController(text: category.name);
-
-  showDialog(
-    context: context,
-    builder:
-        (context) => AlertDialog(
-          title: Text('Edit Category'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [TextField(controller: textController)],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                categoryCubit.updateTodoCategory(
-                  TodoCategory(id: category.id, name: textController.text),
-                );
-                Navigator.pop(context);
-              },
-              child: Text('Update'),
             ),
           ],
         ),

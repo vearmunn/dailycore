@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import '../../../utils/colors_and_icons.dart';
 import '../../../utils/spaces.dart';
 import '../domain/models/expense_category.dart';
 
@@ -44,18 +43,15 @@ class CategoryGrid extends StatelessWidget {
                   color:
                       !selectedCategoryIdList.contains(category.id)
                           ? Colors.grey.shade300
-                          : fromArgb32(category.color),
+                          : category.color,
                 ),
                 child: Icon(
+                  category.icon,
                   size: 30,
                   color:
                       !selectedCategoryIdList.contains(category.id)
                           ? Colors.grey.shade500
                           : Colors.white,
-                  IconData(
-                    category.icon['code_point'],
-                    fontFamily: category.icon['font_family'],
-                  ),
                 ),
               ),
 

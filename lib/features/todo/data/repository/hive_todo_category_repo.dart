@@ -11,9 +11,10 @@ class HiveTodoCategoryRepo implements TodoCategoryRepo {
   final todosBox = Hive.box<TodoHive>(todoBox);
   @override
   Future<List<TodoCategory>> loadCategories() async {
-    final categoryList = box.values;
-
-    return categoryList.map((category) => category.toDomain()).toList();
+    var categoryList =
+        box.values.map((category) => category.toDomain()).toList();
+    categoryList = categoryList.where((category) => category.id != 00).toList();
+    return categoryList;
   }
 
   @override
@@ -23,15 +24,16 @@ class HiveTodoCategoryRepo implements TodoCategoryRepo {
   }
 
   @override
-  Future deleteCategory(TodoCategory category) async {
+  Future deleteCategory(int id) async {
     TodoCategoryHive soonToBeDeletedCategory = box.values.firstWhere(
-      (categoryFromBox) => categoryFromBox.id == category.id,
+      (categoryFromBox) => categoryFromBox.id == id,
     );
 
     final todos = todosBox.values.map((todo) => todo).toList();
     for (var todo in todos) {
-      if (todo.category.id == category.id) {
-        await todo.delete();
+      if (todo.category.id == id) {
+        todo.category = TodoCategoryHive().uncategorized();
+        await todo.save();
       }
     }
 
@@ -45,14 +47,33 @@ class HiveTodoCategoryRepo implements TodoCategoryRepo {
     );
 
     updatingCategory.name = category.name;
+    updatingCategory.color = category.color.toARGB32();
+    updatingCategory.icon = {
+      'code_point': category.icon.codePoint,
+      'font_family': category.icon.fontFamily,
+    };
+    final todos = todosBox.values.map((todo) => todo).toList();
+    for (var todo in todos) {
+      if (todo.category.id == category.id) {
+        todo.category.name = category.name;
+        todo.category.icon = {
+          'code_point': category.icon.codePoint,
+          'font_family': category.icon.fontFamily,
+        };
+        todo.category.color = category.color.toARGB32();
+        await todo.save();
+      }
+    }
     updatingCategory.save();
   }
 
   @override
   Future initializeCategory() async {
-    final theNoneCategory = box.values.any((category) => category.id == 0);
-    if (!theNoneCategory) {
-      box.add(TodoCategoryHive.fromDomain(TodoCategory(id: 0, name: 'none')));
+    final uncategorizedCategory = box.values.any(
+      (category) => category.id == 00,
+    );
+    if (!uncategorizedCategory) {
+      box.add(TodoCategoryHive().uncategorized());
     }
   }
 }

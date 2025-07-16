@@ -17,11 +17,15 @@ class TodoCrudCubit extends Cubit<TodoCrudState> {
     try {
       emit(TodoCrudLoading());
       final todoList = await todoRepo.getTodos();
-
+      final onGoingList =
+          todoList.where((todo) => todo.isCompleted == false).toList();
+      final completedList =
+          todoList.where((todo) => todo.isCompleted == true).toList();
       emit(
         TodoCrudLoaded(
-          allTodos: todoList,
-          filteredTodos: todoList,
+          allTodos: onGoingList,
+          filteredTodos: onGoingList,
+          completedTodos: completedList,
           searchText: '',
         ),
       );

@@ -13,6 +13,12 @@ String formattedDate2(DateTime date) {
   return today;
 }
 
+String formattedDateAndTime(DateTime date) {
+  final formatted = DateFormat('d MMMM yyyy - HH:mm').format(date);
+
+  return formatted;
+}
+
 String whatIsTheDay(DateTime date) {
   String theDayIs = '';
   if (date.year == DateTime.now().year &&

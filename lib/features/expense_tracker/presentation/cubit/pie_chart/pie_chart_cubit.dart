@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:dailycore/features/expense_tracker/utils/expense_util.dart';
-import 'package:dailycore/utils/colors_and_icons.dart';
 
 import '../../../domain/models/expense.dart';
 import '../../../domain/models/piechart_category_data.dart';
@@ -119,11 +118,8 @@ List<CategoryData> calculateCategories(
           id: expense.category.id,
           categoryName: expense.category.name,
           amount: expense.amount,
-          color: fromArgb32(expense.category.color),
-          icon: IconData(
-            expense.category.icon['code_point'],
-            fontFamily: expense.category.icon['font_family'],
-          ),
+          color: expense.category.color,
+          icon: expense.category.icon,
         ),
       );
     }

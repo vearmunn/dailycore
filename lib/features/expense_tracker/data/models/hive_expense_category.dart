@@ -1,3 +1,5 @@
+import 'package:dailycore/utils/colors_and_icons.dart';
+import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
 
 import '../../domain/models/expense_category.dart';
@@ -13,8 +15,8 @@ class ExpenseCategoryHive extends HiveObject {
     return ExpenseCategory(
       id: id,
       name: name,
-      color: color,
-      icon: icon,
+      color: fromArgb32(color),
+      icon: IconData(icon['code_point'], fontFamily: icon['font_family']),
       type: type,
     );
   }
@@ -23,8 +25,23 @@ class ExpenseCategoryHive extends HiveObject {
     return ExpenseCategoryHive()
       ..id = category.id
       ..name = category.name
-      ..color = category.color
-      ..icon = category.icon
+      ..color = category.color.toARGB32()
+      ..icon = {
+        'code_point': category.icon.codePoint,
+        'font_family': category.icon.fontFamily,
+      }
       ..type = category.type;
+  }
+
+  ExpenseCategoryHive uncategorized() {
+    return ExpenseCategoryHive()
+      ..id = 00
+      ..name = 'Uncategorized'
+      ..color = 0xFF000000
+      ..icon = {
+        'code_point': Icons.task.codePoint,
+        'font_family': Icons.task.fontFamily,
+      }
+      ..type = 'Expense';
   }
 }

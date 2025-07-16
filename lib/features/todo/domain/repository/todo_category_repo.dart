@@ -9,5 +9,5 @@ abstract class TodoCategoryRepo {
 
   Future updateCategory(TodoCategory category);
 
-  Future deleteCategory(TodoCategory category);
+  Future deleteCategory(int id);
 }

@@ -13,20 +13,36 @@ import '../presentation/cubit/category_cubit/category_cubit.dart';
 import '../presentation/cubit/crud_cubit/todo_crud_cubit.dart';
 import 'subtodo_tile.dart';
 
-class TodoDetails extends StatelessWidget {
+class TodoDetails extends StatefulWidget {
   final Todo todo;
 
   const TodoDetails({super.key, required this.todo});
 
   @override
+  State<TodoDetails> createState() => _TodoDetailsState();
+}
+
+class _TodoDetailsState extends State<TodoDetails> {
+  late TextEditingController todoController;
+  late TodoCategory selectedCategory;
+  late String selectedPriority;
+
+  @override
+  void initState() {
+    todoController = TextEditingController(text: widget.todo.text);
+
+    selectedCategory = TodoCategory(
+      id: widget.todo.category.id,
+      name: widget.todo.category.name,
+    );
+    selectedPriority = widget.todo.priority;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final todoCubit = context.read<TodoCrudCubit>();
-    final todoController = TextEditingController(text: todo.text);
-    TodoCategory selectedCategory = TodoCategory(
-      id: todo.category.id,
-      name: todo.category.name,
-    );
-    String selectedPriority = todo.priority;
+
     return Stack(
       children: [
         // FORM-------------------------------------------------------------------------------
@@ -73,8 +89,9 @@ class TodoDetails extends StatelessWidget {
             verticalSpace(8),
             customDatePicker(
               context,
-              todo.dueDate ?? DateTime.now(),
+              widget.todo.dueDate ?? DateTime.now(),
               allowNull: true,
+              useDateAndTime: true,
             ),
             DropdownMenu(
               inputDecorationTheme: InputDecorationTheme(
@@ -82,7 +99,7 @@ class TodoDetails extends StatelessWidget {
               ),
               width: double.infinity,
               label: Text('Select Priority'),
-              initialSelection: todo.priority,
+              initialSelection: widget.todo.priority,
               onSelected: (value) {
                 selectedPriority = value ?? '';
               },
@@ -112,7 +129,8 @@ class TodoDetails extends StatelessWidget {
                           ),
                         ),
                         ElevatedButton.icon(
-                          onPressed: () => showAddSubTodoBox(context, todo.id),
+                          onPressed:
+                              () => showAddSubTodoBox(context, widget.todo.id),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
                             elevation: 0,
@@ -129,17 +147,17 @@ class TodoDetails extends StatelessWidget {
                     physics: NeverScrollableScrollPhysics(),
                     onReorder: (oldIndex, newIndex) {
                       context.read<TodoCrudCubit>().reorderSubTodo(
-                        id: todo.id,
+                        id: widget.todo.id,
                         newIndex: newIndex,
                         oldIndex: oldIndex,
                       );
                     },
-                    itemCount: todo.subTodos.length,
+                    itemCount: widget.todo.subTodos.length,
                     itemBuilder: (context, index) {
                       return SubTodoTile(
-                        key: ValueKey(todo.subTodos[index].id),
-                        subTodo: todo.subTodos[index],
-                        todo: todo,
+                        key: ValueKey(widget.todo.subTodos[index].id),
+                        subTodo: widget.todo.subTodos[index],
+                        todo: widget.todo,
                       );
                     },
                   ),
@@ -166,12 +184,12 @@ class TodoDetails extends StatelessWidget {
                         onPressed: () {
                           todoCubit.updateTodo(
                             Todo(
-                              id: todo.id,
+                              id: widget.todo.id,
                               text: todoController.text,
                               category: selectedCategory,
                               priority: selectedPriority,
                               dueDate: selectedDate,
-                              subTodos: todo.subTodos,
+                              subTodos: widget.todo.subTodos,
                             ),
                           );
 
@@ -185,7 +203,7 @@ class TodoDetails extends StatelessWidget {
                 ),
                 horizontalSpace(12),
                 ElevatedButton(
-                  onPressed: () => showDeleteTodoBox(context, todo),
+                  onPressed: () => showDeleteTodoBox(context, widget.todo),
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                   child: Icon(Icons.delete, color: Colors.white),
                 ),

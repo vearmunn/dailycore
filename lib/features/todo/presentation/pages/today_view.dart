@@ -2,12 +2,12 @@ import 'package:dailycore/features/todo/utils/todo_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../components/date_picker/pick_date_cubit.dart';
-import '../../../../../utils/colors_and_icons.dart';
-import '../../../../../utils/spaces.dart';
-import '../../../widgets/todo_tile.dart';
-import '../../cubit/crud_cubit/todo_crud_cubit.dart';
-import '../todo_details_view.dart';
+import '../../../../components/date_picker/pick_date_cubit.dart';
+import '../../../../utils/colors_and_icons.dart';
+import '../../../../utils/spaces.dart';
+import '../../widgets/todo_tile.dart';
+import '../cubit/crud_cubit/todo_crud_cubit.dart';
+import 'todo_details_view.dart';
 
 class TodayView extends StatelessWidget {
   const TodayView({super.key});
@@ -26,11 +26,15 @@ class TodayView extends StatelessWidget {
             return Center(child: Text(state.errMessage));
           }
           if (state is TodoCrudLoaded) {
+            final now = DateTime.now();
             final todaysTodos = getTodaysTodos(state.allTodos);
             final overdueTodos = getOverdueTodos(state.allTodos);
             final upcomingTodos = state.allTodos.where(
               (todo) =>
-                  todo.dueDate != null && todo.dueDate!.isAfter(DateTime.now()),
+                  todo.dueDate != null &&
+                  todo.dueDate!.isAfter(
+                    DateTime(now.year, now.month, now.day, 23, 59),
+                  ),
             );
             return ListView(
               padding: EdgeInsets.all(20),
@@ -53,18 +57,18 @@ class TodayView extends StatelessWidget {
                       _buildTodoNumberitem(
                         title: 'All',
                         number: state.allTodos.length,
-                        bgColor: dailyCoreBlue,
+                        bgColor: Colors.grey,
                         isFirst: true,
                       ),
                       _buildTodoNumberitem(
                         title: 'Today',
                         number: todaysTodos.length,
-                        bgColor: dailyCoreGreen,
+                        bgColor: Colors.grey,
                       ),
                       _buildTodoNumberitem(
                         title: 'Upcoming',
                         number: upcomingTodos.length,
-                        bgColor: dailyCoreOrange,
+                        bgColor: Colors.grey,
                       ),
                       _buildTodoNumberitem(
                         title: 'Overdue',
@@ -76,15 +80,16 @@ class TodayView extends StatelessWidget {
                   ),
                 ),
                 verticalSpace(20),
-                Text(
-                  'Overdue',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: dailyCoreRed,
+                if (overdueTodos.isNotEmpty)
+                  Text(
+                    'Overdue',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: dailyCoreRed,
+                    ),
                   ),
-                ),
-                verticalSpace(12),
+                if (overdueTodos.isNotEmpty) verticalSpace(12),
                 ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -107,11 +112,12 @@ class TodayView extends StatelessWidget {
                   },
                 ),
                 verticalSpace(12),
-                Text(
-                  'Today',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-                verticalSpace(12),
+                if (todaysTodos.isNotEmpty)
+                  Text(
+                    'Today',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                if (todaysTodos.isNotEmpty) verticalSpace(12),
                 ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -165,13 +171,18 @@ class TodayView extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text(title, style: TextStyle(color: bgColor)),
+            Text(
+              title,
+              style: TextStyle(
+                color: bgColor == Colors.grey ? Colors.black54 : bgColor,
+              ),
+            ),
             Text(
               number.toString(),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
-                color: bgColor.withValues(),
+                color: bgColor == Colors.grey ? Colors.black54 : bgColor,
               ),
             ),
           ],

@@ -219,17 +219,23 @@ class TodoCategoryHiveAdapter extends TypeAdapter<TodoCategoryHive> {
     };
     return TodoCategoryHive()
       ..id = (fields[0] as num).toInt()
-      ..name = fields[1] as String;
+      ..name = fields[1] as String
+      ..color = (fields[2] as num).toInt()
+      ..icon = (fields[3] as Map).cast<String, dynamic>();
   }
 
   @override
   void write(BinaryWriter writer, TodoCategoryHive obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.name);
+      ..write(obj.name)
+      ..writeByte(2)
+      ..write(obj.color)
+      ..writeByte(3)
+      ..write(obj.icon);
   }
 
   @override

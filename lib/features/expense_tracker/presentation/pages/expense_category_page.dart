@@ -1,11 +1,11 @@
-import 'package:dailycore/features/expense_tracker/presentation/cubit/expense_category/expense_category_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../utils/add_edit_category.dart';
 import '../../../../utils/delete_confirmation.dart';
 import '../../domain/models/expense_category.dart';
-import '../../utils/expense_util.dart';
-import '../../widgets/expense_tile.dart';
+import '../../../../components/list_tile_icon.dart';
+import '../cubit/expense_category/expense_category_cubit.dart';
 
 class ExpenseCategoryPage extends StatelessWidget {
   const ExpenseCategoryPage({super.key});
@@ -70,7 +70,7 @@ class ExpenseCategoryPage extends StatelessWidget {
                     category,
                   );
                 },
-                child: buildExpenseTile(
+                child: listTileIcon(
                   context,
                   color: category.color,
                   icon: category.icon,
@@ -81,7 +81,7 @@ class ExpenseCategoryPage extends StatelessWidget {
                     showAddEditCategoryModalBottomSheet(
                       context,
                       isUpadting: true,
-                      category: ExpenseCategory(
+                      expenseCategory: ExpenseCategory(
                         id: category.id,
                         name: category.name,
                         color: category.color,

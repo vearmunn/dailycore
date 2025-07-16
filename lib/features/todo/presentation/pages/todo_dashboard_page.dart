@@ -1,10 +1,10 @@
-import 'package:dailycore/features/todo/presentation/pages/main_pages/browse_view.dart';
-import 'package:dailycore/features/todo/presentation/pages/main_pages/upcoming_view.dart';
+import 'package:dailycore/features/todo/presentation/pages/browse_view.dart';
+import 'package:dailycore/features/todo/presentation/pages/upcoming_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'today_view.dart';
-import '../../cubit/dashboard_cubit/todo_dashboard_cubit.dart';
+import '../cubit/dashboard_cubit/todo_dashboard_cubit.dart';
 
 class TodoDashboardPage extends StatelessWidget {
   const TodoDashboardPage({super.key});

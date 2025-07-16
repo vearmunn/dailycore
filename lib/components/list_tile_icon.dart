@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/colors_and_icons.dart';
-import '../../../utils/spaces.dart';
+import '../utils/spaces.dart';
 
-Widget buildExpenseTile(
+Widget listTileIcon(
   BuildContext context, {
-  required int color,
-  required Map<String, dynamic> icon,
+  required Color color,
+  required IconData icon,
   required String title,
   String? subtitle,
   required VoidCallback onTap,
@@ -28,12 +27,9 @@ Widget buildExpenseTile(
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              color: fromArgb32(color).withAlpha(30),
+              color: color.withAlpha(30),
             ),
-            child: Icon(
-              color: fromArgb32(color),
-              IconData(icon['code_point'], fontFamily: icon['font_family']),
-            ),
+            child: Icon(color: color, icon),
           ),
           horizontalSpace(16),
           Expanded(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 
 import '../../utils/dates_utils.dart';
 import '../../utils/spaces.dart';
@@ -20,10 +21,26 @@ Future pickDate(BuildContext context, {DateTime? initialDate}) async {
   }
 }
 
+Future pickDateTime(BuildContext context, {DateTime? initialDate}) async {
+  final dateCubit = context.read<DateCubit>();
+  final DateTime? picked = await showOmniDateTimePicker(
+    context: context,
+    is24HourMode: true,
+    initialDate: initialDate ?? DateTime.now(),
+    firstDate: DateTime(2000),
+    lastDate: DateTime(2100),
+  );
+
+  if (picked != null) {
+    dateCubit.setDate(picked);
+  }
+}
+
 Widget customDatePicker(
   BuildContext context,
   DateTime initialDate, {
   bool allowNull = false,
+  bool useDateAndTime = false,
 }) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 12.0),
@@ -31,7 +48,13 @@ Widget customDatePicker(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: () => pickDate(context, initialDate: initialDate),
+          onTap: () {
+            if (useDateAndTime) {
+              pickDateTime(context, initialDate: initialDate);
+            } else {
+              pickDate(context, initialDate: initialDate);
+            }
+          },
           child: Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -53,7 +76,7 @@ Widget customDatePicker(
                       );
                     } else if (selectedDate == null) {
                       return Text(
-                        formattedDate(initialDate),
+                        formattedDateAndTime(initialDate),
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -61,7 +84,7 @@ Widget customDatePicker(
                       );
                     } else {
                       return Text(
-                        formattedDate(selectedDate),
+                        formattedDateAndTime(selectedDate),
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

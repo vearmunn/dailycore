@@ -48,15 +48,12 @@ class DetailExpensePage extends StatelessWidget {
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: fromArgb32(expense.category.color).withAlpha(30),
+                        color: expense.category.color.withAlpha(30),
                       ),
                       child: Icon(
-                        color: fromArgb32(expense.category.color),
+                        color: expense.category.color,
                         size: 35,
-                        IconData(
-                          expense.category.icon['code_point'],
-                          fontFamily: expense.category.icon['font_family'],
-                        ),
+                        expense.category.icon,
                       ),
                     ),
                     horizontalSpace(24),

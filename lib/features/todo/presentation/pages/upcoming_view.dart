@@ -4,12 +4,12 @@ import 'package:dailycore/features/todo/widgets/upcoming_table_calendart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../components/date_picker/pick_date_cubit.dart';
-import '../../../../../utils/dates_utils.dart';
-import '../../../domain/models/todo.dart';
-import '../../../utils/todo_utils.dart';
-import '../../cubit/crud_cubit/todo_crud_cubit.dart';
-import '../todo_details_view.dart';
+import '../../../../components/date_picker/pick_date_cubit.dart';
+import '../../../../utils/dates_utils.dart';
+import '../../domain/models/todo.dart';
+import '../../utils/todo_utils.dart';
+import '../cubit/crud_cubit/todo_crud_cubit.dart';
+import 'todo_details_view.dart';
 
 class UpcomingView extends StatelessWidget {
   const UpcomingView({super.key});

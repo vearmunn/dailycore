@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../expense_tracker/presentation/pages/dashboard.dart';
 import '../habit_tracker/presentation/pages/dashboard.dart';
-import '../todo/presentation/pages/main_pages/todo_dashboard_page.dart';
+import '../todo/presentation/pages/todo_dashboard_page.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});

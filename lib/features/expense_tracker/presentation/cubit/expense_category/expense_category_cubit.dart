@@ -34,8 +34,8 @@ class ExpenseCategoryCubit extends Cubit<ExpenseCategoryState> {
       final newCategory = ExpenseCategory(
         id: DateTime.now().millisecondsSinceEpoch,
         name: categoryName,
-        color: color.toARGB32(),
-        icon: {'code_point': icon.codePoint, 'font_family': icon.fontFamily},
+        color: color,
+        icon: icon,
         type: type,
       );
 

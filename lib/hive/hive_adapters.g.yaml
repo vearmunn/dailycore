@@ -73,12 +73,16 @@ types:
         index: 7
   TodoCategoryHive:
     typeId: 4
-    nextIndex: 2
+    nextIndex: 4
     fields:
       id:
         index: 0
       name:
         index: 1
+      color:
+        index: 2
+      icon:
+        index: 3
   ExpenseCategoryHive:
     typeId: 5
     nextIndex: 5

@@ -7,6 +7,7 @@ final class TodoCrudLoading extends TodoCrudState {}
 final class TodoCrudLoaded extends TodoCrudState {
   final List<Todo> allTodos;
   final List<Todo> filteredTodos;
+  final List<Todo> completedTodos;
   final String searchText;
   final TodoCategory? selectedCategory;
   final String? selectedPriority;
@@ -14,6 +15,7 @@ final class TodoCrudLoaded extends TodoCrudState {
   TodoCrudLoaded({
     required this.allTodos,
     required this.filteredTodos,
+    required this.completedTodos,
     required this.searchText,
     this.selectedCategory,
     this.selectedPriority,
@@ -22,6 +24,7 @@ final class TodoCrudLoaded extends TodoCrudState {
   TodoCrudLoaded copyWith({
     List<Todo>? allTodos,
     List<Todo>? filteredTodos,
+    List<Todo>? completedTodos,
     String? searchText,
     TodoCategory? selectedCategory,
     String? selectedPriority,
@@ -29,6 +32,7 @@ final class TodoCrudLoaded extends TodoCrudState {
     return TodoCrudLoaded(
       allTodos: allTodos ?? this.allTodos,
       filteredTodos: filteredTodos ?? this.filteredTodos,
+      completedTodos: completedTodos ?? this.completedTodos,
       searchText: searchText ?? this.searchText,
       selectedCategory: selectedCategory ?? this.selectedCategory,
       selectedPriority: selectedPriority ?? this.selectedPriority,

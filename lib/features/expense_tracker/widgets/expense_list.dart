@@ -10,7 +10,7 @@ import '../domain/models/expense.dart';
 import '../presentation/cubit/expense_crud/expense_crud_cubit.dart';
 import '../presentation/pages/detail_expense_page.dart';
 import '../utils/expense_util.dart';
-import 'expense_tile.dart';
+import '../../../components/list_tile_icon.dart';
 
 class ExpenseList extends StatelessWidget {
   final List<Expense> expenseList;
@@ -69,7 +69,7 @@ class ExpenseList extends StatelessWidget {
             context.read<ExpenseCrudCubit>().deleteExpense(expense);
           },
           key: ValueKey(expense.id),
-          child: buildExpenseTile(
+          child: listTileIcon(
             context,
             color: expense.category.color,
             icon: expense.category.icon,
