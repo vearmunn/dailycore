@@ -63,42 +63,6 @@ class TodoHiveAdapter extends TypeAdapter<TodoHive> {
           typeId == other.typeId;
 }
 
-class AppSettingsHiveAdapter extends TypeAdapter<AppSettingsHive> {
-  @override
-  final typeId = 1;
-
-  @override
-  AppSettingsHive read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return AppSettingsHive()
-      ..id = (fields[0] as num).toInt()
-      ..firstLaunchDate = fields[1] as DateTime?;
-  }
-
-  @override
-  void write(BinaryWriter writer, AppSettingsHive obj) {
-    writer
-      ..writeByte(2)
-      ..writeByte(0)
-      ..write(obj.id)
-      ..writeByte(1)
-      ..write(obj.firstLaunchDate);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is AppSettingsHiveAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-}
-
 class HabitHiveAdapter extends TypeAdapter<HabitHive> {
   @override
   final typeId = 2;
@@ -347,6 +311,69 @@ class GoalHiveAdapter extends TypeAdapter<GoalHive> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is GoalHiveAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class RoutineHiveAdapter extends TypeAdapter<RoutineHive> {
+  @override
+  final typeId = 7;
+
+  @override
+  RoutineHive read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return RoutineHive()
+      ..id = (fields[0] as num).toInt()
+      ..name = fields[1] as String
+      ..description = fields[2] as String
+      ..repeatType = fields[3] as String
+      ..daysofWeek = (fields[4] as List).cast<int>()
+      ..datesofMonth = (fields[5] as List).cast<int>()
+      ..comletedDays = (fields[6] as List?)?.cast<DateTime>()
+      ..color = (fields[7] as num).toInt()
+      ..icon = (fields[8] as Map).cast<String, dynamic>()
+      ..subHabits =
+          (fields[9] as List)
+              .map((e) => (e as Map).cast<String, dynamic>())
+              .toList();
+  }
+
+  @override
+  void write(BinaryWriter writer, RoutineHive obj) {
+    writer
+      ..writeByte(10)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.name)
+      ..writeByte(2)
+      ..write(obj.description)
+      ..writeByte(3)
+      ..write(obj.repeatType)
+      ..writeByte(4)
+      ..write(obj.daysofWeek)
+      ..writeByte(5)
+      ..write(obj.datesofMonth)
+      ..writeByte(6)
+      ..write(obj.comletedDays)
+      ..writeByte(7)
+      ..write(obj.color)
+      ..writeByte(8)
+      ..write(obj.icon)
+      ..writeByte(9)
+      ..write(obj.subHabits);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RoutineHiveAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -21,12 +21,10 @@ import 'features/expense_tracker/presentation/cubit/expense_crud/expense_crud_cu
 import 'features/expense_tracker/presentation/cubit/goal/goal_cubit.dart';
 import 'features/expense_tracker/presentation/cubit/monthly_total_list/monthly_total_list_cubit.dart';
 import 'features/expense_tracker/presentation/cubit/pie_chart/pie_chart_cubit.dart';
-import 'features/habit_tracker/data/models/hive_app_settings.dart';
 import 'features/habit_tracker/data/models/hive_habit.dart';
-import 'features/habit_tracker/data/repository/hive_app_settings_repo.dart';
+import 'features/habit_tracker/data/models/hive_routine.dart';
 import 'features/habit_tracker/data/repository/hive_habit_repo.dart';
 import 'features/habit_tracker/presentation/crud_cubit/habit_crud_cubit.dart';
-import 'features/habit_tracker/presentation/heatmap_cubit/heatmap_cubit.dart';
 import 'features/home/homepage.dart';
 import 'features/todo/data/models/hive_todo.dart';
 import 'features/todo/data/models/hive_todo_category.dart';
@@ -50,18 +48,16 @@ void main() async {
   // open hive db
   await Hive.openBox<TodoHive>(todoBox);
   await Hive.openBox<TodoCategoryHive>(todoCategoryBox);
-  await Hive.openBox<AppSettingsHive>(appSettingBox);
   await Hive.openBox<HabitHive>(habitBox);
+  await Hive.openBox<RoutineHive>(routineBox);
   await Hive.openBox<ExpenseHive>(expenseBox);
   await Hive.openBox<ExpenseCategoryHive>(expenseCategoryBox);
   await Hive.openBox<GoalHive>(goalBox);
 
-  await HiveAppSettingsRepo().saveFirstLaunchDate();
-
   final hiveTodoRepo = HiveTodoRepo();
   final hiveTodoCategoryRepo = HiveTodoCategoryRepo();
   final hiveHabitRepo = HiveHabitRepo();
-  final hiveAppSettingsRepo = HiveAppSettingsRepo();
+  // final hiveRoutineRepo = HiveRoutineRepo();
   final hiveExpenseRepo = HiveExpenseRepo();
   final hiveExpenseCategoryRepo = HiveExpenseCategoryRepo();
   final hiveGoalRepo = HiveGoalRepo();
@@ -81,7 +77,6 @@ void main() async {
           create: (context) => TodoCategoryCubit(hiveTodoCategoryRepo),
         ),
         BlocProvider(create: (context) => HabitCrudCubit(hiveHabitRepo)),
-        BlocProvider(create: (context) => HeatmapCubit(hiveAppSettingsRepo)),
         BlocProvider(create: (context) => ExpenseCrudCubit(hiveExpenseRepo)),
         BlocProvider(
           create: (context) => ExpenseCategoryCubit(hiveExpenseCategoryRepo),

@@ -2,10 +2,10 @@ import 'dart:math' show Random;
 
 import 'package:flutter/material.dart';
 
-Color dailyCoreGreen = Color.fromARGB(255, 48, 175, 146);
-Color dailyCoreOrange = Color.fromARGB(255, 228, 162, 100);
-Color dailyCoreRed = Color.fromARGB(255, 245, 85, 85);
-Color dailyCoreBlue = Color.fromARGB(255, 69, 152, 216);
+const Color dailyCoreGreen = Color.fromARGB(255, 48, 175, 146);
+const Color dailyCoreOrange = Color.fromARGB(255, 228, 162, 100);
+const Color dailyCoreRed = Color.fromARGB(255, 245, 85, 85);
+const Color dailyCoreBlue = Color.fromARGB(255, 69, 152, 216);
 
 List<Color> colorSelections = [
   Color(0xFF16a085),

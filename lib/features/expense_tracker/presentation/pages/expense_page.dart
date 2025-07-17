@@ -16,12 +16,16 @@ class ExpensePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: dailyCoreBlue,
         title: Text(
-          'Finance Tracker',
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+          'Finance',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -30,7 +34,7 @@ class ExpensePage extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => SearchExpensePage()),
               );
             },
-            icon: Icon(Icons.search),
+            icon: Icon(Icons.search, color: Colors.white),
           ),
         ],
         bottom: PreferredSize(
@@ -40,7 +44,7 @@ class ExpensePage extends StatelessWidget {
               if (state is ExpenseCrudLoaded) {
                 return Container(
                   height: 50,
-                  color: Colors.white,
+                  color: dailyCoreBlue,
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -134,11 +138,17 @@ class ExpensePage extends StatelessWidget {
         children: [
           Column(
             children: [
-              Text(getMonthName(state.monthlyTotal!.month)),
-              Text(state.monthlyTotal!.year.toString()),
+              Text(
+                getMonthName(state.monthlyTotal!.month),
+                style: TextStyle(color: Colors.white),
+              ),
+              Text(
+                state.monthlyTotal!.year.toString(),
+                style: TextStyle(color: Colors.white),
+              ),
             ],
           ),
-          Icon(Icons.keyboard_arrow_down, size: 20),
+          Icon(Icons.keyboard_arrow_down, size: 20, color: Colors.white),
         ],
       ),
     );
@@ -148,10 +158,14 @@ class ExpensePage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: TextStyle(color: Colors.grey)),
+        Text(title, style: TextStyle(color: Colors.white)),
         Text(
           amount,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
       ],
     );

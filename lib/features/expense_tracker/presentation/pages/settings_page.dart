@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../utils/colors_and_icons.dart';
 import 'expense_category_page.dart';
 import 'goal_page.dart';
 
@@ -10,12 +11,16 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: dailyCoreBlue,
         title: Text(
-          'Finance Tracker',
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+          'Finance',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+        ),
       ),
       body: Center(
         child: Column(

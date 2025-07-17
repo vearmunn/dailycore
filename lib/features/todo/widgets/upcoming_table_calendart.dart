@@ -20,6 +20,7 @@ class _UpcomingTableCalendarState extends State<UpcomingTableCalendar> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.todoDates);
     context.read<UpcomingDateCubit>().setUpcomingDate(_selectedDay!);
     return TableCalendar(
       firstDay: DateTime.now(),
@@ -30,7 +31,11 @@ class _UpcomingTableCalendarState extends State<UpcomingTableCalendar> {
       calendarFormat: _calendarFormat,
       eventLoader: (day) {
         final normalizedDay = DateTime(day.year, day.month, day.day);
-        final hasMarker = widget.todoDates.contains(normalizedDay);
+        List<DateTime?> todoDates =
+            widget.todoDates.map((date) {
+              return DateTime(date!.year, date.month, date.day);
+            }).toList();
+        final hasMarker = todoDates.contains(normalizedDay);
 
         return hasMarker ? ['marker'] : [];
       },

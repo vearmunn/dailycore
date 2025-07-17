@@ -5,6 +5,7 @@ import 'package:dailycore/utils/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../utils/colors_and_icons.dart';
 import '../../domain/models/monthly_total.dart';
 import '../../utils/expense_util.dart';
 import '../../utils/exports.dart';
@@ -31,12 +32,16 @@ class _ReportsPageState extends State<ReportsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: dailyCoreBlue,
         title: Text(
-          'Finance Tracker',
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+          'Finance',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+        ),
         actions: [
           BlocBuilder<MonthlyTotalListCubit, MonthlyTotalState>(
             builder: (context, state) {
@@ -56,7 +61,7 @@ class _ReportsPageState extends State<ReportsPage> {
                         'Finance Tracker Report',
                         false,
                       ),
-                  icon: Icon(Icons.file_download_outlined),
+                  icon: Icon(Icons.file_download_outlined, color: Colors.white),
                 );
               }
               return SizedBox.shrink();

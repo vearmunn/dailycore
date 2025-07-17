@@ -9,7 +9,7 @@ import '../domain/models/todo_category.dart';
 import '../presentation/cubit/category_cubit/category_cubit.dart';
 import '../presentation/cubit/crud_cubit/todo_crud_cubit.dart';
 
-List<Todo> getTodaysTodos(List<Todo> todos) {
+List<Todo> getTodaysTodos(List<Todo> todos, {bool loadThreeTodos = false}) {
   List<Todo> todaysTodos = [];
   for (var todo in todos) {
     if (todo.dueDate != null &&
@@ -19,6 +19,14 @@ List<Todo> getTodaysTodos(List<Todo> todos) {
       todaysTodos.add(todo);
     }
   }
+  if (loadThreeTodos && todaysTodos.length <= 3) {
+    return todaysTodos;
+  }
+
+  if (loadThreeTodos && todaysTodos.length > 3) {
+    todaysTodos.removeRange(3, todaysTodos.length);
+  }
+
   return todaysTodos;
 }
 

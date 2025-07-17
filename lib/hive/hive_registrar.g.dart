@@ -7,11 +7,11 @@ import 'package:dailycore/hive/hive_adapters.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
-    registerAdapter(AppSettingsHiveAdapter());
     registerAdapter(ExpenseCategoryHiveAdapter());
     registerAdapter(ExpenseHiveAdapter());
     registerAdapter(GoalHiveAdapter());
     registerAdapter(HabitHiveAdapter());
+    registerAdapter(RoutineHiveAdapter());
     registerAdapter(TodoCategoryHiveAdapter());
     registerAdapter(TodoHiveAdapter());
   }
@@ -19,11 +19,11 @@ extension HiveRegistrar on HiveInterface {
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
-    registerAdapter(AppSettingsHiveAdapter());
     registerAdapter(ExpenseCategoryHiveAdapter());
     registerAdapter(ExpenseHiveAdapter());
     registerAdapter(GoalHiveAdapter());
     registerAdapter(HabitHiveAdapter());
+    registerAdapter(RoutineHiveAdapter());
     registerAdapter(TodoCategoryHiveAdapter());
     registerAdapter(TodoHiveAdapter());
   }

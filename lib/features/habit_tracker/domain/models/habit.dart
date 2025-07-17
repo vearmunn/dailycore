@@ -1,5 +1,3 @@
-enum RepeatType { daily, weekly, monthly }
-
 class Habit {
   final int id;
   final String name;

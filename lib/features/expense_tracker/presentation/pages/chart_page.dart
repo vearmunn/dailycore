@@ -23,12 +23,16 @@ class _ChartPageState extends State<ChartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: dailyCoreBlue,
         title: Text(
-          'Finance Tracker',
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+          'Finance',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+        ),
       ),
       body: BlocBuilder<PieChartCubit, DefaultChartState>(
         builder: (context, state) {
@@ -60,24 +64,24 @@ class _ChartPageState extends State<ChartPage> {
   Widget _buildChartFilter(PieChartState state) {
     return Container(
       padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
-      color: Colors.white,
+      color: dailyCoreBlue,
       child: Row(
         children: [
           Expanded(
             child: Container(
               padding: EdgeInsets.fromLTRB(12, 0, 8, 0),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey.shade300),
+                border: Border.all(color: Colors.white),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton(
                   value: state.selectedType,
-                  iconEnabledColor: Colors.black,
+                  iconEnabledColor: Colors.white,
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 14,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                   items: [
                     DropdownMenuItem(value: 'Expense', child: Text('Expense')),
@@ -124,7 +128,7 @@ class _ChartPageState extends State<ChartPage> {
               child: Container(
                 padding: EdgeInsets.fromLTRB(12, 12, 8, 12),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade300),
+                  border: Border.all(color: Colors.white),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
@@ -135,9 +139,10 @@ class _ChartPageState extends State<ChartPage> {
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 14,
+                        color: Colors.white,
                       ),
                     ),
-                    Icon(Icons.arrow_drop_down),
+                    Icon(Icons.arrow_drop_down, color: Colors.white),
                   ],
                 ),
               ),
