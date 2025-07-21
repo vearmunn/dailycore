@@ -56,7 +56,7 @@ class TransactionItem extends StatelessWidget {
                 ),
                 verticalSpace(6),
                 LinearProgressIndicator(
-                  color: dailyCoreBlue,
+                  color: dailyCoreOrange,
                   minHeight: 6,
                   borderRadius: BorderRadius.circular(20),
                   value: getPercentage(itemAmount, totalAmount) / 100,

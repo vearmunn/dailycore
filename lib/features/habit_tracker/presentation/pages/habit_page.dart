@@ -23,9 +23,9 @@ class _HabitPageState extends State<HabitPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: dailyCoreBlue,
+        backgroundColor: dailyCoreGreen,
         title: Text(
-          'Habit',
+          'Habit Tracker',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,
@@ -88,7 +88,7 @@ class _HabitPageState extends State<HabitPage> {
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: dailyCoreBlue,
+                        color: dailyCoreGreen,
                       ),
                       child: Row(
                         children: [

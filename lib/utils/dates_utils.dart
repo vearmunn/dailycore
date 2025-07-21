@@ -19,6 +19,16 @@ String formattedDateAndTime(DateTime date) {
   return formatted;
 }
 
+String formatTime(DateTime date) {
+  final formatted = DateFormat('HH:mm').format(date);
+  return formatted;
+}
+
+String formatMonthYear(DateTime date) {
+  final formatted = DateFormat('MMMM yyyy').format(date);
+  return formatted;
+}
+
 String whatIsTheDay(DateTime date) {
   String theDayIs = '';
   if (date.year == DateTime.now().year &&

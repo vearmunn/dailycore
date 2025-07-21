@@ -32,7 +32,7 @@ class _ReportsPageState extends State<ReportsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: dailyCoreBlue,
+        backgroundColor: dailyCoreOrange,
         title: Text(
           'Finance',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),

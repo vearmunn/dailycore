@@ -40,7 +40,9 @@ class SubTodoTile extends StatelessWidget {
           children: [
             ListTile(
               visualDensity: VisualDensity.compact,
-              leading: Checkbox(
+              leading: Icon(Icons.drag_indicator, color: Colors.black12),
+              title: Text(subTodo.text, style: TextStyle(fontSize: 14)),
+              trailing: Checkbox(
                 shape: CircleBorder(),
                 value: subTodo.isCompleted,
                 onChanged:
@@ -50,8 +52,6 @@ class SubTodoTile extends StatelessWidget {
                       shouldLoadAllTodos: shouldLoadAllTodos,
                     ),
               ),
-              title: Text(subTodo.text, style: TextStyle(fontSize: 14)),
-              trailing: Icon(Icons.drag_indicator, color: Colors.black12),
               onTap:
                   () => showEditSubTodoBox(
                     context,

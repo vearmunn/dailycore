@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -29,27 +30,61 @@ class _UpcomingTableCalendarState extends State<UpcomingTableCalendar> {
       formatAnimationCurve: Curves.fastOutSlowIn,
       formatAnimationDuration: Duration(milliseconds: 300),
       calendarFormat: _calendarFormat,
+
       eventLoader: (day) {
         final normalizedDay = DateTime(day.year, day.month, day.day);
-        List<DateTime?> todoDates =
-            widget.todoDates.map((date) {
-              return DateTime(date!.year, date.month, date.day);
+        List<DateTime> todoDates = [];
+        for (var date in widget.todoDates) {
+          if (date != null) {
+            todoDates.add(date);
+          }
+        }
+        todoDates =
+            todoDates.map((date) {
+              return DateTime(date.year, date.month, date.day);
             }).toList();
         final hasMarker = todoDates.contains(normalizedDay);
 
         return hasMarker ? ['marker'] : [];
       },
-
       calendarBuilders: CalendarBuilders(
         todayBuilder:
             (context, day, focusedDay) => Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 day.day.toString(),
-                style: TextStyle(color: Colors.blue),
+                style: TextStyle(color: Colors.black),
               ),
             ),
+        selectedBuilder:
+            (context, day, focusedDay) => Container(
+              padding: EdgeInsets.all(10),
+              margin: EdgeInsets.only(bottom: 6),
+              decoration: BoxDecoration(
+                color: dailyCoreBlue,
+                shape: BoxShape.circle,
+              ),
+              child: Text('${day.day}', style: TextStyle(color: Colors.white)),
+            ),
+        markerBuilder: (context, day, events) {
+          if (events.isNotEmpty) {
+            return Container(
+              width: 8,
+              height: 8,
+              margin: EdgeInsets.only(bottom: 8),
+              decoration: BoxDecoration(
+                color:
+                    day.day == DateTime.now().day
+                        ? Colors.white
+                        : dailyCoreBlue,
+                shape: BoxShape.circle,
+              ),
+            );
+          }
+          return null;
+        },
       ),
+
       selectedDayPredicate: (day) {
         return isSameDay(_selectedDay, day);
       },

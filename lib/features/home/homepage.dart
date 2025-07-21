@@ -1,9 +1,9 @@
+import 'package:dailycore/features/todo/presentation/pages/todo_dashboard_page.dart';
+import 'package:dailycore/utils/dates_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../components/date_picker/pick_date_cubit.dart';
 import '../../utils/colors_and_icons.dart';
-import '../../utils/custom_button.dart';
 import '../../utils/spaces.dart';
 import '../expense_tracker/presentation/cubit/expense_crud/expense_crud_cubit.dart';
 import '../expense_tracker/presentation/pages/dashboard.dart';
@@ -12,12 +12,8 @@ import '../expense_tracker/utils/expense_util.dart';
 import '../habit_tracker/presentation/crud_cubit/habit_crud_cubit.dart';
 import '../habit_tracker/presentation/pages/habit_page.dart';
 import '../habit_tracker/utils/habit_util.dart';
-import '../habit_tracker/widgets/habit_tile.dart';
 import '../todo/presentation/cubit/crud_cubit/todo_crud_cubit.dart';
-import '../todo/presentation/pages/todo_dashboard_page.dart';
-import '../todo/presentation/pages/todo_details_view.dart';
 import '../todo/utils/todo_utils.dart';
-import '../todo/widgets/todo_tile.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
@@ -25,24 +21,236 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'DailyCore',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+      // appBar: AppBar(
+      //   title: Text('DailyCore', style: TextStyle(fontWeight: FontWeight.bold)),
+      //   centerTitle: true,
+      //   elevation: 3,
+      //   backgroundColor: Colors.white,
+      // ),
+      backgroundColor: Colors.grey.shade100,
+      body: SafeArea(
+        child: ListView(
+          padding: EdgeInsets.all(16),
+          children: [
+            Center(
+              child: Text(
+                'DailyCore',
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+              ),
+            ),
+            verticalSpace(20),
+            _buildTodaysTodos(),
+            verticalSpace(30),
+            _buildTodaysHabits(context),
+            verticalSpace(30),
+            _buildThisMonthsSummary(),
+            verticalSpace(30),
+          ],
         ),
-        centerTitle: true,
-        backgroundColor: dailyCoreBlue,
       ),
-      body: ListView(
-        padding: EdgeInsets.all(16),
-        children: [
-          _buildTodaysTodosLVB(),
-          verticalSpace(30),
-          _buildHabitList(context),
-          verticalSpace(30),
-          _buildThisMonthsSummary(),
-          verticalSpace(30),
-        ],
+    );
+  }
+
+  Widget _buildTodaysTodos() {
+    return BlocBuilder<TodoCrudCubit, TodoCrudState>(
+      builder: (context, state) {
+        if (state is TodoCrudError) {
+          return Center(child: Text(state.errMessage));
+        }
+        if (state is TodoCrudLoading) {
+          return Center(child: CircularProgressIndicator());
+        }
+        if (state is TodoCrudLoaded) {
+          final todaysTodos = getTodaysTodos(state.allTodos);
+          return _buildFeatureCard(
+            title: "Today's Todos",
+            buttonTitle: 'View All Todos',
+            color: dailyCoreBlue,
+            icon: Icons.photo_album,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TodoDashboardPage()),
+              );
+            },
+            subtitle:
+                'You have ${getTodaysTodos(state.allTodos).length} ${state.allTodos.length == 1 ? 'work' : 'works'} today!',
+            body:
+                todaysTodos.isEmpty
+                    ? _buildEmptyBody('No Todos found')
+                    : ListView.separated(
+                      padding: EdgeInsets.all(16),
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: todaysTodos.length,
+                      separatorBuilder: (context, index) => verticalSpace(20),
+                      itemBuilder: (BuildContext context, int index) {
+                        final todo = todaysTodos[index];
+                        Color getPriorityColor() {
+                          switch (todo.priority) {
+                            case 'Low':
+                              return dailyCoreGreen;
+                            case 'Medium':
+                              return dailyCoreOrange;
+                            case 'High':
+                              return dailyCoreRed;
+
+                            default:
+                              return Colors.transparent;
+                          }
+                        }
+
+                        return Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                todo.text,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              verticalSpace(6),
+                              IntrinsicHeight(
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      todo.priority,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: getPriorityColor(),
+                                      ),
+                                    ),
+                                    VerticalDivider(),
+                                    Text(
+                                      todo.category.name,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    VerticalDivider(),
+                                    if (todo.dueDate != null)
+                                      Text(
+                                        formatTime(todo.dueDate!),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+          );
+        }
+        return SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget _buildFeatureCard({
+    required Color color,
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required Widget body,
+    required VoidCallback onTap,
+    required String buttonTitle,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withValues(alpha: 0.2),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(5, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              // width: double.infinity,
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(icon, color: color, size: 30),
+                  ),
+                  horizontalSpace(12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(subtitle, style: TextStyle(color: Colors.white)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            verticalSpace(8),
+            body,
+            verticalSpace(8),
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(16),
+              // width: double.infinity,
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(12),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    buttonTitle,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  horizontalSpace(4),
+                  Icon(
+                    Icons.keyboard_arrow_right,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -51,62 +259,28 @@ class Homepage extends StatelessWidget {
     return BlocBuilder<ExpenseCrudCubit, ExpenseCrudState>(
       builder: (context, state) {
         if (state is ExpenseCrudLoaded) {
-          return Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withValues(alpha: 0.1),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "This Month's Summary",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                    DailyCoreButton(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ExpenseDashboard(),
-                          ),
-                        );
-                      },
-                      child: Text('View details'),
-                    ),
-                  ],
-                ),
-                verticalSpace(4),
-                Divider(),
-                verticalSpace(12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildTracker(
-                      'Total Expenses',
-                      state.monthlyTotal!.expenses,
-                    ),
-                    _buildTracker('Total Income', state.monthlyTotal!.income),
-                    _buildTracker('Total Balance', state.monthlyTotal!.balance),
-                  ],
-                ),
-              ],
+          return _buildFeatureCard(
+            color: dailyCoreOrange,
+            title: "This Month's Summary",
+            subtitle: formatMonthYear(DateTime.now()),
+            icon: Icons.analytics,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ExpenseDashboard()),
+              );
+            },
+            buttonTitle: 'View Finance Tracker Details',
+            body: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildTracker('Total Expenses', state.monthlyTotal!.expenses),
+                  _buildTracker('Total Income', state.monthlyTotal!.income),
+                  _buildTracker('Total Balance', state.monthlyTotal!.balance),
+                ],
+              ),
             ),
           );
         }
@@ -129,73 +303,7 @@ class Homepage extends StatelessWidget {
     );
   }
 
-  Widget _buildTodaysTodosLVB() {
-    return BlocBuilder<TodoCrudCubit, TodoCrudState>(
-      builder: (context, state) {
-        if (state is TodoCrudLoading) {
-          return Center(child: CircularProgressIndicator());
-        }
-        if (state is TodoCrudError) {
-          return Center(child: Text(state.errMessage));
-        }
-        if (state is TodoCrudLoaded) {
-          final todaysTodos = getTodaysTodos(
-            state.allTodos,
-            loadThreeTodos: true,
-          );
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildTitle(
-                title: "Today's Todos",
-                subtitle1: 'You have ',
-                subtitle2: getTodaysTodos(state.allTodos).length.toString(),
-                subtitle3:
-                    '${todaysTodos.length == 1 ? ' work' : ' works'} today',
-                buttonTitle: 'View all todos',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TodoDashboardPage(),
-                    ),
-                  );
-                },
-              ),
-              verticalSpace(16),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: todaysTodos.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final todo = todaysTodos[index];
-                  return TodoTile(
-                    todo: todo,
-                    onTap: () {
-                      context.read<TodoCrudCubit>().loadSingleTodo(todo.id);
-                      context.read<DateCubit>().setDate(todo.dueDate);
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TodoDetailsView(id: todo.id),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ],
-          );
-        }
-        return SizedBox();
-      },
-    );
-  }
-
-  Widget _buildHabitList(BuildContext context) {
-    final habitCubit = context.read<HabitCrudCubit>();
+  Widget _buildTodaysHabits(BuildContext context) {
     return BlocBuilder<HabitCrudCubit, HabitCrudState>(
       builder: (context, state) {
         if (state is HabitCrudLoading) {
@@ -207,92 +315,122 @@ class Homepage extends StatelessWidget {
         if (state is HabitCrudLoaded) {
           final todaysHabits = habitsDueToday(
             state.habits,
-            loadThreehabits: true,
+            loadOnlyUndoneHabits: true,
           );
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
 
-            children: [
-              _buildTitle(
-                title: "Today's Habits",
-                subtitle1: 'You have ',
-                subtitle2: todaysHabits.length.toString(),
-                subtitle3:
-                    '${todaysHabits.length == 1 ? ' work' : ' works'} today',
-                buttonTitle: 'View all Habits',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HabitPage()),
-                  );
-                },
-              ),
-              verticalSpace(16),
-              ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: todaysHabits.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final habit = todaysHabits[index];
+          return _buildFeatureCard(
+            color: dailyCoreGreen,
+            title: "Today's Habits",
+            subtitle:
+                'You have ${todaysHabits.length}${todaysHabits.length == 1 ? ' activity' : ' activities'} undone today',
+            icon: Icons.replay_circle_filled_rounded,
+            buttonTitle: 'View All Habits',
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HabitPage()),
+              );
+            },
+            body:
+                todaysHabits.isEmpty
+                    ? _buildEmptyBody('No habits found')
+                    : ListView.separated(
+                      padding: EdgeInsets.all(16),
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: todaysHabits.length,
+                      separatorBuilder: (context, index) => verticalSpace(20),
+                      itemBuilder: (BuildContext context, int index) {
+                        final habit = todaysHabits[index];
+                        int currentStreak = 0;
 
-                  bool isCompletedToday = isHabitCompletedToday(
-                    habit.completedDays!,
-                  );
-                  return buildHabitTile(
-                    context: context,
-                    habit: habit,
-                    habitCubit: habitCubit,
-                    isCompletedToday: isCompletedToday,
-                  );
-                },
-              ),
-            ],
+                        if (habit.repeatType == 'daily') {
+                          currentStreak =
+                              getDailyStreaks(habit.completedDays)[0];
+                        } else if (habit.repeatType == 'weekly') {
+                          currentStreak =
+                              getWeeklyStreaks(
+                                dates: habit.completedDays,
+                                selectedDays: habit.daysofWeek,
+                              )[0];
+                        } else {
+                          currentStreak =
+                              getMonthlyStreak(
+                                dates: habit.completedDays,
+                                selectedDates: habit.datesofMonth,
+                              )[0];
+                        }
+
+                        return Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: fromArgb32(habit.color).withAlpha(50),
+                              ),
+                              child: Icon(
+                                IconData(
+                                  habit.icon['code_point'],
+                                  fontFamily: habit.icon['font_family'],
+                                ),
+                                color: fromArgb32(habit.color),
+                              ),
+                            ),
+                            horizontalSpace(12),
+                            Text(
+                              habit.name,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Spacer(),
+                            currentStreak == 0
+                                ? SizedBox.shrink()
+                                : Padding(
+                                  padding: const EdgeInsets.only(bottom: 4.0),
+                                  child: Stack(
+                                    alignment: Alignment.bottomCenter,
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/danger.png',
+                                        width: 28,
+                                        color: Colors.orange,
+                                      ),
+                                      Text(
+                                        currentStreak.toString(),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                          ],
+                        );
+                      },
+                    ),
           );
         }
-        return SizedBox();
+        return SizedBox.shrink();
       },
     );
   }
 
-  Widget _buildTitle({
-    required String title,
-    required String subtitle1,
-    required String subtitle2,
-    required String subtitle3,
-    required String buttonTitle,
-    required VoidCallback onTap,
-  }) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-            verticalSpace(4),
-            RichText(
-              text: TextSpan(
-                text: subtitle1,
-                style: TextStyle(color: Colors.black54, fontSize: 12),
-                children: [
-                  TextSpan(
-                    text: subtitle2,
-                    style: TextStyle(
-                      color: dailyCoreBlue,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  TextSpan(text: subtitle3),
-                ],
-              ),
-            ),
-          ],
-        ),
-        DailyCoreButton(onTap: onTap, child: Text(buttonTitle)),
-      ],
+  Center _buildEmptyBody(String title) {
+    return Center(
+      child: Column(
+        children: [
+          verticalSpace(20),
+          Opacity(
+            opacity: 0.5,
+            child: Image.asset('assets/images/empty-inbox.png', width: 100),
+          ),
+          verticalSpace(8),
+          Text(title, style: TextStyle(color: Colors.grey)),
+          verticalSpace(30),
+        ],
+      ),
     );
   }
 }

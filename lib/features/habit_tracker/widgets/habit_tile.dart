@@ -63,7 +63,12 @@ Widget buildHabitTile({
             ),
           ),
           horizontalSpace(16),
-          Expanded(child: Text(habit.name)),
+          Expanded(
+            child: Text(
+              habit.name,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
           horizontalSpace(currentStreak == 0 ? 0 : 20),
           currentStreak == 0
               ? SizedBox.shrink()

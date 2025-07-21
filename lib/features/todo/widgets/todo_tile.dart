@@ -122,65 +122,59 @@ class TodoTile extends StatelessWidget {
       }
     }
 
-    return Row(
-      // crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Checkbox(
-          shape: CircleBorder(),
-          value: todo.isCompleted,
-          onChanged: (v) => todoCubit.toggleCompletion(todo),
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.calendar_month, color: Colors.grey, size: 16),
-                  horizontalSpace(4),
-                  Text(
-                    todo.dueDate == null
-                        ? 'No due date'
-                        : formattedDateAndTime(todo.dueDate!),
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
+    return Padding(
+      padding: const EdgeInsets.only(left: 16.0),
+      child: Row(
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                verticalSpace(8),
+                Text(
+                  todo.text,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                verticalSpace(8),
+                IntrinsicHeight(
+                  child: Row(
+                    children: [
+                      Text(
+                        todo.priority,
+                        style: TextStyle(
+                          color: getPriorityColor(),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                        ),
+                      ),
+                      if (todo.priority.isNotEmpty) VerticalDivider(),
+                      todo.category.id == 00
+                          ? SizedBox.shrink()
+                          : Text(
+                            todo.category.name,
+                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                          ),
+                      if (todo.category.id != 00) VerticalDivider(),
+                      Text(
+                        todo.dueDate == null
+                            ? 'No due date'
+                            : formattedDateAndTime(todo.dueDate!),
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              verticalSpace(8),
-              Text(
-                todo.text,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-              verticalSpace(4),
-              todo.category.name == 'none'
-                  ? SizedBox.shrink()
-                  : Text(
-                    todo.category.name,
-                    style: TextStyle(color: Colors.grey),
-                  ),
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 16),
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: getPriorityColor().withValues(
-              alpha: todo.priority == '' ? 0 : 0.1,
+                ),
+              ],
             ),
           ),
-
-          child: Text(
-            todo.priority,
-            style: TextStyle(
-              color: getPriorityColor(),
-              fontWeight: FontWeight.w500,
-              fontSize: 12,
-            ),
+          Checkbox(
+            shape: CircleBorder(),
+            value: todo.isCompleted,
+            onChanged: (v) => todoCubit.toggleCompletion(todo),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

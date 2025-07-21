@@ -26,7 +26,11 @@ class GoalPage extends StatelessWidget {
           centerTitle: true,
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(50),
-            child: TabBar(tabs: [Tab(text: 'Ongoing'), Tab(text: 'Finished')]),
+            child: TabBar(
+              labelColor: dailyCoreOrange,
+              indicatorColor: dailyCoreOrange,
+              tabs: [Tab(text: 'Ongoing'), Tab(text: 'Finished')],
+            ),
           ),
         ),
         body: BlocBuilder<GoalCubit, GoalState>(
@@ -57,6 +61,8 @@ class GoalPage extends StatelessWidget {
           },
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: dailyCoreOrange,
+          foregroundColor: Colors.white,
           child: Icon(Icons.add),
           onPressed:
               () => Navigator.push(
@@ -153,7 +159,7 @@ class GoalPage extends StatelessWidget {
                   children: [
                     Expanded(
                       child: LinearProgressIndicator(
-                        color: dailyCoreBlue,
+                        color: dailyCoreOrange,
                         minHeight: 8,
                         borderRadius: BorderRadius.circular(20),
                         value: goal.currentAmount / goal.targetAmount,
@@ -162,7 +168,7 @@ class GoalPage extends StatelessWidget {
                     horizontalSpace(10),
                     Text(
                       '${getPercentage(goal.currentAmount, goal.targetAmount).toStringAsFixed(0)}%',
-                      style: TextStyle(color: dailyCoreBlue),
+                      style: TextStyle(color: dailyCoreOrange),
                     ),
                   ],
                 ),
@@ -184,7 +190,7 @@ class GoalPage extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           decoration: BoxDecoration(
-            color: dailyCoreBlue,
+            color: dailyCoreOrange,
             borderRadius: BorderRadius.circular(50),
           ),
           child: Row(

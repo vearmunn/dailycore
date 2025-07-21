@@ -91,7 +91,10 @@ Map<DateTime, double> prepCalendarDataset(List<Habit> habits) {
   return dataset;
 }
 
-List<Habit> habitsDueToday(List<Habit> habits, {bool loadThreehabits = false}) {
+List<Habit> habitsDueToday(
+  List<Habit> habits, {
+  bool loadOnlyUndoneHabits = false,
+}) {
   final today = DateTime.now();
   List<Habit> todaysHabits = [];
   for (var habit in habits) {
@@ -103,8 +106,10 @@ List<Habit> habitsDueToday(List<Habit> habits, {bool loadThreehabits = false}) {
       todaysHabits.add(habit);
     }
   }
-  if (loadThreehabits) {
-    todaysHabits.removeRange(3, todaysHabits.length);
+  if (loadOnlyUndoneHabits) {
+    todaysHabits.removeWhere(
+      (habit) => isHabitCompletedToday(habit.completedDays ?? []),
+    );
   }
   return todaysHabits;
 }

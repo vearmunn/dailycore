@@ -76,7 +76,9 @@ Widget customDatePicker(
                       );
                     } else if (selectedDate == null) {
                       return Text(
-                        formattedDateAndTime(initialDate),
+                        useDateAndTime
+                            ? formattedDateAndTime(initialDate)
+                            : formattedDate(initialDate),
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -84,7 +86,9 @@ Widget customDatePicker(
                       );
                     } else {
                       return Text(
-                        formattedDateAndTime(selectedDate),
+                        useDateAndTime
+                            ? formattedDateAndTime(selectedDate)
+                            : formattedDate(selectedDate),
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
