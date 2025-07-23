@@ -44,6 +44,7 @@ class HabitCrudCubit extends Cubit<HabitCrudState> {
     required List<int> selectedDates,
     required Color color,
     required IconData icon,
+    required bool shouldAddToExpense,
   }) async {
     try {
       emit(HabitCrudLoading());
@@ -56,6 +57,7 @@ class HabitCrudCubit extends Cubit<HabitCrudState> {
         repeatType: repeatType,
         color: color.toARGB32(),
         icon: {'code_point': icon.codePoint, 'font_family': icon.fontFamily},
+        shouldAddToExpense: shouldAddToExpense,
         completedDays: [],
       );
       await habitRepo.addHabit(newHabit);

@@ -16,6 +16,7 @@ class Todo {
   final TodoCategory category;
   final List<SubTodo> subTodos;
   final DateTime? repeatDate;
+  final bool shouldAddToExpense;
 
   Todo({
     required this.id,
@@ -26,6 +27,7 @@ class Todo {
     required this.category,
     this.repeatDate,
     this.subTodos = const [],
+    this.shouldAddToExpense = false,
   });
 }
 

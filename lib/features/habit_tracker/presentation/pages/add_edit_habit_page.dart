@@ -36,6 +36,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
   List<int> selectedDates = [];
   bool showColorSelections = false;
   bool showIconSelections = false;
+  bool shouldAddtoExpense = false;
 
   @override
   void dispose() {
@@ -53,6 +54,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
       _selectedFrequency = widget.habit.repeatType;
       selectedDates.addAll(widget.habit.datesofMonth);
       selectedDays.addAll(widget.habit.daysofWeek);
+      shouldAddtoExpense = widget.habit.shouldAddToExpense;
       context.read<ColorSelectorCubit>().setColor(
         fromArgb32(widget.habit.color),
       );
@@ -128,7 +130,40 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                   title: 'Specific dates of the month',
                   repeatType: 'monthly',
                 ),
-                verticalSpace(10),
+                verticalSpace(16),
+              ],
+            ),
+          ),
+          verticalSpace(16),
+          Container(
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              children: [
+                BlocBuilder<ColorSelectorCubit, Color>(
+                  builder: (context, selectedColor) {
+                    return Checkbox(
+                      activeColor: selectedColor,
+                      value: shouldAddtoExpense,
+                      shape: CircleBorder(),
+                      visualDensity: VisualDensity.compact,
+                      onChanged: (value) {
+                        setState(() {
+                          shouldAddtoExpense = !shouldAddtoExpense;
+                        });
+                      },
+                    );
+                  },
+                ),
+                Expanded(
+                  child: Text(
+                    ' Add to Finance Tracker when habit is checked?',
+                    textAlign: TextAlign.start,
+                  ),
+                ),
               ],
             ),
           ),
@@ -161,6 +196,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                                 datesofMonth: selectedDates,
                                 daysofWeek: selectedDays,
                                 color: selectedColor.toARGB32(),
+                                shouldAddToExpense: shouldAddtoExpense,
                                 icon: {
                                   'code_point': selectedIcon.codePoint,
                                   'font_family': selectedIcon.fontFamily,
@@ -177,6 +213,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                               selectedDays: selectedDays,
                               color: selectedColor,
                               icon: selectedIcon,
+                              shouldAddToExpense: shouldAddtoExpense,
                             );
                           }
                           Navigator.pop(context);

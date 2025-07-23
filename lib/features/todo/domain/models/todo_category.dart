@@ -13,3 +13,12 @@ class TodoCategory {
     this.icon = Icons.task,
   });
 }
+
+TodoCategory uncategorized() {
+  return TodoCategory(
+    id: 00,
+    name: 'Uncategorized',
+    color: Colors.black,
+    icon: Icons.task,
+  );
+}

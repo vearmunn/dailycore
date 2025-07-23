@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:dailycore/features/expense_tracker/presentation/pages/add_edit_expense_page.dart';
 import 'package:dailycore/features/todo/widgets/subtodo_tile.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
@@ -11,18 +12,35 @@ import '../../../utils/spaces.dart';
 import '../domain/models/todo.dart';
 import '../presentation/cubit/crud_cubit/todo_crud_cubit.dart';
 
-class TodoTile extends StatelessWidget {
+class TodoTile extends StatefulWidget {
   const TodoTile({super.key, required this.todo, required this.onTap});
 
   final Todo todo;
   final VoidCallback onTap;
 
   @override
+  State<TodoTile> createState() => _TodoTileState();
+}
+
+class _TodoTileState extends State<TodoTile> {
+  late bool checked;
+  @override
+  void initState() {
+    checked = widget.todo.isCompleted;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
-        padding: EdgeInsets.fromLTRB(0, 16, 0, todo.subTodos.isEmpty ? 10 : 0),
+        padding: EdgeInsets.fromLTRB(
+          0,
+          16,
+          0,
+          widget.todo.subTodos.isEmpty ? 10 : 0,
+        ),
         margin: EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -52,25 +70,25 @@ class TodoTile extends StatelessWidget {
                     physics: NeverScrollableScrollPhysics(),
                     onReorder: (oldIndex, newIndex) {
                       context.read<TodoCrudCubit>().reorderSubTodo(
-                        id: todo.id,
+                        id: widget.todo.id,
                         newIndex: newIndex,
                         oldIndex: oldIndex,
                         shouldLoadAllTodos: true,
                       );
                     },
-                    itemCount: todo.subTodos.length,
+                    itemCount: widget.todo.subTodos.length,
                     itemBuilder: (context, index) {
                       return SubTodoTile(
-                        key: ValueKey(todo.subTodos[index].id),
-                        subTodo: todo.subTodos[index],
-                        todo: todo,
+                        key: ValueKey(widget.todo.subTodos[index].id),
+                        subTodo: widget.todo.subTodos[index],
+                        todo: widget.todo,
                         shouldLoadAllTodos: true,
                       );
                     },
                   ),
                 ),
-                verticalSpace(todo.subTodos.isNotEmpty ? 12 : 0),
-                todo.subTodos.isNotEmpty
+                verticalSpace(widget.todo.subTodos.isNotEmpty ? 12 : 0),
+                widget.todo.subTodos.isNotEmpty
                     ? Builder(
                       builder: (context) {
                         var controller =
@@ -109,7 +127,7 @@ class TodoTile extends StatelessWidget {
     final todoCubit = context.read<TodoCrudCubit>();
 
     Color getPriorityColor() {
-      switch (todo.priority) {
+      switch (widget.todo.priority) {
         case 'Low':
           return dailyCoreGreen;
         case 'Medium':
@@ -133,7 +151,7 @@ class TodoTile extends StatelessWidget {
               children: [
                 verticalSpace(8),
                 Text(
-                  todo.text,
+                  widget.todo.text,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 verticalSpace(8),
@@ -141,25 +159,25 @@ class TodoTile extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        todo.priority,
+                        widget.todo.priority,
                         style: TextStyle(
                           color: getPriorityColor(),
                           fontWeight: FontWeight.w500,
                           fontSize: 12,
                         ),
                       ),
-                      if (todo.priority.isNotEmpty) VerticalDivider(),
-                      todo.category.id == 00
+                      if (widget.todo.priority.isNotEmpty) VerticalDivider(),
+                      widget.todo.category.id == 00
                           ? SizedBox.shrink()
                           : Text(
-                            todo.category.name,
+                            widget.todo.category.name,
                             style: TextStyle(color: Colors.grey, fontSize: 12),
                           ),
-                      if (todo.category.id != 00) VerticalDivider(),
+                      if (widget.todo.category.id != 00) VerticalDivider(),
                       Text(
-                        todo.dueDate == null
+                        widget.todo.dueDate == null
                             ? 'No due date'
-                            : formattedDateAndTime(todo.dueDate!),
+                            : formattedDateAndTime(widget.todo.dueDate!),
                         style: TextStyle(fontSize: 12, color: Colors.grey),
                       ),
                     ],
@@ -170,8 +188,27 @@ class TodoTile extends StatelessWidget {
           ),
           Checkbox(
             shape: CircleBorder(),
-            value: todo.isCompleted,
-            onChanged: (v) => todoCubit.toggleCompletion(todo),
+            value: checked,
+            onChanged: (v) async {
+              setState(() {
+                checked = v!;
+              });
+              await Future.delayed(Duration(milliseconds: 300));
+              todoCubit.toggleCompletion(widget.todo);
+              if (widget.todo.shouldAddToExpense &&
+                  widget.todo.isCompleted == false) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => AddEditExpensePage(
+                          isFromTodoOrHabit: true,
+                          noteFromTodoOrHabit: widget.todo.text,
+                        ),
+                  ),
+                );
+              }
+            },
           ),
         ],
       ),

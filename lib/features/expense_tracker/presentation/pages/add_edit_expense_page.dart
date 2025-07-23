@@ -17,9 +17,17 @@ import '../../domain/models/expense_category.dart';
 import '../cubit/expense_crud/expense_crud_cubit.dart';
 
 class AddEditExpensePage extends StatefulWidget {
-  const AddEditExpensePage({super.key, this.isUpdating = false, this.expense});
+  const AddEditExpensePage({
+    super.key,
+    this.isUpdating = false,
+    this.expense,
+    this.isFromTodoOrHabit = false,
+    this.noteFromTodoOrHabit = '',
+  });
   final bool isUpdating;
   final Expense? expense;
+  final bool isFromTodoOrHabit;
+  final String noteFromTodoOrHabit;
 
   @override
   State<AddEditExpensePage> createState() => _AddEditExpensePageState();
@@ -52,6 +60,10 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
         widget.expense!.amount.toInt().toString(),
       );
       noteController.text = widget.expense!.note ?? '';
+    }
+    if (widget.isFromTodoOrHabit) {
+      context.read<DateCubit>().setDate(DateTime.now());
+      noteController.text = widget.noteFromTodoOrHabit;
     }
     _tabController = TabController(
       length: 2,

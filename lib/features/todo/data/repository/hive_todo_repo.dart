@@ -72,6 +72,7 @@ class HiveTodoRepo implements TodoRepo {
     updatingTodo.category = TodoCategoryHive.fromDomain(todo.category);
     updatingTodo.priority = todo.priority;
     updatingTodo.repeatDate = todo.repeatDate;
+    updatingTodo.shouldAddToExpense = todo.shouldAddToExpense;
     updatingTodo.subTodos =
         todo.subTodos.map((subtodo) => subtodo.toMap()).toList();
 

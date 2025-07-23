@@ -80,6 +80,7 @@ void showAddTodoBox(BuildContext context) {
   final todoController = TextEditingController();
   TodoCategory? selectedCategory;
   String selectedPriority = '';
+  bool shouldAddtoExpense = false;
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -87,120 +88,144 @@ void showAddTodoBox(BuildContext context) {
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
     builder: (context) {
-      return SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-            top: 16,
-            left: 16,
-            right: 16,
-          ),
-          width: MediaQuery.of(context).size.width,
+      return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setModalState) {
+          return SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+                top: 16,
+                left: 16,
+                right: 16,
+              ),
+              width: MediaQuery.of(context).size.width,
 
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Add Todo',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: Icon(Icons.close, size: 30),
-                  ),
-                ],
-              ),
-              verticalSpace(20),
-              TextField(
-                controller: todoController,
-                maxLines: null,
-                minLines: 1,
-                decoration: InputDecoration(hintText: 'E.g: Go to gym'),
-              ),
-              verticalSpace(28),
-              BlocBuilder<TodoCategoryCubit, TodoCategoryState>(
-                builder: (context, state) {
-                  if (state is CategoryLoaded) {
-                    // final initialValue = state.categoryList.indexWhere(
-                    //   (category) => category.id == selectedCategory.id,
-                    // );
-                    return DropdownMenu(
-                      inputDecorationTheme: InputDecorationTheme(
-                        border: UnderlineInputBorder(),
-                      ),
-                      enableFilter: true,
-                      enableSearch: true,
-                      width: double.infinity,
-                      label: Text('Select Category'),
-                      onSelected: (value) {
-                        selectedCategory = value!;
-                      },
-                      dropdownMenuEntries: List.generate(
-                        state.categoryList.length,
-                        (index) => DropdownMenuEntry(
-                          value: state.categoryList[index],
-                          label: state.categoryList[index].name,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Add Todo',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    );
-                  }
-                  return SizedBox();
-                },
-              ),
-              verticalSpace(20),
-              Text('Deadline'),
-              verticalSpace(8),
-              customDatePicker(
-                context,
-                DateTime.now(),
-                allowNull: true,
-                useDateAndTime: true,
-              ),
-              DropdownMenu(
-                width: double.infinity,
-                inputDecorationTheme: InputDecorationTheme(
-                  border: UnderlineInputBorder(),
-                ),
-                label: Text('Select Priority'),
-                onSelected: (value) {
-                  selectedPriority = value ?? '';
-                },
-                dropdownMenuEntries: [
-                  DropdownMenuEntry(label: 'Low', value: 'Low'),
-                  DropdownMenuEntry(label: 'Medium', value: 'Medium'),
-                  DropdownMenuEntry(label: 'High', value: 'High'),
-                  DropdownMenuEntry(label: 'None', value: ''),
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Icon(Icons.close, size: 30),
+                      ),
+                    ],
+                  ),
+                  verticalSpace(20),
+                  TextField(
+                    controller: todoController,
+                    maxLines: null,
+                    minLines: 1,
+                    decoration: InputDecoration(hintText: 'E.g: Go to gym'),
+                  ),
+                  verticalSpace(28),
+                  BlocBuilder<TodoCategoryCubit, TodoCategoryState>(
+                    builder: (context, state) {
+                      if (state is CategoryLoaded) {
+                        // final initialValue = state.categoryList.indexWhere(
+                        //   (category) => category.id == selectedCategory.id,
+                        // );
+                        return DropdownMenu(
+                          inputDecorationTheme: InputDecorationTheme(
+                            border: UnderlineInputBorder(),
+                          ),
+                          enableFilter: true,
+                          enableSearch: true,
+                          width: double.infinity,
+                          label: Text('Select Category'),
+                          onSelected: (value) {
+                            selectedCategory = value!;
+                          },
+                          dropdownMenuEntries: List.generate(
+                            state.categoryList.length,
+                            (index) => DropdownMenuEntry(
+                              value: state.categoryList[index],
+                              label: state.categoryList[index].name,
+                            ),
+                          ),
+                        );
+                      }
+                      return SizedBox();
+                    },
+                  ),
+                  verticalSpace(20),
+                  Text('Deadline'),
+                  verticalSpace(8),
+                  customDatePicker(
+                    context,
+                    DateTime.now(),
+                    allowNull: true,
+                    useDateAndTime: true,
+                  ),
+                  DropdownMenu(
+                    width: double.infinity,
+                    inputDecorationTheme: InputDecorationTheme(
+                      border: UnderlineInputBorder(),
+                    ),
+                    label: Text('Select Priority'),
+                    onSelected: (value) {
+                      selectedPriority = value ?? '';
+                    },
+                    dropdownMenuEntries: [
+                      DropdownMenuEntry(label: 'Low', value: 'Low'),
+                      DropdownMenuEntry(label: 'Medium', value: 'Medium'),
+                      DropdownMenuEntry(label: 'High', value: 'High'),
+                      DropdownMenuEntry(label: 'None', value: ''),
+                    ],
+                  ),
+                  verticalSpace(30),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: shouldAddtoExpense,
+                        shape: CircleBorder(),
+                        visualDensity: VisualDensity.compact,
+                        onChanged: (value) {
+                          setModalState(() {
+                            shouldAddtoExpense = !shouldAddtoExpense;
+                          });
+                        },
+                      ),
+                      Text('Add to Finance Tracker when task is done?'),
+                    ],
+                  ),
+                  verticalSpace(30),
+                  BlocBuilder<DateCubit, DateTime?>(
+                    builder: (context, selectedDate) {
+                      return SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            todoCubit.addTodo(
+                              todoController.text,
+                              selectedDate,
+                              selectedCategory,
+                              selectedPriority,
+                              shouldAddtoExpense,
+                            );
+                            Navigator.pop(context);
+                            context.read<DateCubit>().clearDate();
+                          },
+                          child: Text('Add'),
+                        ),
+                      );
+                    },
+                  ),
+                  verticalSpace(20),
                 ],
               ),
-              verticalSpace(30),
-              BlocBuilder<DateCubit, DateTime?>(
-                builder: (context, selectedDate) {
-                  return SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        todoCubit.addTodo(
-                          todoController.text,
-                          selectedDate,
-                          selectedCategory ?? TodoCategory(id: 0, name: 'none'),
-                          selectedPriority,
-                        );
-                        Navigator.pop(context);
-                        context.read<DateCubit>().clearDate();
-                      },
-                      child: Text('Add'),
-                    ),
-                  );
-                },
-              ),
-              verticalSpace(20),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       );
     },
   );

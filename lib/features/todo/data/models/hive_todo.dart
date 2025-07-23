@@ -17,6 +17,7 @@ class TodoHive extends HiveObject {
   late TodoCategoryHive category;
   late List<Map<String, dynamic>> subTodos;
   late DateTime? repeatDate;
+  late bool shouldAddToExpense;
 
   // convert hive object -> pure todo object to use in this app.
   Todo toDomain() {
@@ -28,6 +29,7 @@ class TodoHive extends HiveObject {
       priority: priority,
       category: category.toDomain(),
       repeatDate: repeatDate,
+      shouldAddToExpense: shouldAddToExpense,
       subTodos: subTodos.map((todo) => SubTodo.fromMap(todo)).toList(),
     );
   }
@@ -42,6 +44,7 @@ class TodoHive extends HiveObject {
       ..priority = todo.priority
       ..category = TodoCategoryHive.fromDomain(todo.category)
       ..repeatDate = todo.repeatDate
+      ..shouldAddToExpense = todo.shouldAddToExpense
       ..subTodos = todo.subTodos.map((todo) => todo.toMap()).toList();
   }
 }

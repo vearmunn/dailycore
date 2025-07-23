@@ -76,6 +76,7 @@ class HiveHabitRepo implements HabitRepo {
     updatingHabit.datesofMonth = habit.datesofMonth;
     updatingHabit.color = habit.color;
     updatingHabit.icon = habit.icon;
+    updatingHabit.shouldAddToExpense = habit.shouldAddToExpense;
     updatingHabit.save();
   }
 }

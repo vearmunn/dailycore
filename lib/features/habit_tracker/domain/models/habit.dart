@@ -7,6 +7,7 @@ class Habit {
   final List<int> datesofMonth;
   final List<DateTime>? completedDays;
   final int color;
+  final bool shouldAddToExpense;
   final Map<String, dynamic> icon;
 
   Habit({
@@ -18,6 +19,7 @@ class Habit {
     this.datesofMonth = const [],
     this.daysofWeek = const [],
     this.color = 0xFF000000,
+    this.shouldAddToExpense = false,
     this.icon = const {'code_point': '', 'font_family': ''},
   });
 }

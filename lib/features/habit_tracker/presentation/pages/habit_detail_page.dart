@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:dailycore/features/expense_tracker/presentation/pages/add_edit_expense_page.dart';
 import 'package:dailycore/features/habit_tracker/domain/models/habit.dart';
 import 'package:dailycore/features/habit_tracker/presentation/crud_cubit/habit_crud_cubit.dart';
 import 'package:dailycore/features/habit_tracker/presentation/pages/add_edit_habit_page.dart';
@@ -38,11 +41,25 @@ class HabitDetailPage extends StatelessWidget {
                 _buildDetails(habit),
                 verticalSpace(16),
                 ElevatedButton.icon(
-                  onPressed: () {
+                  onPressed: () async {
                     context.read<HabitCrudCubit>().toggleHabit(
                       habit,
                       shouldLoadAllHabits: false,
                     );
+                    if (!isCompletedToday) {
+                      Timer(Duration(milliseconds: 300), () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => AddEditExpensePage(
+                                  isFromTodoOrHabit: true,
+                                  noteFromTodoOrHabit: habit.name,
+                                ),
+                          ),
+                        );
+                      });
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 0,

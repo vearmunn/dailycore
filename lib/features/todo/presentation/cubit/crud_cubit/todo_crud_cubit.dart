@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:dailycore/features/todo/domain/models/todo_category.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:dailycore/features/todo/domain/models/todo_category.dart';
 
 import '../../../domain/models/todo.dart';
 import '../../../domain/repository/todo_repo.dart';
@@ -103,8 +104,9 @@ class TodoCrudCubit extends Cubit<TodoCrudState> {
   Future addTodo(
     String text,
     DateTime? dueDate,
-    TodoCategory category,
+    TodoCategory? category,
     String priority,
+    bool shouldAddtoExpense,
   ) async {
     try {
       emit(TodoCrudLoading());
@@ -112,8 +114,9 @@ class TodoCrudCubit extends Cubit<TodoCrudState> {
         id: DateTime.now().millisecondsSinceEpoch,
         text: text,
         dueDate: dueDate,
-        category: category,
+        category: category ?? uncategorized(),
         priority: priority,
+        shouldAddToExpense: shouldAddtoExpense,
       );
       await todoRepo.addTodo(newTodo);
       await loadTodos();

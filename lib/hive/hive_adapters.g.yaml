@@ -5,7 +5,7 @@ nextTypeId: 8
 types:
   TodoHive:
     typeId: 0
-    nextIndex: 8
+    nextIndex: 9
     fields:
       id:
         index: 0
@@ -23,9 +23,11 @@ types:
         index: 6
       repeatDate:
         index: 7
+      shouldAddToExpense:
+        index: 8
   HabitHive:
     typeId: 2
-    nextIndex: 9
+    nextIndex: 10
     fields:
       id:
         index: 0
@@ -45,6 +47,8 @@ types:
         index: 7
       icon:
         index: 8
+      shouldAddToExpense:
+        index: 9
   ExpenseHive:
     typeId: 3
     nextIndex: 8

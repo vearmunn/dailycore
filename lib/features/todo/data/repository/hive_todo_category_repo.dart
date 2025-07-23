@@ -13,7 +13,6 @@ class HiveTodoCategoryRepo implements TodoCategoryRepo {
   Future<List<TodoCategory>> loadCategories() async {
     var categoryList =
         box.values.map((category) => category.toDomain()).toList();
-    categoryList = categoryList.where((category) => category.id != 00).toList();
     return categoryList;
   }
 

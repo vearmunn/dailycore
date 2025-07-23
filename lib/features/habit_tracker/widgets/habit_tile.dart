@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../utils/colors_and_icons.dart';
 import '../../../utils/spaces.dart';
+import '../../expense_tracker/presentation/pages/add_edit_expense_page.dart';
 import '../domain/models/habit.dart';
 import '../presentation/crud_cubit/habit_crud_cubit.dart';
 import '../presentation/pages/habit_detail_page.dart';
@@ -99,7 +102,23 @@ Widget buildHabitTile({
             visualDensity: VisualDensity.compact,
             value: isCompletedToday,
             activeColor: fromArgb32(habit.color),
-            onChanged: (_) => habitCubit.toggleHabit(habit),
+            onChanged: (_) {
+              habitCubit.toggleHabit(habit);
+              if (!isCompletedToday) {
+                Timer(Duration(milliseconds: 300), () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (context) => AddEditExpensePage(
+                            isFromTodoOrHabit: true,
+                            noteFromTodoOrHabit: habit.name,
+                          ),
+                    ),
+                  );
+                });
+              }
+            },
             // onChanged: (v) => habitCubit.toggleHabit(habit),
           ),
         ],

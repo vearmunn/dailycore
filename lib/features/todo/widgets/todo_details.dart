@@ -26,6 +26,7 @@ class _TodoDetailsState extends State<TodoDetails> {
   late TextEditingController todoController;
   late TodoCategory selectedCategory;
   late String selectedPriority;
+  late bool shouldAddToExpense;
 
   @override
   void initState() {
@@ -36,6 +37,8 @@ class _TodoDetailsState extends State<TodoDetails> {
       name: widget.todo.category.name,
     );
     selectedPriority = widget.todo.priority;
+    shouldAddToExpense = widget.todo.shouldAddToExpense;
+    print(widget.todo.shouldAddToExpense);
     super.initState();
   }
 
@@ -110,108 +113,129 @@ class _TodoDetailsState extends State<TodoDetails> {
                 DropdownMenuEntry(label: 'None', value: ''),
               ],
             ),
+            verticalSpace(20),
+            Row(
+              children: [
+                Checkbox(
+                  value: shouldAddToExpense,
+                  shape: CircleBorder(),
+                  visualDensity: VisualDensity.compact,
+                  onChanged: (value) {
+                    setState(() {
+                      shouldAddToExpense = !shouldAddToExpense;
+                    });
+                  },
+                ),
+                Text('Add to Finance Tracker when task is done?'),
+              ],
+            ),
             verticalSpace(30),
 
             // SUBTODOS----------------------------------------------------------------------------
-            Card(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'SubTodos',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ),
-                        ElevatedButton.icon(
-                          onPressed:
-                              () => showAddSubTodoBox(context, widget.todo.id),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
-                            elevation: 0,
-                            foregroundColor: Colors.white,
-                          ),
-                          icon: Icon(Icons.add),
-                          label: Text('Add'),
-                        ),
-                      ],
-                    ),
-                  ),
-                  ReorderableListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    onReorder: (oldIndex, newIndex) {
-                      context.read<TodoCrudCubit>().reorderSubTodo(
-                        id: widget.todo.id,
-                        newIndex: newIndex,
-                        oldIndex: oldIndex,
-                      );
-                    },
-                    itemCount: widget.todo.subTodos.length,
-                    itemBuilder: (context, index) {
-                      return SubTodoTile(
-                        key: ValueKey(widget.todo.subTodos[index].id),
-                        subTodo: widget.todo.subTodos[index],
-                        todo: widget.todo,
-                      );
-                    },
-                  ),
-                  verticalSpace(16),
-                ],
-              ),
-            ),
+            _buildSubTodos(context),
           ],
         ),
 
         // ADD AND UPDATE BUTTONS-------------------------------------------------------------------
-        Positioned(
-          bottom: 0,
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            color: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              children: [
-                BlocBuilder<DateCubit, DateTime?>(
-                  builder: (context, selectedDate) {
-                    return Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          todoCubit.updateTodo(
-                            Todo(
-                              id: widget.todo.id,
-                              text: todoController.text,
-                              category: selectedCategory,
-                              priority: selectedPriority,
-                              dueDate: selectedDate,
-                              subTodos: widget.todo.subTodos,
-                            ),
-                          );
+        _buildButtons(context, todoCubit),
+      ],
+    );
+  }
 
-                          Navigator.pop(context);
-                          context.read<DateCubit>().clearDate();
-                        },
-                        child: Text('Update'),
-                      ),
-                    );
-                  },
+  Positioned _buildButtons(BuildContext context, TodoCrudCubit todoCubit) {
+    return Positioned(
+      bottom: 0,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        color: Colors.white,
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            BlocBuilder<DateCubit, DateTime?>(
+              builder: (context, selectedDate) {
+                return Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      todoCubit.updateTodo(
+                        Todo(
+                          id: widget.todo.id,
+                          text: todoController.text,
+                          category: selectedCategory,
+                          priority: selectedPriority,
+                          dueDate: selectedDate,
+                          subTodos: widget.todo.subTodos,
+                          shouldAddToExpense: shouldAddToExpense,
+                        ),
+                      );
+
+                      Navigator.pop(context);
+                      context.read<DateCubit>().clearDate();
+                    },
+                    child: Text('Update'),
+                  ),
+                );
+              },
+            ),
+            horizontalSpace(12),
+            ElevatedButton(
+              onPressed: () => showDeleteTodoBox(context, widget.todo),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              child: Icon(Icons.delete, color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Card _buildSubTodos(BuildContext context) {
+    return Card(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'SubTodos',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
-                horizontalSpace(12),
-                ElevatedButton(
-                  onPressed: () => showDeleteTodoBox(context, widget.todo),
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  child: Icon(Icons.delete, color: Colors.white),
+                ElevatedButton.icon(
+                  onPressed: () => showAddSubTodoBox(context, widget.todo.id),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    elevation: 0,
+                    foregroundColor: Colors.white,
+                  ),
+                  icon: Icon(Icons.add),
+                  label: Text('Add'),
                 ),
               ],
             ),
           ),
-        ),
-      ],
+          ReorderableListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            onReorder: (oldIndex, newIndex) {
+              context.read<TodoCrudCubit>().reorderSubTodo(
+                id: widget.todo.id,
+                newIndex: newIndex,
+                oldIndex: oldIndex,
+              );
+            },
+            itemCount: widget.todo.subTodos.length,
+            itemBuilder: (context, index) {
+              return SubTodoTile(
+                key: ValueKey(widget.todo.subTodos[index].id),
+                subTodo: widget.todo.subTodos[index],
+                todo: widget.todo,
+              );
+            },
+          ),
+          verticalSpace(16),
+        ],
+      ),
     );
   }
 }

@@ -35,12 +35,16 @@ class TodoCategoryView extends StatelessWidget {
             return Center(child: Text(state.errMessage));
           }
           if (state is CategoryLoaded) {
+            final categoryList =
+                state.categoryList
+                    .where((category) => category.id != 00)
+                    .toList();
             return ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 12),
-              itemCount: state.categoryList.length,
+              itemCount: categoryList.length,
               itemBuilder: (BuildContext context, int index) {
                 // int reversedIndex = state.categoryList.length - 1 - index;
-                final category = state.categoryList[index];
+                final category = categoryList[index];
                 return Dismissible(
                   key: ValueKey(category.id),
                   confirmDismiss: (direction) async {
