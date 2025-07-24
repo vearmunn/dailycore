@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:toastification/toastification.dart';
 
 import 'components/color_selector/color_icon_selector_cubit.dart';
 import 'components/date_picker/pick_date_cubit.dart';
@@ -97,12 +98,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'DailyCore',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+    return ToastificationWrapper(
+      child: MaterialApp(
+        title: 'DailyCore',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        ),
+        home: Homepage(),
       ),
-      home: Homepage(),
     );
   }
 }

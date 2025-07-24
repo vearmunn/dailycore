@@ -1,36 +1,4 @@
 import 'package:dailycore/features/habit_tracker/domain/models/habit.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../presentation/crud_cubit/habit_crud_cubit.dart';
-
-void showDeleteHabitBox(BuildContext context, Habit habit) {
-  final habitCubit = context.read<HabitCrudCubit>();
-
-  showDialog(
-    context: context,
-    builder:
-        (context) => AlertDialog(
-          title: Text('Are you sure you want to delete this habit?'),
-
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                habitCubit.deleteHabit(habit);
-                Navigator.pop(context);
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-              child: Text('Delete'),
-            ),
-          ],
-        ),
-  );
-}
 
 bool isHabitCompletedToday(List<DateTime> completedDays) {
   final today = DateTime.now();

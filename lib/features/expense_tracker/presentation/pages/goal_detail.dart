@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dailycore/features/expense_tracker/presentation/pages/goal_add_edit_page.dart';
 import 'package:dailycore/features/expense_tracker/presentation/pages/goal_deposit_history_page.dart';
+import 'package:dailycore/utils/custom_toast.dart';
 import 'package:dailycore/utils/delete_confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -94,6 +95,7 @@ class _GoalDetailState extends State<GoalDetail> {
                       if (result == true) {
                         context.read<GoalCubit>().deleteGoal(state.goal.id);
                         Navigator.pop(context);
+                        successToast(context, 'Goal deleted!');
                       }
                     }
                   },

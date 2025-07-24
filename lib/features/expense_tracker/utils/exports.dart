@@ -2,11 +2,13 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:csv/csv.dart';
+import 'package:dailycore/utils/custom_toast.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:printing/printing.dart';
+import 'package:toastification/toastification.dart';
 
 import 'expense_util.dart';
 
@@ -73,13 +75,23 @@ Future exportToCSV(
   if (hasPermission) {
     try {
       await file.writeAsString(csvString);
+      toastification.show(
+        context: context,
+        title: Text('CSV exported!'),
+        description: Text('Location: ${file.path}'),
+        style: ToastificationStyle.fillColored,
+        type: ToastificationType.success,
+        autoCloseDuration: Duration(seconds: 6),
+      );
       print('CSV exported to: ${file.path}');
       Navigator.pop(context);
     } catch (e) {
       print('Failed to write file: $e');
+      errorToast(context, 'Failed to write file');
     }
   } else {
     print('Permission not granted.');
+    errorToast(context, 'Permission not granted');
   }
 }
 
@@ -150,6 +162,7 @@ void previewPdf(
   String title,
 ) {
   Printing.layoutPdf(
+    usePrinterSettings: false,
     onLayout:
         (format) => buildPdf(
           data,

@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dailycore/utils/custom_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,6 +8,7 @@ import 'package:dailycore/features/todo/utils/todo_utils.dart';
 
 import '../../../components/date_picker/pick_date.dart';
 import '../../../components/date_picker/pick_date_cubit.dart';
+import '../../../utils/delete_confirmation.dart';
 import '../../../utils/spaces.dart';
 import '../domain/models/todo_category.dart';
 import '../presentation/cubit/category_cubit/category_cubit.dart';
@@ -178,7 +180,17 @@ class _TodoDetailsState extends State<TodoDetails> {
             ),
             horizontalSpace(12),
             ElevatedButton(
-              onPressed: () => showDeleteTodoBox(context, widget.todo),
+              onPressed: () async {
+                final result = await showDeleteBox(
+                  context,
+                  'Delete this todo ?',
+                );
+                if (result == true) {
+                  todoCubit.deleteTodo(widget.todo);
+                  Navigator.pop(context);
+                  errorToast(context, 'Todo deleted!');
+                }
+              },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
               child: Icon(Icons.delete, color: Colors.white),
             ),

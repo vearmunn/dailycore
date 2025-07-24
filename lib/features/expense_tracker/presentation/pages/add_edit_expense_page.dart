@@ -3,6 +3,7 @@ import 'package:dailycore/features/expense_tracker/presentation/cubit/expense_ca
 import 'package:dailycore/features/expense_tracker/utils/expense_util.dart';
 import 'package:dailycore/features/expense_tracker/widgets/category_grid.dart';
 import 'package:dailycore/utils/colors_and_icons.dart';
+import 'package:dailycore/utils/custom_toast.dart';
 import 'package:dailycore/utils/spaces.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
@@ -195,31 +196,51 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            if (widget.isUpdating) {
-                              expenseCubit.updateExpense(
-                                Expense(
-                                  id: widget.expense!.id,
-                                  note: noteController.text,
-                                  amount: double.parse(input),
-                                  date: selectedDate ?? DateTime.now(),
-                                  type: selectedCategory!.type,
-                                  category: selectedCategory!,
-                                ),
-                              );
+                            if (selectedCategory == null) {
+                              errorToast(context, 'Please select category!');
+                            } else if (input.isEmpty) {
+                              errorToast(context, 'Please enter amount!');
+                            } else if (noteController.text.isEmpty) {
+                              errorToast(context, 'Please enter note!');
                             } else {
-                              expenseCubit.addExpense(
-                                noteController.text,
-                                double.parse(input),
-                                selectedDate ?? DateTime.now(),
-                                selectedCategory!,
-                                selectedCategory!.type,
-                              );
+                              if (widget.isUpdating) {
+                                expenseCubit.updateExpense(
+                                  Expense(
+                                    id: widget.expense!.id,
+                                    note: noteController.text,
+                                    amount: double.parse(input),
+                                    date: selectedDate ?? DateTime.now(),
+                                    type: selectedCategory!.type,
+                                    category: selectedCategory!,
+                                  ),
+                                );
+                                successToast(
+                                  context,
+                                  selectedCategory!.type == 'Expense'
+                                      ? 'Expense updated!'
+                                      : 'Income updated!',
+                                );
+                              } else {
+                                expenseCubit.addExpense(
+                                  noteController.text,
+                                  double.parse(input),
+                                  selectedDate ?? DateTime.now(),
+                                  selectedCategory!,
+                                  selectedCategory!.type,
+                                );
+                                successToast(
+                                  context,
+                                  selectedCategory!.type == 'Expense'
+                                      ? 'Expense added!'
+                                      : 'Income added!',
+                                );
+                              }
+
+                              context.read<DateCubit>().clearDate();
+                              context.read<NumpadCubit>().clear();
+
+                              Navigator.pop(context);
                             }
-
-                            context.read<DateCubit>().clearDate();
-                            context.read<NumpadCubit>().clear();
-
-                            Navigator.pop(context);
                           },
                           child: Text(widget.isUpdating ? 'Update' : 'Add'),
                         ),

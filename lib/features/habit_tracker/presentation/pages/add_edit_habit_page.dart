@@ -3,7 +3,8 @@ import 'package:dailycore/components/color_selector/color_icon_selector_cubit.da
 import 'package:dailycore/components/color_selector/color_selector_widget.dart';
 import 'package:dailycore/components/color_selector/icon_selector_widget.dart';
 import 'package:dailycore/utils/colors_and_icons.dart';
-import 'package:dailycore/features/habit_tracker/utils/habit_util.dart';
+import 'package:dailycore/utils/custom_toast.dart';
+import 'package:dailycore/utils/delete_confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -78,7 +79,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
       body: ListView(
         padding: EdgeInsets.all(16),
         children: [
-          _buildTextfield('Read a book', nameController),
+          _buildTextfield('Name', nameController),
           verticalSpace(16),
           _buildTextfield('Description (Optional)', descriptionController),
           verticalSpace(16),
@@ -186,37 +187,43 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                           foregroundColor: Colors.white,
                         ),
                         onPressed: () {
-                          if (widget.isUpadting) {
-                            context.read<HabitCrudCubit>().updateHabit(
-                              Habit(
-                                id: widget.habit.id,
+                          if (nameController.text.isEmpty) {
+                            errorToast(context, 'Name must not be empty!');
+                          } else {
+                            if (widget.isUpadting) {
+                              context.read<HabitCrudCubit>().updateHabit(
+                                Habit(
+                                  id: widget.habit.id,
+                                  name: nameController.text,
+                                  description: descriptionController.text,
+                                  repeatType: _selectedFrequency,
+                                  datesofMonth: selectedDates,
+                                  daysofWeek: selectedDays,
+                                  color: selectedColor.toARGB32(),
+                                  shouldAddToExpense: shouldAddtoExpense,
+                                  icon: {
+                                    'code_point': selectedIcon.codePoint,
+                                    'font_family': selectedIcon.fontFamily,
+                                  },
+                                ),
+                                shouldLoadAllHabits: false,
+                              );
+                              successToast(context, 'Habit updated!');
+                            } else {
+                              context.read<HabitCrudCubit>().addHabit(
                                 name: nameController.text,
                                 description: descriptionController.text,
                                 repeatType: _selectedFrequency,
-                                datesofMonth: selectedDates,
-                                daysofWeek: selectedDays,
-                                color: selectedColor.toARGB32(),
+                                selectedDates: selectedDates,
+                                selectedDays: selectedDays,
+                                color: selectedColor,
+                                icon: selectedIcon,
                                 shouldAddToExpense: shouldAddtoExpense,
-                                icon: {
-                                  'code_point': selectedIcon.codePoint,
-                                  'font_family': selectedIcon.fontFamily,
-                                },
-                              ),
-                              shouldLoadAllHabits: false,
-                            );
-                          } else {
-                            context.read<HabitCrudCubit>().addHabit(
-                              name: nameController.text,
-                              description: descriptionController.text,
-                              repeatType: _selectedFrequency,
-                              selectedDates: selectedDates,
-                              selectedDays: selectedDays,
-                              color: selectedColor,
-                              icon: selectedIcon,
-                              shouldAddToExpense: shouldAddtoExpense,
-                            );
+                              );
+                              successToast(context, 'Habit added!');
+                            }
+                            Navigator.pop(context);
                           }
-                          Navigator.pop(context);
                         },
                         child: Text(widget.isUpadting ? 'Update' : 'Add'),
                       );
@@ -226,17 +233,27 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
               ),
             ),
             horizontalSpace(16),
-            ElevatedButton(
-              onPressed: () {
-                showDeleteHabitBox(context, widget.habit);
-              },
-              style: ElevatedButton.styleFrom(
-                elevation: 0,
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.red,
+            if (widget.isUpadting)
+              ElevatedButton(
+                onPressed: () async {
+                  final result = await showDeleteBox(
+                    context,
+                    'Delete this habit?',
+                  );
+                  if (result == true) {
+                    context.read<HabitCrudCubit>().deleteHabit(widget.habit);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    successToast(context, 'Habit deleted');
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.red,
+                ),
+                child: Icon(Icons.delete),
               ),
-              child: Icon(Icons.delete),
-            ),
           ],
         ),
       ),

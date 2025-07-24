@@ -32,7 +32,8 @@ class GoalCubit extends Cubit<GoalState> {
     }
   }
 
-  Future addNewGoal({
+  Future addNewGoal(
+    context, {
     required String title,
     String? description,
     required double targetAmount,

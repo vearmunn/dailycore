@@ -13,6 +13,7 @@ import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:dailycore/utils/spaces.dart';
 
 import '../../../../components/date_picker/pick_date_cubit.dart';
+import '../../../../utils/custom_toast.dart';
 import '../../domain/models/goal.dart';
 import '../cubit/goal/goal_cubit.dart';
 
@@ -106,30 +107,41 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
                 builder: (context, state) {
                   return ElevatedButton(
                     onPressed: () {
-                      if (state is ImagePicked) {
-                        if (widget.isUpdating) {
-                          context.read<GoalCubit>().updateGoal(
-                            Goal(
-                              id: widget.goal!.id,
+                      if (titleController.text.isEmpty) {
+                        errorToast(context, 'Title must not be empty!');
+                      } else if (amountController.text.isEmpty) {
+                        errorToast(context, 'Amount must not be empty!');
+                      } else {
+                        if (state is ImagePicked) {
+                          if (widget.isUpdating) {
+                            context.read<GoalCubit>().updateGoal(
+                              Goal(
+                                id: widget.goal!.id,
+                                title: titleController.text,
+                                description: descriptionController.text,
+                                deadline: showDatePicker ? selectedDate : null,
+                                imagePath: state.imagePath,
+                                targetAmount: amountController.doubleValue,
+                                currentAmount: widget.goal!.currentAmount,
+                              ),
+                            );
+                            successToast(context, 'Goal updated!');
+                          } else {
+                            context.read<GoalCubit>().addNewGoal(
+                              context,
                               title: titleController.text,
                               description: descriptionController.text,
+                              targetAmount: amountController.doubleValue,
                               deadline: showDatePicker ? selectedDate : null,
                               imagePath: state.imagePath,
-                              targetAmount: amountController.doubleValue,
-                              currentAmount: widget.goal!.currentAmount,
-                            ),
-                          );
+                            );
+                            successToast(context, 'Goal added!');
+                          }
+                          context.read<ImagePickerCubit>().clearImage();
+                          Navigator.pop(context);
                         } else {
-                          context.read<GoalCubit>().addNewGoal(
-                            title: titleController.text,
-                            description: descriptionController.text,
-                            targetAmount: amountController.doubleValue,
-                            deadline: showDatePicker ? selectedDate : null,
-                            imagePath: state.imagePath,
-                          );
+                          errorToast(context, 'Please select an image!');
                         }
-                        context.read<ImagePickerCubit>().clearImage();
-                        Navigator.pop(context);
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -214,7 +226,7 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
                   ),
                   verticalSpace(12),
                   Text(
-                    'Pick a picture of the item you’re saving for',
+                    'Pick an image of the item you’re saving for',
                     style: TextStyle(color: Colors.grey),
                   ),
                 ],

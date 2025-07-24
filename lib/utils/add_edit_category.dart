@@ -1,4 +1,3 @@
-import 'package:dailycore/features/todo/presentation/cubit/category_cubit/category_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,6 +8,8 @@ import '../components/color_selector/icon_selector_widget.dart';
 import '../features/expense_tracker/domain/models/expense_category.dart';
 import '../features/expense_tracker/presentation/cubit/expense_category/expense_category_cubit.dart';
 import '../features/todo/domain/models/todo_category.dart';
+import '../features/todo/presentation/cubit/category_cubit/category_cubit.dart';
+import 'custom_toast.dart';
 import 'spaces.dart';
 
 void showAddEditCategoryModalBottomSheet(
@@ -158,46 +159,56 @@ Widget _buildButton(
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                if (isExpenceCategory) {
-                  if (isUpadting) {
-                    context.read<ExpenseCategoryCubit>().updateExpenseCategory(
-                      ExpenseCategory(
-                        id: expenseCategory!.id,
-                        name: nameController.text,
+                if (nameController.text.isEmpty) {
+                  errorToast(context, 'Name must not be empty!');
+                } else {
+                  if (isExpenceCategory) {
+                    if (isUpadting) {
+                      context
+                          .read<ExpenseCategoryCubit>()
+                          .updateExpenseCategory(
+                            ExpenseCategory(
+                              id: expenseCategory!.id,
+                              name: nameController.text,
+                              color: selectedColor,
+                              icon: selectedIcon,
+                              type: selectedType,
+                            ),
+                          );
+                      successToast(context, 'Category updated!');
+                    } else {
+                      context.read<ExpenseCategoryCubit>().addExpenseCategory(
+                        categoryName: nameController.text,
                         color: selectedColor,
                         icon: selectedIcon,
                         type: selectedType,
-                      ),
-                    );
-                  } else {
-                    context.read<ExpenseCategoryCubit>().addExpenseCategory(
-                      categoryName: nameController.text,
-                      color: selectedColor,
-                      icon: selectedIcon,
-                      type: selectedType,
-                    );
+                      );
+                      successToast(context, 'Category added!');
+                    }
                   }
-                }
 
-                if (isExpenceCategory == false) {
-                  if (isUpadting) {
-                    context.read<TodoCategoryCubit>().updateTodoCategory(
-                      TodoCategory(
-                        id: todoCategory!.id,
-                        name: nameController.text,
+                  if (isExpenceCategory == false) {
+                    if (isUpadting) {
+                      context.read<TodoCategoryCubit>().updateTodoCategory(
+                        TodoCategory(
+                          id: todoCategory!.id,
+                          name: nameController.text,
+                          color: selectedColor,
+                          icon: selectedIcon,
+                        ),
+                      );
+                      successToast(context, 'Category updated!');
+                    } else {
+                      context.read<TodoCategoryCubit>().addTodoCategory(
+                        categoryName: nameController.text,
                         color: selectedColor,
                         icon: selectedIcon,
-                      ),
-                    );
-                  } else {
-                    context.read<TodoCategoryCubit>().addTodoCategory(
-                      categoryName: nameController.text,
-                      color: selectedColor,
-                      icon: selectedIcon,
-                    );
+                      );
+                      successToast(context, 'Category added!');
+                    }
                   }
+                  Navigator.pop(context);
                 }
-                Navigator.pop(context);
               },
               child: Text(isUpadting ? 'Update' : 'Add'),
             ),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../components/date_picker/pick_date.dart';
 import '../../../components/date_picker/pick_date_cubit.dart';
+import '../../../utils/custom_toast.dart';
 import '../../../utils/spaces.dart';
 import '../domain/models/todo.dart';
 import '../domain/models/todo_category.dart';
@@ -205,15 +206,20 @@ void showAddTodoBox(BuildContext context) {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            todoCubit.addTodo(
-                              todoController.text,
-                              selectedDate,
-                              selectedCategory,
-                              selectedPriority,
-                              shouldAddtoExpense,
-                            );
-                            Navigator.pop(context);
-                            context.read<DateCubit>().clearDate();
+                            if (todoController.text.isEmpty) {
+                              errorToast(context, 'Name must not be empty!');
+                            } else {
+                              todoCubit.addTodo(
+                                todoController.text,
+                                selectedDate,
+                                selectedCategory,
+                                selectedPriority,
+                                shouldAddtoExpense,
+                              );
+                              Navigator.pop(context);
+                              context.read<DateCubit>().clearDate();
+                              successToast(context, 'New todo added!');
+                            }
                           },
                           child: Text('Add'),
                         ),
@@ -258,8 +264,13 @@ void showAddSubTodoBox(BuildContext context, int id) {
             ),
             TextButton(
               onPressed: () {
-                todoCubit.addNewSubTodo(id, textController.text);
-                Navigator.pop(context);
+                if (textController.text.isEmpty) {
+                  errorToast(context, 'Name must not be empty!');
+                } else {
+                  todoCubit.addNewSubTodo(id, textController.text);
+                  Navigator.pop(context);
+                  successToast(context, 'New subtodo added!');
+                }
               },
               child: Text('Add'),
             ),
@@ -291,12 +302,17 @@ void showEditSubTodoBox(
               builder: (context, selectedDate) {
                 return TextButton(
                   onPressed: () {
-                    todoCubit.updateSubTodo(
-                      id,
-                      SubTodo(id: subTodo.id, text: textController.text),
-                      shouldLoadAllTodos: shouldLoadAllTodos,
-                    );
-                    Navigator.pop(context);
+                    if (textController.text.isEmpty) {
+                      errorToast(context, 'Subtodo must not be empty!');
+                    } else {
+                      todoCubit.updateSubTodo(
+                        id,
+                        SubTodo(id: subTodo.id, text: textController.text),
+                        shouldLoadAllTodos: shouldLoadAllTodos,
+                      );
+                      Navigator.pop(context);
+                      successToast(context, 'Subtodo updated!');
+                    }
                   },
                   child: Text('Update'),
                 );
@@ -307,28 +323,4 @@ void showEditSubTodoBox(
   );
 }
 
-void showDeleteTodoBox(BuildContext context, Todo todo) {
-  final todoCubit = context.read<TodoCrudCubit>();
-
-  showDialog(
-    context: context,
-    builder:
-        (context) => AlertDialog(
-          title: Text('Delete this todo?'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                todoCubit.deleteTodo(todo);
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-              child: Text('Delete'),
-            ),
-          ],
-        ),
-  );
-}
+// }

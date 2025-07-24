@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utils/colors_and_icons.dart';
+import '../../../../utils/custom_toast.dart';
 
 class DetailExpensePage extends StatelessWidget {
   const DetailExpensePage({super.key});
@@ -116,6 +117,12 @@ class DetailExpensePage extends StatelessWidget {
                               DateTime.now().month,
                             );
                             Navigator.pop(context);
+                            successToast(
+                              context,
+                              expense.type == 'Expense'
+                                  ? 'Expense deleted!'
+                                  : 'Income deleted!',
+                            );
                           }
                         },
                         label: Text('Delete'),
