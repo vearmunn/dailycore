@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dailycore/features/todo/domain/models/todo.dart';
 import 'package:dailycore/features/todo/utils/todo_utils.dart';
 
+import '../../../components/custom_textfield.dart';
 import '../../../components/date_picker/pick_date.dart';
 import '../../../components/date_picker/pick_date_cubit.dart';
 import '../../../utils/delete_confirmation.dart';
@@ -54,12 +55,7 @@ class _TodoDetailsState extends State<TodoDetails> {
         ListView(
           padding: EdgeInsets.all(20),
           children: [
-            TextField(
-              controller: todoController,
-              maxLines: null,
-              minLines: 1,
-              decoration: InputDecoration(hintText: 'E.g: Go to gym'),
-            ),
+            customTextfield('What is to be done?', todoController),
             verticalSpace(28),
             BlocBuilder<TodoCategoryCubit, TodoCategoryState>(
               builder: (context, state) {

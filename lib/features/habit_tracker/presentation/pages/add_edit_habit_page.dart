@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dailycore/features/habit_tracker/presentation/crud_cubit/habit_crud_cubit.dart';
 
 import '../../../../components/color_selector/icon_color_selected_widget.dart';
+import '../../../../components/custom_textfield.dart';
 import '../../../../utils/spaces.dart';
 import '../../domain/models/habit.dart';
 
@@ -79,9 +80,9 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
       body: ListView(
         padding: EdgeInsets.all(16),
         children: [
-          _buildTextfield('Name', nameController),
+          customTextfield('Name', nameController),
           verticalSpace(16),
-          _buildTextfield('Description (Optional)', descriptionController),
+          customTextfield('Description (Optional)', descriptionController),
           verticalSpace(16),
           Row(
             children: [
@@ -255,27 +256,6 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                 child: Icon(Icons.delete),
               ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTextfield(String hint, TextEditingController controller) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
-      child: TextField(
-        controller: controller,
-        maxLines: null,
-        minLines: 1,
-        decoration: InputDecoration(
-          hintText: hint,
-          filled: true,
-          fillColor: Colors.white,
-          border: InputBorder.none,
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: dailyCoreBlue),
-            borderRadius: BorderRadius.circular(12),
-          ),
         ),
       ),
     );

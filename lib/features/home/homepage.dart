@@ -1,5 +1,6 @@
 import 'package:dailycore/features/todo/presentation/pages/todo_dashboard_page.dart';
 import 'package:dailycore/utils/dates_utils.dart';
+import 'package:dailycore/utils/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,17 +22,21 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('DailyCore', style: TextStyle(fontWeight: FontWeight.bold)),
-      //   centerTitle: true,
-      //   elevation: 3,
-      //   backgroundColor: Colors.white,
-      // ),
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.all(16),
           children: [
+            ElevatedButton(
+              onPressed: () {
+                NotificationService.showNotification(
+                  id: 0,
+                  title: 'Woooy',
+                  body: 'Hudanggg',
+                );
+              },
+              child: Text('Notification'),
+            ),
             Center(
               child: Text(
                 'DailyCore',

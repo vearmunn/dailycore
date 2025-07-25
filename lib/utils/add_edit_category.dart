@@ -5,6 +5,7 @@ import '../components/color_selector/color_icon_selector_cubit.dart';
 import '../components/color_selector/color_selector_widget.dart';
 import '../components/color_selector/icon_color_selected_widget.dart';
 import '../components/color_selector/icon_selector_widget.dart';
+import '../components/custom_textfield.dart';
 import '../features/expense_tracker/domain/models/expense_category.dart';
 import '../features/expense_tracker/presentation/cubit/expense_category/expense_category_cubit.dart';
 import '../features/todo/domain/models/todo_category.dart';
@@ -63,10 +64,7 @@ void showAddEditCategoryModalBottomSheet(
                         ),
                       ),
                       verticalSpace(16),
-                      TextField(
-                        controller: nameController,
-                        decoration: InputDecoration(hintText: 'Name'),
-                      ),
+                      customTextfield('Name', nameController),
                       verticalSpace(20),
                       Row(
                         children: [

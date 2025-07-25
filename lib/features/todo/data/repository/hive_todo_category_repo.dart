@@ -2,6 +2,7 @@ import 'package:dailycore/features/todo/data/models/hive_todo.dart';
 import 'package:dailycore/features/todo/data/models/hive_todo_category.dart';
 import 'package:dailycore/features/todo/domain/models/todo_category.dart';
 import 'package:dailycore/features/todo/domain/repository/todo_category_repo.dart';
+import 'package:dailycore/features/todo/utils/initial_todo_categories.dart';
 import 'package:hive_ce/hive.dart';
 
 import '../../../../hive_boxes/boxes.dart';
@@ -72,7 +73,9 @@ class HiveTodoCategoryRepo implements TodoCategoryRepo {
       (category) => category.id == 00,
     );
     if (!uncategorizedCategory) {
-      box.add(TodoCategoryHive().uncategorized());
+      for (var category in initialTodoCategories) {
+        box.add(TodoCategoryHive.fromDomain(category));
+      }
     }
   }
 }

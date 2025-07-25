@@ -5,6 +5,7 @@ import 'package:dailycore/hive_boxes/boxes.dart';
 import 'package:hive_ce/hive.dart';
 
 import '../../domain/repository/expense_category_repo.dart';
+import '../../utils/initial_expense_categories.dart';
 
 class HiveExpenseCategoryRepo implements ExpenseCategoryRepo {
   final box = Hive.box<ExpenseCategoryHive>(expenseCategoryBox);
@@ -71,9 +72,11 @@ class HiveExpenseCategoryRepo implements ExpenseCategoryRepo {
 
   @override
   Future initializeCategory() async {
-    final uncategorized = box.values.any((category) => category.id == 00);
+    final uncategorized = box.values.any((category) => category.id == 1);
     if (!uncategorized) {
-      box.add(ExpenseCategoryHive().uncategorized());
+      for (var category in initialExpenseCategories) {
+        box.add(ExpenseCategoryHive.fromDomain(category));
+      }
     }
   }
 }

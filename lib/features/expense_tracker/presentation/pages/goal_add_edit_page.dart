@@ -12,6 +12,7 @@ import 'package:dailycore/components/image_picker/image_picker_cubit.dart';
 import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:dailycore/utils/spaces.dart';
 
+import '../../../../components/custom_textfield.dart';
 import '../../../../components/date_picker/pick_date_cubit.dart';
 import '../../../../utils/custom_toast.dart';
 import '../../domain/models/goal.dart';
@@ -66,20 +67,18 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
       body: ListView(
         padding: EdgeInsets.all(20),
         children: [
-          TextField(
-            controller: titleController,
-            decoration: InputDecoration(hintText: 'Title'),
-          ),
+          customTextfield('Title', titleController),
+          // TextField(
+          //   controller: titleController,
+          //   decoration: InputDecoration(hintText: 'Title'),
+          // ),
           verticalSpace(16),
-          TextField(
-            controller: descriptionController,
-            decoration: InputDecoration(hintText: 'Description'),
-          ),
+          customTextfield('Description', descriptionController),
           verticalSpace(16),
-          TextField(
-            controller: amountController,
+          customTextfield(
+            'Target Amount',
+            amountController,
             keyboardType: TextInputType.number,
-            decoration: InputDecoration(hintText: 'Target Amount'),
           ),
           verticalSpace(16),
           Row(

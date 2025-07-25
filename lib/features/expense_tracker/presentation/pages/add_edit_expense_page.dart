@@ -2,13 +2,13 @@
 import 'package:dailycore/features/expense_tracker/presentation/cubit/expense_category/expense_category_cubit.dart';
 import 'package:dailycore/features/expense_tracker/utils/expense_util.dart';
 import 'package:dailycore/features/expense_tracker/widgets/category_grid.dart';
-import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:dailycore/utils/custom_toast.dart';
 import 'package:dailycore/utils/spaces.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../components/custom_textfield.dart';
 import '../../../../components/date_picker/pick_date.dart';
 import '../../../../components/date_picker/pick_date_cubit.dart';
 import '../../../../components/numpad/numpad.dart';
@@ -167,19 +167,7 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
                     ),
                   ),
                   verticalSpace(20),
-                  TextField(
-                    controller: noteController,
-
-                    decoration: InputDecoration(
-                      hintText: 'Note',
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: dailyCoreBlue),
-                      ),
-                    ),
-                  ),
+                  customTextfield('Note', noteController),
                   verticalSpace(20),
                   Text('Select Date'),
                   verticalSpace(8),

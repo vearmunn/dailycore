@@ -36,10 +36,11 @@ import 'features/todo/presentation/cubit/crud_cubit/todo_crud_cubit.dart';
 import 'features/todo/presentation/cubit/dashboard_cubit/todo_dashboard_cubit.dart';
 import 'features/todo/presentation/cubit/upcoming_cubit/upcoming_cubit.dart';
 import 'hive_boxes/boxes.dart';
+import 'utils/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await NotificationService.initialize();
   final dir = await getApplicationDocumentsDirectory();
 
   Hive

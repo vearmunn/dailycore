@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../components/custom_textfield.dart';
 import '../../../components/date_picker/pick_date.dart';
 import '../../../components/date_picker/pick_date_cubit.dart';
 import '../../../utils/custom_toast.dart';
@@ -122,13 +123,8 @@ void showAddTodoBox(BuildContext context) {
                     ],
                   ),
                   verticalSpace(20),
-                  TextField(
-                    controller: todoController,
-                    maxLines: null,
-                    minLines: 1,
-                    decoration: InputDecoration(hintText: 'E.g: Go to gym'),
-                  ),
-                  verticalSpace(28),
+                  customTextfield('What is to be done?', todoController),
+                  verticalSpace(12),
                   BlocBuilder<TodoCategoryCubit, TodoCategoryState>(
                     builder: (context, state) {
                       if (state is CategoryLoaded) {
@@ -249,12 +245,7 @@ void showAddSubTodoBox(BuildContext context, int id) {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  controller: textController,
-                  decoration: InputDecoration(hintText: 'Subtodo....'),
-                ),
-              ],
+              children: [customTextfield('Subtodo', textController)],
             ),
           ),
           actions: [
@@ -292,7 +283,7 @@ void showEditSubTodoBox(
     builder:
         (context) => AlertDialog(
           title: Text('Edit Sub Todo'),
-          content: TextField(controller: textController),
+          content: customTextfield('Subtodo', textController),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),

@@ -7,6 +7,7 @@ import 'package:dailycore/utils/delete_confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../components/custom_textfield.dart';
 import '../../../../components/numpad/numpad.dart';
 import '../../../../components/numpad/numpad_cubit.dart';
 import '../../../../utils/colors_and_icons.dart';
@@ -140,10 +141,8 @@ class _GoalDetailState extends State<GoalDetail> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        TextField(
-                          controller: noteController,
-                          decoration: InputDecoration(hintText: 'Note...'),
-                        ),
+                        customTextfield('Note', noteController),
+
                         verticalSpace(20),
                         Container(
                           width: double.infinity,
