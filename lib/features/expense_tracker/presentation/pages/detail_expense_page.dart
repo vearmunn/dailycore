@@ -54,7 +54,7 @@ class DetailExpensePage extends StatelessWidget {
                       child: Icon(
                         color: expense.category.color,
                         size: 35,
-                        expense.category.icon,
+                        getIconByName(expense.category.iconName),
                       ),
                     ),
                     horizontalSpace(24),

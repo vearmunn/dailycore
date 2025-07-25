@@ -59,10 +59,7 @@ Widget buildHabitTile({
             ),
             child: Icon(
               color: fromArgb32(habit.color),
-              IconData(
-                habit.icon['code_point'],
-                fontFamily: habit.icon['font_family'],
-              ),
+              getIconByName(habit.iconName),
             ),
           ),
           horizontalSpace(16),
@@ -104,7 +101,7 @@ Widget buildHabitTile({
             activeColor: fromArgb32(habit.color),
             onChanged: (_) {
               habitCubit.toggleHabit(habit);
-              if (!isCompletedToday) {
+              if (!isCompletedToday && habit.shouldAddToExpense) {
                 Timer(Duration(milliseconds: 300), () {
                   Navigator.push(
                     context,

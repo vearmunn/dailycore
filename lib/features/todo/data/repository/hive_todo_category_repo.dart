@@ -48,18 +48,12 @@ class HiveTodoCategoryRepo implements TodoCategoryRepo {
 
     updatingCategory.name = category.name;
     updatingCategory.color = category.color.toARGB32();
-    updatingCategory.icon = {
-      'code_point': category.icon.codePoint,
-      'font_family': category.icon.fontFamily,
-    };
+    updatingCategory.iconName = category.iconName;
     final todos = todosBox.values.map((todo) => todo).toList();
     for (var todo in todos) {
       if (todo.category.id == category.id) {
         todo.category.name = category.name;
-        todo.category.icon = {
-          'code_point': category.icon.codePoint,
-          'font_family': category.icon.fontFamily,
-        };
+        todo.category.iconName = category.iconName;
         todo.category.color = category.color.toARGB32();
         await todo.save();
       }

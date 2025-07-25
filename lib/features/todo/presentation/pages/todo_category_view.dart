@@ -1,5 +1,6 @@
 import 'package:dailycore/features/todo/presentation/cubit/category_cubit/category_cubit.dart';
 import 'package:dailycore/utils/add_edit_category.dart';
+import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -61,7 +62,7 @@ class TodoCategoryView extends StatelessWidget {
                   child: listTileIcon(
                     context,
                     color: category.color,
-                    icon: category.icon,
+                    icon: getIconByName(category.iconName),
                     title: category.name,
                     margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
                     trailing: Icon(Icons.keyboard_arrow_right),
@@ -74,7 +75,7 @@ class TodoCategoryView extends StatelessWidget {
                           id: category.id,
                           name: category.name,
                           color: category.color,
-                          icon: category.icon,
+                          iconName: category.iconName,
                         ),
                       );
                     },

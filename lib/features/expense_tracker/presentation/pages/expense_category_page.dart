@@ -1,3 +1,4 @@
+import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -73,7 +74,7 @@ class ExpenseCategoryPage extends StatelessWidget {
                 child: listTileIcon(
                   context,
                   color: category.color,
-                  icon: category.icon,
+                  icon: getIconByName(category.iconName),
                   title: category.name,
                   margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
                   trailing: Icon(Icons.keyboard_arrow_right),
@@ -85,7 +86,7 @@ class ExpenseCategoryPage extends StatelessWidget {
                         id: category.id,
                         name: category.name,
                         color: category.color,
-                        icon: category.icon,
+                        iconName: category.iconName,
                         type: category.type,
                       ),
                     );

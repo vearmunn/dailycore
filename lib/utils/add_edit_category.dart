@@ -1,3 +1,4 @@
+import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,12 +29,16 @@ void showAddEditCategoryModalBottomSheet(
   if (isUpadting && expenseCategory != null) {
     nameController.text = expenseCategory.name;
     context.read<ColorSelectorCubit>().setColor(expenseCategory.color);
-    context.read<IconSelectorCubit>().setIcon(expenseCategory.icon);
+    context.read<IconSelectorCubit>().setIcon(
+      getIconByName(expenseCategory.iconName),
+    );
     selectedType = expenseCategory.type;
   } else if (isUpadting && todoCategory != null) {
     nameController.text = todoCategory.name;
     context.read<ColorSelectorCubit>().setColor(todoCategory.color);
-    context.read<IconSelectorCubit>().setIcon(todoCategory.icon);
+    context.read<IconSelectorCubit>().setIcon(
+      getIconByName(todoCategory.iconName),
+    );
   }
 
   showModalBottomSheet(
@@ -169,7 +174,7 @@ Widget _buildButton(
                               id: expenseCategory!.id,
                               name: nameController.text,
                               color: selectedColor,
-                              icon: selectedIcon,
+                              iconName: getIconNameByIcon(selectedIcon),
                               type: selectedType,
                             ),
                           );
@@ -178,7 +183,7 @@ Widget _buildButton(
                       context.read<ExpenseCategoryCubit>().addExpenseCategory(
                         categoryName: nameController.text,
                         color: selectedColor,
-                        icon: selectedIcon,
+                        iconName: getIconNameByIcon(selectedIcon),
                         type: selectedType,
                       );
                       successToast(context, 'Category added!');
@@ -192,7 +197,7 @@ Widget _buildButton(
                           id: todoCategory!.id,
                           name: nameController.text,
                           color: selectedColor,
-                          icon: selectedIcon,
+                          iconName: getIconNameByIcon(selectedIcon),
                         ),
                       );
                       successToast(context, 'Category updated!');
@@ -200,7 +205,7 @@ Widget _buildButton(
                       context.read<TodoCategoryCubit>().addTodoCategory(
                         categoryName: nameController.text,
                         color: selectedColor,
-                        icon: selectedIcon,
+                        iconName: getIconNameByIcon(selectedIcon),
                       );
                       successToast(context, 'Category added!');
                     }

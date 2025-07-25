@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -72,7 +73,7 @@ class ExpenseList extends StatelessWidget {
           child: listTileIcon(
             context,
             color: expense.category.color,
-            icon: expense.category.icon,
+            icon: getIconByName(expense.category.iconName),
             title: expense.note ?? '',
             subtitle: expense.category.name,
             margin: EdgeInsets.fromLTRB(16, 0, 16, 16),

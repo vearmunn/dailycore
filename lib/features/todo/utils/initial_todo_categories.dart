@@ -7,42 +7,42 @@ final List<TodoCategory> initialTodoCategories = [
     id: 00,
     name: 'Uncategorized',
     color: Colors.black,
-    icon: Icons.task,
+    iconName: 'task',
   ),
   TodoCategory(
     id: 1,
     name: 'Work',
     color: Color(0xFF4A90E2), // flat blue
-    icon: Icons.work,
+    iconName: 'work',
   ),
   TodoCategory(
     id: 2,
     name: 'Personal',
     color: Color(0xFF7ED6DF), // soft cyan
-    icon: Icons.person,
+    iconName: 'person',
   ),
   TodoCategory(
     id: 3,
     name: 'Shopping',
     color: Color(0xFFF19066), // warm orange
-    icon: Icons.shopping_cart,
+    iconName: 'shopping_cart',
   ),
   TodoCategory(
     id: 4,
     name: 'Health',
     color: Color(0xFFEA7773), // calm red
-    icon: Icons.fitness_center,
+    iconName: 'fitness_center',
   ),
   TodoCategory(
     id: 5,
     name: 'Learning',
     color: Color(0xFF70A1FF), // lighter blue
-    icon: Icons.school,
+    iconName: 'school',
   ),
   TodoCategory(
     id: 6,
     name: 'Finance',
     color: Color(0xFF2ED573), // flat green
-    icon: Icons.attach_money,
+    iconName: 'attach_money',
   ),
 ];

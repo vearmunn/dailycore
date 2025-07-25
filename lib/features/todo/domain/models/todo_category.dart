@@ -4,13 +4,13 @@ class TodoCategory {
   final int id;
   final String name;
   final Color color;
-  final IconData icon;
+  final String iconName;
 
   TodoCategory({
     required this.id,
     required this.name,
     this.color = Colors.black,
-    this.icon = Icons.task,
+    this.iconName = 'task',
   });
 }
 
@@ -19,6 +19,6 @@ TodoCategory uncategorized() {
     id: 00,
     name: 'Uncategorized',
     color: Colors.black,
-    icon: Icons.task,
+    iconName: 'task',
   );
 }

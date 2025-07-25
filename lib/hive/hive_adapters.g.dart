@@ -85,8 +85,8 @@ class HabitHiveAdapter extends TypeAdapter<HabitHive> {
       ..daysofWeek = (fields[5] as List).cast<int>()
       ..datesofMonth = (fields[6] as List).cast<int>()
       ..color = (fields[7] as num).toInt()
-      ..icon = (fields[8] as Map).cast<String, dynamic>()
-      ..shouldAddToExpense = fields[9] as bool;
+      ..shouldAddToExpense = fields[9] as bool
+      ..iconName = fields[10] as String;
   }
 
   @override
@@ -109,10 +109,10 @@ class HabitHiveAdapter extends TypeAdapter<HabitHive> {
       ..write(obj.datesofMonth)
       ..writeByte(7)
       ..write(obj.color)
-      ..writeByte(8)
-      ..write(obj.icon)
       ..writeByte(9)
-      ..write(obj.shouldAddToExpense);
+      ..write(obj.shouldAddToExpense)
+      ..writeByte(10)
+      ..write(obj.iconName);
   }
 
   @override
@@ -191,7 +191,7 @@ class TodoCategoryHiveAdapter extends TypeAdapter<TodoCategoryHive> {
       ..id = (fields[0] as num).toInt()
       ..name = fields[1] as String
       ..color = (fields[2] as num).toInt()
-      ..icon = (fields[3] as Map).cast<String, dynamic>();
+      ..iconName = fields[4] as String;
   }
 
   @override
@@ -204,8 +204,8 @@ class TodoCategoryHiveAdapter extends TypeAdapter<TodoCategoryHive> {
       ..write(obj.name)
       ..writeByte(2)
       ..write(obj.color)
-      ..writeByte(3)
-      ..write(obj.icon);
+      ..writeByte(4)
+      ..write(obj.iconName);
   }
 
   @override
@@ -232,9 +232,9 @@ class ExpenseCategoryHiveAdapter extends TypeAdapter<ExpenseCategoryHive> {
     return ExpenseCategoryHive()
       ..name = fields[0] as String
       ..color = (fields[1] as num).toInt()
-      ..icon = (fields[2] as Map).cast<String, dynamic>()
       ..id = (fields[3] as num).toInt()
-      ..type = fields[4] as String;
+      ..type = fields[4] as String
+      ..iconName = fields[5] as String;
   }
 
   @override
@@ -245,12 +245,12 @@ class ExpenseCategoryHiveAdapter extends TypeAdapter<ExpenseCategoryHive> {
       ..write(obj.name)
       ..writeByte(1)
       ..write(obj.color)
-      ..writeByte(2)
-      ..write(obj.icon)
       ..writeByte(3)
       ..write(obj.id)
       ..writeByte(4)
-      ..write(obj.type);
+      ..write(obj.type)
+      ..writeByte(5)
+      ..write(obj.iconName);
   }
 
   @override

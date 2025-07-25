@@ -26,7 +26,7 @@ class ExpenseCategoryCubit extends Cubit<ExpenseCategoryState> {
   void addExpenseCategory({
     required String categoryName,
     required Color color,
-    required IconData icon,
+    required String iconName,
     required String type,
   }) async {
     try {
@@ -35,7 +35,7 @@ class ExpenseCategoryCubit extends Cubit<ExpenseCategoryState> {
         id: DateTime.now().millisecondsSinceEpoch,
         name: categoryName,
         color: color,
-        icon: icon,
+        iconName: iconName,
         type: type,
       );
 

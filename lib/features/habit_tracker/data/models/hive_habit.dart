@@ -11,7 +11,7 @@ class HabitHive extends HiveObject {
   late List<DateTime>? comletedDays;
   late int color;
   late bool shouldAddToExpense;
-  late Map<String, dynamic> icon;
+  late String iconName;
 
   Habit toDomain() {
     return Habit(
@@ -24,7 +24,7 @@ class HabitHive extends HiveObject {
       completedDays: comletedDays,
       color: color,
       shouldAddToExpense: shouldAddToExpense,
-      icon: icon,
+      iconName: iconName,
     );
   }
 
@@ -39,6 +39,6 @@ class HabitHive extends HiveObject {
       ..datesofMonth = habit.datesofMonth
       ..color = habit.color
       ..shouldAddToExpense = habit.shouldAddToExpense
-      ..icon = habit.icon;
+      ..iconName = habit.iconName;
   }
 }

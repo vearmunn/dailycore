@@ -50,10 +50,7 @@ class HiveExpenseCategoryRepo implements ExpenseCategoryRepo {
     for (var expense in expenses) {
       if (expense.category.id == category.id) {
         expense.category.name = category.name;
-        expense.category.icon = {
-          'code_point': category.icon.codePoint,
-          'font_family': category.icon.fontFamily,
-        };
+        expense.category.iconName = category.iconName;
         expense.category.type = category.type;
         expense.category.color = category.color.toARGB32();
         await expense.save();
@@ -62,10 +59,7 @@ class HiveExpenseCategoryRepo implements ExpenseCategoryRepo {
 
     updatingCategory.name = category.name;
     updatingCategory.color = category.color.toARGB32();
-    updatingCategory.icon = {
-      'code_point': category.icon.codePoint,
-      'font_family': category.icon.fontFamily,
-    };
+    updatingCategory.iconName = category.iconName;
     updatingCategory.type = category.type;
     updatingCategory.save();
   }

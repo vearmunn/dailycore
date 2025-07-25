@@ -27,7 +27,7 @@ types:
         index: 8
   HabitHive:
     typeId: 2
-    nextIndex: 10
+    nextIndex: 11
     fields:
       id:
         index: 0
@@ -45,10 +45,10 @@ types:
         index: 6
       color:
         index: 7
-      icon:
-        index: 8
       shouldAddToExpense:
         index: 9
+      iconName:
+        index: 10
   ExpenseHive:
     typeId: 3
     nextIndex: 8
@@ -69,7 +69,7 @@ types:
         index: 7
   TodoCategoryHive:
     typeId: 4
-    nextIndex: 4
+    nextIndex: 5
     fields:
       id:
         index: 0
@@ -77,22 +77,22 @@ types:
         index: 1
       color:
         index: 2
-      icon:
-        index: 3
+      iconName:
+        index: 4
   ExpenseCategoryHive:
     typeId: 5
-    nextIndex: 5
+    nextIndex: 6
     fields:
       name:
         index: 0
       color:
         index: 1
-      icon:
-        index: 2
       id:
         index: 3
       type:
         index: 4
+      iconName:
+        index: 5
   GoalHive:
     typeId: 6
     nextIndex: 8

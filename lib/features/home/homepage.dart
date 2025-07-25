@@ -375,10 +375,7 @@ class Homepage extends StatelessWidget {
                                 color: fromArgb32(habit.color).withAlpha(50),
                               ),
                               child: Icon(
-                                IconData(
-                                  habit.icon['code_point'],
-                                  fontFamily: habit.icon['font_family'],
-                                ),
+                                getIconByName(habit.iconName),
                                 color: fromArgb32(habit.color),
                               ),
                             ),

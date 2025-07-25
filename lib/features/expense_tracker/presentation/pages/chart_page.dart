@@ -256,7 +256,7 @@ class _ChartPageState extends State<ChartPage> {
                 label: category.categoryName,
                 totalAmount: state.total,
                 itemAmount: category.amount,
-                icon: category.icon,
+                icon: getIconByName(category.iconName),
                 color: category.color,
               ),
             );

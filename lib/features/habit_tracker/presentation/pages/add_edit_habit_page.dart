@@ -61,10 +61,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
         fromArgb32(widget.habit.color),
       );
       context.read<IconSelectorCubit>().setIcon(
-        IconData(
-          widget.habit.icon['code_point'],
-          fontFamily: widget.habit.icon['font_family'],
-        ),
+        getIconByName(widget.habit.iconName),
       );
     }
     super.initState();
@@ -202,10 +199,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                                   daysofWeek: selectedDays,
                                   color: selectedColor.toARGB32(),
                                   shouldAddToExpense: shouldAddtoExpense,
-                                  icon: {
-                                    'code_point': selectedIcon.codePoint,
-                                    'font_family': selectedIcon.fontFamily,
-                                  },
+                                  iconName: getIconNameByIcon(selectedIcon),
                                 ),
                                 shouldLoadAllHabits: false,
                               );
@@ -218,7 +212,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                                 selectedDates: selectedDates,
                                 selectedDays: selectedDays,
                                 color: selectedColor,
-                                icon: selectedIcon,
+                                iconName: getIconNameByIcon(selectedIcon),
                                 shouldAddToExpense: shouldAddtoExpense,
                               );
                               successToast(context, 'Habit added!');

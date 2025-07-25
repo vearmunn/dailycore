@@ -4,7 +4,7 @@ class ExpenseCategory {
   final int id;
   final String name;
   final Color color;
-  final IconData icon;
+  final String iconName;
   final String type;
 
   ExpenseCategory({
@@ -12,6 +12,6 @@ class ExpenseCategory {
     required this.name,
     required this.type,
     this.color = Colors.black,
-    this.icon = Icons.task,
+    this.iconName = 'task',
   });
 }

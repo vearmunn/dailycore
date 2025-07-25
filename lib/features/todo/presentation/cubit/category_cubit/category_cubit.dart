@@ -27,7 +27,7 @@ class TodoCategoryCubit extends Cubit<TodoCategoryState> {
   void addTodoCategory({
     required String categoryName,
     required Color color,
-    required IconData icon,
+    required String iconName,
   }) async {
     try {
       emit(CategoryLoading());
@@ -35,7 +35,7 @@ class TodoCategoryCubit extends Cubit<TodoCategoryState> {
         id: DateTime.now().millisecondsSinceEpoch,
         name: categoryName,
         color: color,
-        icon: icon,
+        iconName: iconName,
       );
 
       final categoryList = await todoCategoryRepo.loadCategories();

@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -45,7 +46,11 @@ class CategoryDetailTransactionPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     color: category.color.withAlpha(30),
                   ),
-                  child: Icon(color: category.color, size: 35, category.icon),
+                  child: Icon(
+                    color: category.color,
+                    size: 35,
+                    getIconByName(category.iconName),
+                  ),
                 ),
                 horizontalSpace(24),
                 Text(
@@ -82,7 +87,7 @@ class CategoryDetailTransactionPage extends StatelessWidget {
                       return TransactionItem(
                         label: transaction.note ?? '',
                         color: category.color,
-                        icon: category.icon,
+                        icon: getIconByName(category.iconName),
                         itemAmount: transaction.amount,
                         totalAmount: category.amount,
                         date: transaction.date,

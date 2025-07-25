@@ -41,9 +41,7 @@ class _HabitPageState extends State<HabitPage> {
           context.read<ColorSelectorCubit>().setColor(
             colorSelections[randomIndex(colorSelections.length)],
           );
-          context.read<IconSelectorCubit>().setIcon(
-            iconSelections[randomIndex(iconSelections.length)],
-          );
+          context.read<IconSelectorCubit>().setIcon(getRandomIcon());
           Navigator.push(
             context,
             MaterialPageRoute(

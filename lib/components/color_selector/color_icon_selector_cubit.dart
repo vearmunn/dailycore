@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../utils/colors_and_icons.dart';
 
 Color defaultColor = colorSelections[randomIndex(colorSelections.length)];
-IconData defaultIcon = iconSelections[randomIndex(iconSelections.length)];
+IconData defaultIcon = getRandomIcon();
 
 class ColorSelectorCubit extends Cubit<Color> {
   ColorSelectorCubit() : super(defaultColor);

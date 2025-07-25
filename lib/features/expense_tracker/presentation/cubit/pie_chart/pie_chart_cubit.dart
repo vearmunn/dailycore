@@ -119,7 +119,7 @@ List<CategoryData> calculateCategories(
           categoryName: expense.category.name,
           amount: expense.amount,
           color: expense.category.color,
-          icon: expense.category.icon,
+          iconName: expense.category.iconName,
         ),
       );
     }
@@ -161,7 +161,7 @@ List<CategoryData> getTopCategories(List<CategoryData> categories) {
     categoryName: 'Other',
     amount: 0,
     color: Colors.grey,
-    icon: Icons.cancel_presentation_sharp,
+    iconName: 'cancel_presentation_sharp',
   );
   categories.sort((a, b) => b.amount.compareTo(a.amount));
   for (int i = 0; i < categories.length; i++) {

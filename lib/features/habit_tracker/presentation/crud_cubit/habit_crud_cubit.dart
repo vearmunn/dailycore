@@ -43,7 +43,7 @@ class HabitCrudCubit extends Cubit<HabitCrudState> {
     required List<int> selectedDays,
     required List<int> selectedDates,
     required Color color,
-    required IconData icon,
+    required String iconName,
     required bool shouldAddToExpense,
   }) async {
     try {
@@ -56,7 +56,7 @@ class HabitCrudCubit extends Cubit<HabitCrudState> {
         daysofWeek: selectedDays,
         repeatType: repeatType,
         color: color.toARGB32(),
-        icon: {'code_point': icon.codePoint, 'font_family': icon.fontFamily},
+        iconName: iconName,
         shouldAddToExpense: shouldAddToExpense,
         completedDays: [],
       );

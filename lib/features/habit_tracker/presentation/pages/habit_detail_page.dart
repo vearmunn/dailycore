@@ -149,10 +149,7 @@ class HabitDetailPage extends StatelessWidget {
             child: Icon(
               color: fromArgb32(habit.color),
               size: 60,
-              IconData(
-                habit.icon['code_point'],
-                fontFamily: habit.icon['font_family'],
-              ),
+              getIconByName(habit.iconName),
             ),
           ),
           verticalSpace(16),

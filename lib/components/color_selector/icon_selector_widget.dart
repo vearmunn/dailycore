@@ -24,13 +24,14 @@ Widget iconSelector(bool showIconSelections) {
           crossAxisCount: 8,
         ),
         shrinkWrap: true,
-        itemCount: iconSelections.length,
+        itemCount: iconMap.length,
         itemBuilder: (BuildContext context, int index) {
+          final icon = getIconByIndex(index);
           return GestureDetector(
             onTap: () {
-              context.read<IconSelectorCubit>().setIcon(iconSelections[index]);
+              context.read<IconSelectorCubit>().setIcon(icon);
             },
-            child: Icon(iconSelections[index]),
+            child: Icon(icon),
           );
         },
       ),

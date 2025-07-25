@@ -30,49 +30,129 @@ List<Color> colorSelections = [
   Color(0xFF74b9ff), // light blue
 ];
 
-List<IconData> iconSelections = [
-  Icons.home,
-  Icons.work,
-  Icons.school,
-  Icons.fitness_center,
-  Icons.shopping_cart,
-  Icons.local_hospital,
-  Icons.flight_takeoff,
-  Icons.book,
-  Icons.cake,
-  Icons.movie,
-  Icons.music_note,
-  Icons.restaurant,
-  Icons.directions_run,
-  Icons.pets,
-  Icons.nightlight_round,
-  Icons.wb_sunny,
-  Icons.computer,
-  Icons.build,
-  Icons.sports_esports,
-  Icons.savings,
-  Icons.camera_alt,
-  Icons.brush,
-  Icons.local_cafe,
-  Icons.event,
-  Icons.phone,
-  Icons.lock,
-  Icons.lightbulb,
-  Icons.car_rental,
-  Icons.bedtime,
-  Icons.cleaning_services,
-  Icons.map,
-  Icons.language,
-  Icons.handyman,
-  Icons.eco,
-  Icons.group,
-  Icons.timer,
-  Icons.mic,
-  Icons.note,
-  Icons.wine_bar,
-  Icons.wallet,
-  Icons.gamepad,
-];
+// List<IconData> iconSelections = [
+//   Icons.task,
+//   Icons.home,
+//   Icons.person,
+//   Icons.attach_money,
+//   Icons.work,
+//   Icons.school,
+//   Icons.fitness_center,
+//   Icons.shopping_cart,
+//   Icons.local_hospital,
+//   Icons.flight_takeoff,
+//   Icons.subscriptions,
+//   Icons.book,
+//   Icons.cake,
+//   Icons.movie,
+//   Icons.music_note,
+//   Icons.directions_car,
+//   Icons.restaurant,
+//   Icons.directions_run,
+//   Icons.shopping_bag,
+//   Icons.pets,
+//   Icons.nightlight_round,
+//   Icons.wb_sunny,
+//   Icons.computer,
+//   Icons.build,
+//   Icons.sports_esports,
+//   Icons.trending_up,
+//   Icons.card_giftcard,
+//   Icons.more_horiz,
+//   Icons.savings,
+//   Icons.camera_alt,
+//   Icons.brush,
+//   Icons.local_cafe,
+//   Icons.event,
+//   Icons.phone,
+//   Icons.lock,
+//   Icons.lightbulb,
+//   Icons.car_rental,
+//   Icons.bedtime,
+//   Icons.cleaning_services,
+//   Icons.map,
+//   Icons.language,
+//   Icons.handyman,
+//   Icons.eco,
+//   Icons.group,
+//   Icons.timer,
+//   Icons.mic,
+//   Icons.note,
+//   Icons.wine_bar,
+//   Icons.wallet,
+//   Icons.gamepad,
+// ];
+
+final Map<String, IconData> iconMap = {
+  'task': Icons.task,
+  'home': Icons.home,
+  'person': Icons.person,
+  'attach_money': Icons.attach_money,
+  'work': Icons.work,
+  'school': Icons.school,
+  'fitness_center': Icons.fitness_center,
+  'shopping_cart': Icons.shopping_cart,
+  'local_hospital': Icons.local_hospital,
+  'flight_takeoff': Icons.flight_takeoff,
+  'subscriptions': Icons.subscriptions,
+  'book': Icons.book,
+  'cake': Icons.cake,
+  'movie': Icons.movie,
+  'music_note': Icons.music_note,
+  'directions_car': Icons.directions_car,
+  'restaurant': Icons.restaurant,
+  'directions_run': Icons.directions_run,
+  'shopping_bag': Icons.shopping_bag,
+  'pets': Icons.pets,
+  'nightlight_round': Icons.nightlight_round,
+  'wb_sunny': Icons.wb_sunny,
+  'computer': Icons.computer,
+  'build': Icons.build,
+  'sports_esports': Icons.sports_esports,
+  'trending_up': Icons.trending_up,
+  'card_giftcard': Icons.card_giftcard,
+  'more_horiz': Icons.more_horiz,
+  'savings': Icons.savings,
+  'camera_alt': Icons.camera_alt,
+  'brush': Icons.brush,
+  'local_cafe': Icons.local_cafe,
+  'event': Icons.event,
+  'phone': Icons.phone,
+  'lock': Icons.lock,
+  'lightbulb': Icons.lightbulb,
+  'car_rental': Icons.car_rental,
+  'bedtime': Icons.bedtime,
+  'cleaning_services': Icons.cleaning_services,
+  'map': Icons.map,
+  'language': Icons.language,
+  'handyman': Icons.handyman,
+  'eco': Icons.eco,
+  'group': Icons.group,
+  'timer': Icons.timer,
+  'mic': Icons.mic,
+  'note': Icons.note,
+  'wine_bar': Icons.wine_bar,
+  'wallet': Icons.wallet,
+  'gamepad': Icons.gamepad,
+  'cancel_presentation_sharp': Icons.cancel_presentation_sharp,
+};
+
+IconData getIconByName(String name) {
+  return iconMap[name] ?? iconMap['task']!;
+}
+
+String getIconNameByIcon(IconData icon) {
+  return iconMap.entries
+      .firstWhere(
+        (entry) => entry.value == icon,
+        orElse: () => const MapEntry('task', Icons.task),
+      )
+      .key;
+}
+
+IconData getIconByIndex(int index) {
+  return iconMap.values.elementAt(index);
+}
 
 Color fromArgb32(int argb) => Color.fromARGB(
   (argb >> 24) & 0xFF,
@@ -84,4 +164,10 @@ Color fromArgb32(int argb) => Color.fromARGB(
 int randomIndex(int length) {
   final random = Random();
   return random.nextInt(length);
+}
+
+IconData getRandomIcon() {
+  final random = Random();
+  final values = iconMap.values.toList();
+  return values[random.nextInt(values.length)];
 }

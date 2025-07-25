@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utils/spaces.dart';
@@ -46,7 +47,7 @@ class CategoryGrid extends StatelessWidget {
                           : category.color,
                 ),
                 child: Icon(
-                  category.icon,
+                  getIconByName(category.iconName),
                   size: 30,
                   color:
                       !selectedCategoryIdList.contains(category.id)
