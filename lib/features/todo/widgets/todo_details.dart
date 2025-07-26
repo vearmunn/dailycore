@@ -90,7 +90,7 @@ class _TodoDetailsState extends State<TodoDetails> {
             verticalSpace(8),
             customDatePicker(
               context,
-              widget.todo.dueDate ?? DateTime.now(),
+              widget.todo.dueDate,
               allowNull: true,
               useDateAndTime: true,
             ),
@@ -184,7 +184,7 @@ class _TodoDetailsState extends State<TodoDetails> {
                 if (result == true) {
                   todoCubit.deleteTodo(widget.todo);
                   Navigator.pop(context);
-                  errorToast(context, 'Todo deleted!');
+                  successToast(context, 'Todo deleted!');
                 }
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),

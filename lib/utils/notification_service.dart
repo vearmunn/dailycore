@@ -70,6 +70,7 @@ class NotificationService {
     required String title,
     required String body,
     required DateTime scheduledTime,
+    required DateTimeComponents? matchDateTimeComponents,
   }) async {
     final tz.TZDateTime scheduledDate = tz.TZDateTime.from(
       scheduledTime,
@@ -95,7 +96,11 @@ class NotificationService {
       platformDetails,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       matchDateTimeComponents:
-          DateTimeComponents.time, // Optional: for daily repeats
+          matchDateTimeComponents, // Optional: for daily repeats
     );
+  }
+
+  static Future<void> cancelNotification(int id) async {
+    _notifications.cancel(id);
   }
 }

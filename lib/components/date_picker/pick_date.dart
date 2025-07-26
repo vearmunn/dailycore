@@ -38,7 +38,7 @@ Future pickDateTime(BuildContext context, {DateTime? initialDate}) async {
 
 Widget customDatePicker(
   BuildContext context,
-  DateTime initialDate, {
+  DateTime? initialDate, {
   bool allowNull = false,
   bool useDateAndTime = false,
 }) {
@@ -66,7 +66,8 @@ Widget customDatePicker(
               children: [
                 BlocBuilder<DateCubit, DateTime?>(
                   builder: (context, selectedDate) {
-                    if (selectedDate == null && allowNull) {
+                    if (selectedDate == null && allowNull ||
+                        initialDate == null) {
                       return Text(
                         'No Date',
                         style: TextStyle(
@@ -106,7 +107,7 @@ Widget customDatePicker(
 
         if (allowNull)
           TextButton(
-            onPressed: () => context.read<DateCubit>().setDate(null),
+            onPressed: () => context.read<DateCubit>().clearDate(),
             child: Text('Set no date'),
           ),
       ],

@@ -1,6 +1,6 @@
+import 'package:dailycore/components/scheduled_notifs_list/scheduled_notifs_list_page.dart';
 import 'package:dailycore/features/todo/presentation/pages/todo_dashboard_page.dart';
 import 'package:dailycore/utils/dates_utils.dart';
-import 'package:dailycore/utils/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,20 +27,19 @@ class Homepage extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.all(16),
           children: [
-            ElevatedButton(
-              onPressed: () {
-                NotificationService.showNotification(
-                  id: 0,
-                  title: 'Woooy',
-                  body: 'Hudanggg',
-                );
-              },
-              child: Text('Notification'),
-            ),
             Center(
-              child: Text(
-                'DailyCore',
-                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+              child: GestureDetector(
+                onTap:
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ScheduledNotifsListPage(),
+                      ),
+                    ),
+                child: Text(
+                  'DailyCore',
+                  style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             verticalSpace(20),

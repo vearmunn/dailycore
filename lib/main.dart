@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dailycore/components/scheduled_notifs_list/cubit/schedule_notif_cubit.dart';
 import 'package:dailycore/hive/hive_registrar.g.dart';
 import 'package:flutter/material.dart';
 
@@ -88,6 +89,7 @@ void main() async {
           create: (context) => MonthlyTotalListCubit(hiveExpenseRepo),
         ),
         BlocProvider(create: (context) => GoalCubit(hiveGoalRepo)),
+        BlocProvider(create: (context) => ScheduleNotifCubit()),
       ],
       child: MyApp(),
     ),

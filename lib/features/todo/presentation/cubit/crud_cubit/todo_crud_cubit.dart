@@ -2,6 +2,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:dailycore/features/todo/domain/models/todo_category.dart';
+import 'package:dailycore/utils/notification_service.dart';
 
 import '../../../domain/models/todo.dart';
 import '../../../domain/repository/todo_repo.dart';
@@ -110,8 +111,11 @@ class TodoCrudCubit extends Cubit<TodoCrudState> {
   ) async {
     try {
       emit(TodoCrudLoading());
+      final int id = DateTime.now().microsecondsSinceEpoch.remainder(
+        2147483647,
+      );
       final newTodo = Todo(
-        id: DateTime.now().millisecondsSinceEpoch,
+        id: id,
         text: text,
         dueDate: dueDate,
         category: category ?? uncategorized(),
@@ -120,6 +124,15 @@ class TodoCrudCubit extends Cubit<TodoCrudState> {
       );
       await todoRepo.addTodo(newTodo);
       await loadTodos();
+      if (dueDate != null) {
+        await NotificationService.scheduleNotification(
+          id: id,
+          title: 'Todo Reminder',
+          body: 'You have $text in 30 minutes',
+          scheduledTime: dueDate.subtract(Duration(minutes: 30)),
+          matchDateTimeComponents: null,
+        );
+      }
     } catch (e) {
       emit(TodoCrudError(e.toString()));
     }
@@ -130,6 +143,9 @@ class TodoCrudCubit extends Cubit<TodoCrudState> {
       emit(TodoCrudLoading());
       await todoRepo.deleteTodo(todo);
       await loadTodos();
+      if (todo.dueDate != null) {
+        await NotificationService.cancelNotification(todo.id);
+      }
     } catch (e) {
       emit(TodoCrudError(e.toString()));
     }
@@ -140,6 +156,16 @@ class TodoCrudCubit extends Cubit<TodoCrudState> {
       emit(TodoCrudLoading());
       await todoRepo.updateTodo(todo);
       await loadTodos();
+      await NotificationService.cancelNotification(todo.id);
+      if (todo.dueDate != null) {
+        await NotificationService.scheduleNotification(
+          id: todo.id,
+          title: 'Todo Reminder',
+          body: 'You have ${todo.text} in 30 minutes',
+          scheduledTime: todo.dueDate!.subtract(Duration(minutes: 30)),
+          matchDateTimeComponents: null,
+        );
+      }
     } catch (e) {
       emit(TodoCrudError(e.toString()));
     }
@@ -150,6 +176,18 @@ class TodoCrudCubit extends Cubit<TodoCrudState> {
       emit(TodoCrudLoading());
       await todoRepo.toggleTodo(todo);
       await loadTodos();
+      if (todo.dueDate != null && todo.isCompleted == false) {
+        await NotificationService.cancelNotification(todo.id);
+      }
+      if (todo.dueDate != null && todo.isCompleted) {
+        await NotificationService.scheduleNotification(
+          id: todo.id,
+          title: 'Todo Reminder',
+          body: 'You have ${todo.text} in 30 minutes',
+          scheduledTime: todo.dueDate!.subtract(Duration(minutes: 30)),
+          matchDateTimeComponents: null,
+        );
+      }
     } catch (e) {
       emit(TodoCrudError(e.toString()));
     }

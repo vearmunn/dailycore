@@ -46,7 +46,7 @@ class HabitDetailPage extends StatelessWidget {
                       habit,
                       shouldLoadAllHabits: false,
                     );
-                    if (!isCompletedToday) {
+                    if (!isCompletedToday && habit.shouldAddToExpense) {
                       Timer(Duration(milliseconds: 300), () {
                         Navigator.push(
                           context,
