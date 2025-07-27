@@ -47,9 +47,9 @@ class _ScheduledNotifsListPageState extends State<ScheduledNotifsListPage> {
                   itemBuilder: (BuildContext context, int index) {
                     final schedule = state.pendingScheduledNotifs[index];
                     return ListTile(
-                      title: Text('Body: ${schedule.body}'),
+                      title: Text('Title: ${schedule.title}'),
                       trailing: Text('ID: ${schedule.id}'),
-                      subtitle: Text('Payload: ${schedule.payload}'),
+                      subtitle: Text('Body: ${schedule.body}'),
                     );
                   },
                 );

@@ -75,6 +75,9 @@ class HiveHabitRepo implements HabitRepo {
     updatingHabit.daysofWeek = habit.daysofWeek;
     updatingHabit.datesofMonth = habit.datesofMonth;
     updatingHabit.color = habit.color;
+    updatingHabit.notificationIdList = habit.notificationIdList!;
+    updatingHabit.hourTimeReminder = habit.hourTimeReminder;
+    updatingHabit.minuteTimeReminder = habit.minuteTimeReminder;
     updatingHabit.iconName = habit.iconName;
     updatingHabit.shouldAddToExpense = habit.shouldAddToExpense;
     updatingHabit.save();

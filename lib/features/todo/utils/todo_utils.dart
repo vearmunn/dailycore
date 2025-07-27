@@ -82,6 +82,7 @@ void showAddTodoBox(BuildContext context) {
   final todoController = TextEditingController();
   TodoCategory? selectedCategory;
   String selectedPriority = '';
+  int selectedTimeReminder = 0;
   bool shouldAddtoExpense = false;
   showModalBottomSheet(
     context: context,
@@ -179,6 +180,48 @@ void showAddTodoBox(BuildContext context) {
                       DropdownMenuEntry(label: 'None', value: ''),
                     ],
                   ),
+                  verticalSpace(20),
+                  BlocBuilder<DateCubit, DateTime?>(
+                    builder: (context, selectedDate) {
+                      if (selectedDate != null) {
+                        return DropdownMenu(
+                          width: double.infinity,
+                          inputDecorationTheme: InputDecorationTheme(
+                            border: UnderlineInputBorder(),
+                          ),
+                          label: Text('When should we remind you?'),
+                          onSelected: (value) {
+                            selectedTimeReminder = value ?? 0;
+                          },
+                          dropdownMenuEntries: [
+                            DropdownMenuEntry(label: 'On time', value: 0),
+                            DropdownMenuEntry(label: '5 mins before', value: 5),
+                            DropdownMenuEntry(
+                              label: '15 mins before',
+                              value: 15,
+                            ),
+                            DropdownMenuEntry(
+                              label: '30 mins before',
+                              value: 30,
+                            ),
+                            DropdownMenuEntry(
+                              label: '1 hour before',
+                              value: 60,
+                            ),
+                            DropdownMenuEntry(
+                              label: '2 hours before',
+                              value: 120,
+                            ),
+                            DropdownMenuEntry(
+                              label: '3 hours before',
+                              value: 180,
+                            ),
+                          ],
+                        );
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
                   verticalSpace(30),
                   Row(
                     children: [
@@ -211,6 +254,7 @@ void showAddTodoBox(BuildContext context) {
                                 selectedCategory,
                                 selectedPriority,
                                 shouldAddtoExpense,
+                                selectedTimeReminder,
                               );
                               Navigator.pop(context);
                               context.read<DateCubit>().clearDate();

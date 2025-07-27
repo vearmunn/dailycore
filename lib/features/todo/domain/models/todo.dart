@@ -17,6 +17,7 @@ class Todo {
   final List<SubTodo> subTodos;
   final DateTime? repeatDate;
   final bool shouldAddToExpense;
+  final int timeReminder;
 
   Todo({
     required this.id,
@@ -28,6 +29,7 @@ class Todo {
     this.repeatDate,
     this.subTodos = const [],
     this.shouldAddToExpense = false,
+    this.timeReminder = 0,
   });
 }
 

@@ -108,6 +108,7 @@ class TodoCrudCubit extends Cubit<TodoCrudState> {
     TodoCategory? category,
     String priority,
     bool shouldAddtoExpense,
+    int timeReminder,
   ) async {
     try {
       emit(TodoCrudLoading());
@@ -121,6 +122,7 @@ class TodoCrudCubit extends Cubit<TodoCrudState> {
         category: category ?? uncategorized(),
         priority: priority,
         shouldAddToExpense: shouldAddtoExpense,
+        timeReminder: timeReminder,
       );
       await todoRepo.addTodo(newTodo);
       await loadTodos();
@@ -128,8 +130,9 @@ class TodoCrudCubit extends Cubit<TodoCrudState> {
         await NotificationService.scheduleNotification(
           id: id,
           title: 'Todo Reminder',
-          body: 'You have $text in 30 minutes',
-          scheduledTime: dueDate.subtract(Duration(minutes: 30)),
+          body:
+              'You have $text due in ${NotificationService().getReminderTime(timeReminder)}',
+          scheduledTime: dueDate.subtract(Duration(minutes: timeReminder)),
           matchDateTimeComponents: null,
         );
       }
@@ -161,7 +164,8 @@ class TodoCrudCubit extends Cubit<TodoCrudState> {
         await NotificationService.scheduleNotification(
           id: todo.id,
           title: 'Todo Reminder',
-          body: 'You have ${todo.text} in 30 minutes',
+          body:
+              'You have ${todo.text} due in ${NotificationService().getReminderTime(todo.timeReminder)}',
           scheduledTime: todo.dueDate!.subtract(Duration(minutes: 30)),
           matchDateTimeComponents: null,
         );
@@ -183,7 +187,8 @@ class TodoCrudCubit extends Cubit<TodoCrudState> {
         await NotificationService.scheduleNotification(
           id: todo.id,
           title: 'Todo Reminder',
-          body: 'You have ${todo.text} in 30 minutes',
+          body:
+              'You have ${todo.text} due in  ${NotificationService().getReminderTime(todo.timeReminder)}',
           scheduledTime: todo.dueDate!.subtract(Duration(minutes: 30)),
           matchDateTimeComponents: null,
         );

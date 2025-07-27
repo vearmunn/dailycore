@@ -73,6 +73,7 @@ class HiveTodoRepo implements TodoRepo {
     updatingTodo.priority = todo.priority;
     updatingTodo.repeatDate = todo.repeatDate;
     updatingTodo.shouldAddToExpense = todo.shouldAddToExpense;
+    updatingTodo.timeReminder = todo.timeReminder;
     updatingTodo.subTodos =
         todo.subTodos.map((subtodo) => subtodo.toMap()).toList();
 

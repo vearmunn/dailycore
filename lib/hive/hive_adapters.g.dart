@@ -28,13 +28,14 @@ class TodoHiveAdapter extends TypeAdapter<TodoHive> {
               .map((e) => (e as Map).cast<String, dynamic>())
               .toList()
       ..repeatDate = fields[7] as DateTime?
-      ..shouldAddToExpense = fields[8] as bool;
+      ..shouldAddToExpense = fields[8] as bool
+      ..timeReminder = (fields[9] as num).toInt();
   }
 
   @override
   void write(BinaryWriter writer, TodoHive obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -52,7 +53,9 @@ class TodoHiveAdapter extends TypeAdapter<TodoHive> {
       ..writeByte(7)
       ..write(obj.repeatDate)
       ..writeByte(8)
-      ..write(obj.shouldAddToExpense);
+      ..write(obj.shouldAddToExpense)
+      ..writeByte(9)
+      ..write(obj.timeReminder);
   }
 
   @override
@@ -86,13 +89,16 @@ class HabitHiveAdapter extends TypeAdapter<HabitHive> {
       ..datesofMonth = (fields[6] as List).cast<int>()
       ..color = (fields[7] as num).toInt()
       ..shouldAddToExpense = fields[9] as bool
-      ..iconName = fields[10] as String;
+      ..iconName = fields[10] as String
+      ..hourTimeReminder = (fields[12] as num).toInt()
+      ..minuteTimeReminder = (fields[13] as num).toInt()
+      ..notificationIdList = (fields[14] as List).cast<int>();
   }
 
   @override
   void write(BinaryWriter writer, HabitHive obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -112,7 +118,13 @@ class HabitHiveAdapter extends TypeAdapter<HabitHive> {
       ..writeByte(9)
       ..write(obj.shouldAddToExpense)
       ..writeByte(10)
-      ..write(obj.iconName);
+      ..write(obj.iconName)
+      ..writeByte(12)
+      ..write(obj.hourTimeReminder)
+      ..writeByte(13)
+      ..write(obj.minuteTimeReminder)
+      ..writeByte(14)
+      ..write(obj.notificationIdList);
   }
 
   @override

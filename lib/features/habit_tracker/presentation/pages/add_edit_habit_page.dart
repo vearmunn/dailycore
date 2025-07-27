@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:dailycore/features/habit_tracker/presentation/crud_cubit/habit_crud_cubit.dart';
+import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 
 import '../../../../components/color_selector/icon_color_selected_widget.dart';
 import '../../../../components/custom_textfield.dart';
@@ -39,6 +40,8 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
   bool showColorSelections = false;
   bool showIconSelections = false;
   bool shouldAddtoExpense = false;
+  int hourTimeReminder = 9;
+  int minuteTimeReminder = 0;
 
   @override
   void dispose() {
@@ -51,6 +54,8 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
   @override
   void initState() {
     if (widget.isUpadting) {
+      hourTimeReminder = widget.habit.hourTimeReminder;
+      minuteTimeReminder = widget.habit.minuteTimeReminder;
       nameController.text = widget.habit.name;
       descriptionController.text = widget.habit.description;
       _selectedFrequency = widget.habit.repeatType;
@@ -134,6 +139,68 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
             ),
           ),
           verticalSpace(16),
+          GestureDetector(
+            onTap: () async {
+              final DateTime? time = await showOmniDateTimePicker(
+                context: context,
+                type: OmniDateTimePickerType.time,
+                initialDate: DateTime(
+                  DateTime.now().year,
+                  DateTime.now().month,
+                  DateTime.now().day,
+                  hourTimeReminder,
+                  minuteTimeReminder,
+                ),
+
+                is24HourMode: true,
+                isShowSeconds: false,
+              );
+              setState(() {
+                hourTimeReminder = time == null ? hourTimeReminder : time.hour;
+                minuteTimeReminder =
+                    time == null ? minuteTimeReminder : time.minute;
+              });
+            },
+            child: Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'When should we remind you?',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  verticalSpace(12),
+                  Center(
+                    child: BlocBuilder<ColorSelectorCubit, Color>(
+                      builder: (context, selectedColor) {
+                        return Container(
+                          padding: EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: selectedColor.withAlpha(30),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            '${hourTimeReminder < 10 ? '0$hourTimeReminder' : hourTimeReminder} : ${minuteTimeReminder < 10 ? '0$minuteTimeReminder' : minuteTimeReminder}',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: selectedColor,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          verticalSpace(16),
           Container(
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
@@ -166,6 +233,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
               ],
             ),
           ),
+          verticalSpace(100),
         ],
       ),
       bottomSheet: Container(
@@ -200,6 +268,10 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                                   color: selectedColor.toARGB32(),
                                   shouldAddToExpense: shouldAddtoExpense,
                                   iconName: getIconNameByIcon(selectedIcon),
+                                  hourTimeReminder: hourTimeReminder,
+                                  minuteTimeReminder: minuteTimeReminder,
+                                  notificationIdList:
+                                      widget.habit.notificationIdList,
                                 ),
                                 shouldLoadAllHabits: false,
                               );
@@ -214,6 +286,8 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                                 color: selectedColor,
                                 iconName: getIconNameByIcon(selectedIcon),
                                 shouldAddToExpense: shouldAddtoExpense,
+                                hourTimeReminder: hourTimeReminder,
+                                minuteTimeReminder: minuteTimeReminder,
                               );
                               successToast(context, 'Habit added!');
                             }

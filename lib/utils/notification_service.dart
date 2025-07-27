@@ -103,4 +103,17 @@ class NotificationService {
   static Future<void> cancelNotification(int id) async {
     _notifications.cancel(id);
   }
+
+  String getReminderTime(int time) {
+    switch (time) {
+      case 60:
+        return '1 hour';
+      case 120:
+        return '2 hours';
+      case 180:
+        return '3 hours';
+      default:
+        return '$time minutes';
+    }
+  }
 }

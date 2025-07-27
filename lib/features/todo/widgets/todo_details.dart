@@ -30,6 +30,7 @@ class _TodoDetailsState extends State<TodoDetails> {
   late TodoCategory selectedCategory;
   late String selectedPriority;
   late bool shouldAddToExpense;
+  late int selectedTimeReminder;
 
   @override
   void initState() {
@@ -40,8 +41,9 @@ class _TodoDetailsState extends State<TodoDetails> {
       name: widget.todo.category.name,
     );
     selectedPriority = widget.todo.priority;
+    selectedTimeReminder = widget.todo.timeReminder;
     shouldAddToExpense = widget.todo.shouldAddToExpense;
-    print(widget.todo.shouldAddToExpense);
+    print(widget.todo.timeReminder);
     super.initState();
   }
 
@@ -110,6 +112,34 @@ class _TodoDetailsState extends State<TodoDetails> {
                 DropdownMenuEntry(label: 'High', value: 'High'),
                 DropdownMenuEntry(label: 'None', value: ''),
               ],
+            ),
+            verticalSpace(20),
+            BlocBuilder<DateCubit, DateTime?>(
+              builder: (context, selectedDate) {
+                if (selectedDate != null) {
+                  return DropdownMenu(
+                    width: double.infinity,
+                    inputDecorationTheme: InputDecorationTheme(
+                      border: UnderlineInputBorder(),
+                    ),
+                    label: Text('When should we remind you?'),
+                    initialSelection: widget.todo.timeReminder,
+                    onSelected: (value) {
+                      selectedTimeReminder = value ?? 0;
+                    },
+                    dropdownMenuEntries: [
+                      DropdownMenuEntry(label: 'On time', value: 0),
+                      DropdownMenuEntry(label: '5 mins before', value: 5),
+                      DropdownMenuEntry(label: '15 mins before', value: 15),
+                      DropdownMenuEntry(label: '30 mins before', value: 30),
+                      DropdownMenuEntry(label: '1 hour before', value: 60),
+                      DropdownMenuEntry(label: '2 hour before', value: 120),
+                      DropdownMenuEntry(label: '3 hour before', value: 180),
+                    ],
+                  );
+                }
+                return SizedBox.shrink();
+              },
             ),
             verticalSpace(20),
             Row(

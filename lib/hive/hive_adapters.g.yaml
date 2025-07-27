@@ -5,7 +5,7 @@ nextTypeId: 8
 types:
   TodoHive:
     typeId: 0
-    nextIndex: 9
+    nextIndex: 10
     fields:
       id:
         index: 0
@@ -25,9 +25,11 @@ types:
         index: 7
       shouldAddToExpense:
         index: 8
+      timeReminder:
+        index: 9
   HabitHive:
     typeId: 2
-    nextIndex: 11
+    nextIndex: 15
     fields:
       id:
         index: 0
@@ -49,6 +51,12 @@ types:
         index: 9
       iconName:
         index: 10
+      hourTimeReminder:
+        index: 12
+      minuteTimeReminder:
+        index: 13
+      notificationIdList:
+        index: 14
   ExpenseHive:
     typeId: 3
     nextIndex: 8

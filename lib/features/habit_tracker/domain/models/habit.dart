@@ -9,6 +9,9 @@ class Habit {
   final int color;
   final bool shouldAddToExpense;
   final String iconName;
+  List<int>? notificationIdList;
+  final int hourTimeReminder;
+  final int minuteTimeReminder;
 
   Habit({
     required this.id,
@@ -21,5 +24,8 @@ class Habit {
     this.color = 0xFF000000,
     this.shouldAddToExpense = false,
     this.iconName = 'task',
+    this.hourTimeReminder = 9,
+    this.minuteTimeReminder = 0,
+    this.notificationIdList,
   });
 }

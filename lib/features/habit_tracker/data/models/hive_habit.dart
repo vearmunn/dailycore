@@ -12,6 +12,9 @@ class HabitHive extends HiveObject {
   late int color;
   late bool shouldAddToExpense;
   late String iconName;
+  late List<int> notificationIdList;
+  late int hourTimeReminder;
+  late int minuteTimeReminder;
 
   Habit toDomain() {
     return Habit(
@@ -25,6 +28,9 @@ class HabitHive extends HiveObject {
       color: color,
       shouldAddToExpense: shouldAddToExpense,
       iconName: iconName,
+      notificationIdList: notificationIdList,
+      hourTimeReminder: hourTimeReminder,
+      minuteTimeReminder: minuteTimeReminder,
     );
   }
 
@@ -39,6 +45,9 @@ class HabitHive extends HiveObject {
       ..datesofMonth = habit.datesofMonth
       ..color = habit.color
       ..shouldAddToExpense = habit.shouldAddToExpense
+      ..notificationIdList = habit.notificationIdList ?? []
+      ..hourTimeReminder = habit.hourTimeReminder
+      ..minuteTimeReminder = habit.minuteTimeReminder
       ..iconName = habit.iconName;
   }
 }
