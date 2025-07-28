@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -20,6 +21,14 @@ class _HabitTableCalendarState extends State<HabitTableCalendar> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay = DateTime.now();
 
+  late FlutterLocalization _flutterLocalization;
+  @override
+  void initState() {
+    _flutterLocalization = FlutterLocalization.instance;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     // context.read<UpcomingDateCubit>().setUpcomingDate(_selectedDay!);
@@ -27,6 +36,7 @@ class _HabitTableCalendarState extends State<HabitTableCalendar> {
       color: Colors.white,
       padding: EdgeInsets.only(bottom: 20),
       child: TableCalendar(
+        locale: _flutterLocalization.currentLocale!.languageCode,
         firstDay: DateTime(2025, 1, 1),
         lastDay: DateTime.now(),
         focusedDay: _focusedDay,
@@ -40,6 +50,7 @@ class _HabitTableCalendarState extends State<HabitTableCalendar> {
           // titleTextFormatter: (date, locale) => formattedDate(date),
           formatButtonVisible: false,
         ),
+
         calendarBuilders: CalendarBuilders(
           outsideBuilder: (context, day, focusedDay) {
             final progress =

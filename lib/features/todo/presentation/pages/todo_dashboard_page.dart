@@ -3,7 +3,9 @@ import 'package:dailycore/features/todo/presentation/pages/upcoming_view.dart';
 import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
+import '../../../../localization/locales.dart';
 import 'today_view.dart';
 import '../cubit/dashboard_cubit/todo_dashboard_cubit.dart';
 
@@ -22,7 +24,7 @@ class TodoDashboardPage extends StatelessWidget {
               icon: Icon(Icons.arrow_back, color: Colors.white),
             ),
             title: Text(
-              'Todo',
+              AppLocale.todoTitle.getString(context),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -37,18 +39,18 @@ class TodoDashboardPage extends StatelessWidget {
             onTap:
                 (index) => context.read<TodoDashboardCubit>().changeTab(index),
             selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-            items: const [
+            items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.calendar_today_rounded),
-                label: 'Today',
+                label: AppLocale.today.getString(context),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.calendar_month_rounded),
-                label: 'Upcoming',
+                label: AppLocale.upcoming.getString(context),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.line_style),
-                label: 'Browse',
+                label: AppLocale.browse.getString(context),
               ),
             ],
           ),

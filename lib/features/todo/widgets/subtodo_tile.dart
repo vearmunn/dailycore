@@ -2,7 +2,9 @@
 import 'package:dailycore/utils/custom_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
+import '../../../localization/locales.dart';
 import '../../../utils/delete_confirmation.dart';
 import '../domain/models/todo.dart';
 import '../presentation/cubit/crud_cubit/todo_crud_cubit.dart';
@@ -28,7 +30,10 @@ class SubTodoTile extends StatelessWidget {
       child: Dismissible(
         key: ValueKey(subTodo.id),
         confirmDismiss: (direction) async {
-          return await showDeleteBox(context, 'Delete this sub todo?');
+          return await showDeleteBox(
+            context,
+            AppLocale.deleteThisSubTodo.getString(context),
+          );
         },
         onDismissed: (direction) {
           context.read<TodoCrudCubit>().deleteSubtodo(
@@ -36,7 +41,7 @@ class SubTodoTile extends StatelessWidget {
             subTodo,
             shouldLoadAllTodos: shouldLoadAllTodos,
           );
-          errorToast(context, 'Todo deleted');
+          errorToast(context, AppLocale.subTodoDeleted.getString(context));
         },
         child: Column(
           children: [

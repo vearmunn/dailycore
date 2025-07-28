@@ -1,8 +1,7 @@
 import 'package:dailycore/features/todo/presentation/pages/completed_todos_page.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_ce/hive.dart';
-import '../../../../hive_boxes/boxes.dart';
-import '../../data/models/hive_todo.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import '../../../../localization/locales.dart';
 import '../../utils/todo_utils.dart';
 import 'filter_todos_view.dart';
 import 'todo_category_view.dart';
@@ -17,44 +16,56 @@ class BrowseView extends StatefulWidget {
 class _BrowseViewState extends State<BrowseView> {
   @override
   Widget build(BuildContext context) {
-    final box = Hive.box<TodoHive>(todoBox);
+    // final box = Hive.box<TodoHive>(todoBox);
     return Scaffold(
       body: ListView(
-        padding: EdgeInsets.all(20),
+        // padding: EdgeInsets.all(20),
         children: [
-          TextButton(
-            onPressed: () {
-              box.clear();
-            },
-            child: Text('Delete All Todos'),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              AppLocale.browseTodos.getString(context),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
           ),
-          Text(
-            'Browse Todos',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-          TextButton(
-            onPressed:
+          ListTile(
+            leading: Icon(Icons.search),
+            title: Text(
+              AppLocale.searchTodos.getString(context),
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            trailing: Icon(Icons.keyboard_arrow_right),
+            onTap:
                 () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => FilterTodosView()),
                 ),
-            child: Text('Search Todos'),
           ),
-          TextButton(
-            onPressed:
+          ListTile(
+            leading: Icon(Icons.category),
+            title: Text(
+              AppLocale.adjustCategories.getString(context),
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            trailing: Icon(Icons.keyboard_arrow_right),
+            onTap:
                 () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => TodoCategoryView()),
                 ),
-            child: Text('Category'),
           ),
-          TextButton(
-            onPressed:
+          ListTile(
+            leading: Icon(Icons.check_circle),
+            title: Text(
+              AppLocale.completedTodos.getString(context),
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            trailing: Icon(Icons.keyboard_arrow_right),
+            onTap:
                 () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => CompletedTodosPage()),
                 ),
-            child: Text('Completed'),
           ),
         ],
       ),

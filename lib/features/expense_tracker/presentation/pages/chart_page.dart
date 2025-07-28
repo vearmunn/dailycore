@@ -7,7 +7,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_custom_month_picker/flutter_custom_month_picker.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
+import '../../../../localization/locales.dart';
 import '../../../../utils/colors_and_icons.dart';
 
 class ChartPage extends StatefulWidget {
@@ -25,7 +27,7 @@ class _ChartPageState extends State<ChartPage> {
       appBar: AppBar(
         backgroundColor: dailyCoreOrange,
         title: Text(
-          'Finance',
+          AppLocale.financeTitle.getString(context),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,
@@ -83,9 +85,16 @@ class _ChartPageState extends State<ChartPage> {
                     fontSize: 14,
                     color: Colors.white,
                   ),
+                  dropdownColor: dailyCoreOrange,
                   items: [
-                    DropdownMenuItem(value: 'Expense', child: Text('Expense')),
-                    DropdownMenuItem(value: 'Income', child: Text('Income')),
+                    DropdownMenuItem(
+                      value: 'Expense',
+                      child: Text(AppLocale.expense.getString(context)),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Income',
+                      child: Text(AppLocale.income.getString(context)),
+                    ),
                   ],
                   onChanged: (v) {
                     setState(() {
@@ -118,7 +127,7 @@ class _ChartPageState extends State<ChartPage> {
                   firstYear: 2020,
                   lastYear: DateTime.now().year,
                   selectButtonText: 'OK',
-                  cancelButtonText: 'Cancel',
+                  cancelButtonText: AppLocale.cancel.getString(context),
                   highlightColor: dailyCoreOrange,
                   textColor: Colors.black,
                   contentBackgroundColor: Colors.white,

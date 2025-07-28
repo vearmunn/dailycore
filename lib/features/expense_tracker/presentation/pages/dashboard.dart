@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/pie_chart/pie_chart_cubit.dart';
 import 'chart_page.dart';
 import 'expense_page.dart';
+import 'goal_page.dart';
 import 'reports_page.dart';
-import 'settings_page.dart';
 
 class ExpenseDashboard extends StatefulWidget {
   const ExpenseDashboard({super.key});
@@ -19,7 +19,7 @@ class _ExpenseDashboardState extends State<ExpenseDashboard> {
     ExpensePage(),
     ChartPage(),
     ReportsPage(),
-    SettingsPage(),
+    GoalPage(),
   ];
   int _selectedIndex = 0;
 
@@ -50,10 +50,7 @@ class _ExpenseDashboardState extends State<ExpenseDashboard> {
             icon: Icon(Icons.receipt_long_rounded),
             label: 'Reports',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.tag_rounded), label: 'Goal'),
         ],
       ),
     );

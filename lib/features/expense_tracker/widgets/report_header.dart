@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
+import '../../../localization/locales.dart';
 import '../utils/expense_util.dart';
 
 class ReportHeader extends StatelessWidget {
@@ -27,15 +29,15 @@ class ReportHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _buildTotalTracker(
-            'Total Expenses',
+            AppLocale.totalExpenses.getString(context),
             formatAmountRP(totalExpense, useSymbol: false),
           ),
           _buildTotalTracker(
-            'Total Income',
+            AppLocale.totalIncome.getString(context),
             formatAmountRP(totalIncome, useSymbol: false),
           ),
           _buildTotalTracker(
-            'Balance',
+            AppLocale.totalBalance.getString(context),
             formatAmountRP(totalBalance, useSymbol: false),
           ),
         ],

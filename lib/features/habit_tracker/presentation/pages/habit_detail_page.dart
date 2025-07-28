@@ -8,12 +8,27 @@ import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:dailycore/features/habit_tracker/widgets/custom_heatmap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
+import '../../../../localization/locales.dart';
 import '../../../../utils/spaces.dart';
 import '../../utils/habit_util.dart';
 
-class HabitDetailPage extends StatelessWidget {
+class HabitDetailPage extends StatefulWidget {
   const HabitDetailPage({super.key});
+
+  @override
+  State<HabitDetailPage> createState() => _HabitDetailPageState();
+}
+
+class _HabitDetailPageState extends State<HabitDetailPage> {
+  late FlutterLocalization _flutterLocalization;
+  @override
+  void initState() {
+    _flutterLocalization = FlutterLocalization.instance;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +53,7 @@ class HabitDetailPage extends StatelessWidget {
                 verticalSpace(16),
                 _buildTitleCard(context, habit, isCompletedToday),
                 verticalSpace(20),
-                _buildDetails(habit),
+                _buildDetails(habit, context),
                 verticalSpace(16),
                 ElevatedButton.icon(
                   onPressed: () async {
@@ -70,7 +85,7 @@ class HabitDetailPage extends StatelessWidget {
                         isCompletedToday ? Colors.white : Colors.black54,
                   ),
                   label: Text(
-                    isCompletedToday ? 'Checked' : 'Check',
+                    AppLocale.check.getString(context),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   icon: Icon(Icons.check_circle),
@@ -84,6 +99,18 @@ class HabitDetailPage extends StatelessWidget {
         },
       ),
     );
+  }
+
+  String getCompletedText(bool isCompleted) {
+    if (_flutterLocalization.currentLocale!.languageCode == 'en' &&
+        !isCompleted) {
+      return 'Not Completed';
+    } else if (_flutterLocalization.currentLocale!.languageCode == 'id' &&
+        !isCompleted) {
+      return 'Belum Selesai';
+    } else {
+      return AppLocale.completed.getString(context);
+    }
   }
 
   Widget _buildTopBar(BuildContext context, Habit habit) {
@@ -177,7 +204,7 @@ class HabitDetailPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Text(
-              isCompletedToday ? 'Completed' : 'Not Completed',
+              getCompletedText(isCompletedToday),
               style: TextStyle(fontSize: 12, color: fromArgb32(habit.color)),
             ),
           ),
@@ -186,7 +213,7 @@ class HabitDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDetails(Habit habit) {
+  Widget _buildDetails(Habit habit, context) {
     return Container(
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -196,7 +223,7 @@ class HabitDetailPage extends StatelessWidget {
       child: Column(
         children: [
           _buildDetailItem(
-            'Repeat Schedule',
+            AppLocale.repeatSchedule.getString(context),
             habit.repeatType == 'monthly'
                 ? 'on ${getRepeatDuration(habit)}'
                 : getRepeatDuration(habit),
@@ -205,28 +232,32 @@ class HabitDetailPage extends StatelessWidget {
           Divider(),
           verticalSpace(10),
           _buildDetailItem(
-            'Current Streak',
+            AppLocale.currentStreak.getString(context),
             getStreak(
+              context,
               habit.completedDays,
               repeatType: habit.repeatType,
               selectedDaysOrDates:
                   habit.daysofWeek.isEmpty
                       ? habit.datesofMonth
                       : habit.daysofWeek,
+              locale: _flutterLocalization.currentLocale!.languageCode,
             )[0],
           ),
           verticalSpace(10),
           Divider(),
           verticalSpace(10),
           _buildDetailItem(
-            'Best Streak',
+            AppLocale.bestStreak.getString(context),
             getStreak(
+              context,
               habit.completedDays,
               repeatType: habit.repeatType,
               selectedDaysOrDates:
                   habit.daysofWeek.isEmpty
                       ? habit.datesofMonth
                       : habit.daysofWeek,
+              locale: _flutterLocalization.currentLocale!.languageCode,
             )[1],
           ),
         ],

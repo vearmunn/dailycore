@@ -2,8 +2,10 @@
 import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:grouped_list/grouped_list.dart';
 
+import '../../../localization/locales.dart';
 import '../../../utils/dates_utils.dart';
 import '../../../utils/delete_confirmation.dart';
 import '../../../utils/spaces.dart';
@@ -45,14 +47,14 @@ class ExpenseList extends StatelessWidget {
                 children: [
                   if (dailyAmount[0] != 0)
                     Text(
-                      'Expenses: ${formatAmountRP(dailyAmount[0])}',
+                      '${AppLocale.expense.getString(context)}: ${formatAmountRP(dailyAmount[0])}',
                       style: TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                   if (dailyAmount[0] != 0 || dailyAmount[1] != 0)
                     horizontalSpace(10),
                   if (dailyAmount[1] != 0)
                     Text(
-                      'Income : ${formatAmountRP(dailyAmount[1])}',
+                      '${AppLocale.income.getString(context)}: ${formatAmountRP(dailyAmount[1])}',
                       style: TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                 ],
@@ -64,7 +66,10 @@ class ExpenseList extends StatelessWidget {
       itemBuilder: (context, expense) {
         return Dismissible(
           confirmDismiss: (direction) async {
-            return await showDeleteBox(context, 'Delete this transaction?');
+            return await showDeleteBox(
+              context,
+              AppLocale.deleteThisTransaction.getString(context),
+            );
           },
           onDismissed: (direction) {
             context.read<ExpenseCrudCubit>().deleteExpense(expense);

@@ -2,7 +2,9 @@
 import 'package:dailycore/utils/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
+import '../../../../localization/locales.dart';
 import '../../domain/models/expense.dart';
 import '../../domain/models/monthly_total.dart';
 import '../../utils/expense_util.dart';
@@ -98,33 +100,39 @@ class _DetailPeMonthPageState extends State<DetailPeMonthPage> {
                     items: [
                       _dropDownItem(
                         value: 'date desc',
-                        label1: 'Date',
-                        label2: '(Latest -> Earliest)',
+                        label1: AppLocale.date.getString(context),
+                        label2:
+                            '(${AppLocale.latest.getString(context)} ->${AppLocale.earliest.getString(context)})',
                       ),
                       _dropDownItem(
                         value: 'date asc',
-                        label1: 'Date',
-                        label2: '(Earliest -> Latest)',
+                        label1: AppLocale.date.getString(context),
+                        label2:
+                            '(${AppLocale.earliest.getString(context)} -> ${AppLocale.latest.getString(context)})',
                       ),
                       _dropDownItem(
                         value: 'amount desc',
-                        label1: 'Amount',
-                        label2: '(Biggest -> Lowest)',
+                        label1: AppLocale.amount.getString(context),
+                        label2:
+                            '(${AppLocale.biggest.getString(context)} -> ${AppLocale.lowest.getString(context)})',
                       ),
                       _dropDownItem(
                         value: 'amount asc',
-                        label1: 'Amount',
-                        label2: '(Lowest -> Biggest)',
+                        label1: AppLocale.amount.getString(context),
+                        label2:
+                            '(${AppLocale.lowest.getString(context)} -> ${AppLocale.biggest.getString(context)})',
                       ),
                       _dropDownItem(
                         value: 'type desc',
-                        label1: 'Type',
-                        label2: '(Income -> Expense)',
+                        label1: AppLocale.type.getString(context),
+                        label2:
+                            '(${AppLocale.income.getString(context)} -> ${AppLocale.expense.getString(context)})',
                       ),
                       _dropDownItem(
                         value: 'type asc',
-                        label1: 'Type',
-                        label2: '(Expense -> Income)',
+                        label1: AppLocale.type.getString(context),
+                        label2:
+                            '(${AppLocale.expense.getString(context)} -> ${AppLocale.income.getString(context)})',
                       ),
                     ],
                     onChanged: (v) {
@@ -154,10 +162,18 @@ class _DetailPeMonthPageState extends State<DetailPeMonthPage> {
                       columnSpacing: MediaQuery.of(context).size.width * 0.08,
                       headingRowHeight: 30,
                       columns: [
-                        DataColumn(label: Text('Date')),
-                        DataColumn(label: Text('Note')),
-                        DataColumn(label: Text('Type')),
-                        DataColumn(label: Text('Amount')),
+                        DataColumn(
+                          label: Text(AppLocale.date.getString(context)),
+                        ),
+                        DataColumn(
+                          label: Text(AppLocale.note.getString(context)),
+                        ),
+                        DataColumn(
+                          label: Text(AppLocale.type.getString(context)),
+                        ),
+                        DataColumn(
+                          label: Text(AppLocale.amount.getString(context)),
+                        ),
                       ],
                       rows: List.generate(transactions.length, (index) {
                         final transaction = transactions[index];
@@ -165,7 +181,13 @@ class _DetailPeMonthPageState extends State<DetailPeMonthPage> {
                           cells: [
                             DataCell(Text(transaction.date.day.toString())),
                             DataCell(Text(transaction.note ?? '')),
-                            DataCell(Text(transaction.type)),
+                            DataCell(
+                              Text(
+                                transaction.type == 'Income'
+                                    ? AppLocale.income.getString(context)
+                                    : AppLocale.expense.getString(context),
+                              ),
+                            ),
                             DataCell(
                               Text(
                                 formatAmountRP(

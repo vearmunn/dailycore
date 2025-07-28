@@ -3,11 +3,14 @@ import 'package:dailycore/features/expense_tracker/widgets/expense_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_custom_month_picker/flutter_custom_month_picker.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
+import '../../../../localization/locales.dart';
 import '../../../../utils/colors_and_icons.dart';
 import '../../utils/expense_util.dart';
 import '../cubit/expense_crud/expense_crud_cubit.dart';
 import 'add_edit_expense_page.dart';
+import 'expense_category_page.dart';
 
 class ExpensePage extends StatelessWidget {
   const ExpensePage({super.key});
@@ -18,7 +21,7 @@ class ExpensePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: dailyCoreOrange,
         title: Text(
-          'Finance',
+          AppLocale.financeTitle.getString(context),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,
@@ -36,6 +39,15 @@ class ExpensePage extends StatelessWidget {
             },
             icon: Icon(Icons.search, color: Colors.white),
           ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ExpenseCategoryPage()),
+              );
+            },
+            icon: Icon(Icons.category_outlined, color: Colors.white),
+          ),
         ],
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(50),
@@ -51,21 +63,21 @@ class ExpensePage extends StatelessWidget {
                     children: [
                       _buildMontPicker(context, state),
                       _buildTracker(
-                        'Expenses',
+                        AppLocale.expense.getString(context),
                         formatAmountRP(
                           state.monthlyTotal!.expenses,
                           useSymbol: false,
                         ),
                       ),
                       _buildTracker(
-                        'Income',
+                        AppLocale.income.getString(context),
                         formatAmountRP(
                           state.monthlyTotal!.income,
                           useSymbol: false,
                         ),
                       ),
                       _buildTracker(
-                        'Balance',
+                        AppLocale.balance.getString(context),
                         formatAmountRP(
                           state.monthlyTotal!.balance,
                           useSymbol: false,

@@ -1,8 +1,10 @@
 import 'package:dailycore/features/todo/domain/models/todo_category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import '../../../../components/date_picker/pick_date_cubit.dart';
+import '../../../../localization/locales.dart';
 import '../../../../utils/spaces.dart';
 import '../../utils/todo_utils.dart';
 import '../../widgets/todo_tile.dart';
@@ -56,7 +58,7 @@ class _FilterTodosViewState extends State<FilterTodosView> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          appBar: AppBar(title: Text('Search Todos')),
+          appBar: AppBar(title: Text(AppLocale.searchTodos.getString(context))),
           body: BlocBuilder<TodoCrudCubit, TodoCrudState>(
             builder: (context, state) {
               if (state is TodoCrudLoading) {
@@ -76,7 +78,7 @@ class _FilterTodosViewState extends State<FilterTodosView> {
                             child: TextField(
                               controller: searchController,
                               decoration: InputDecoration(
-                                hintText: 'Search...',
+                                hintText: AppLocale.search.getString(context),
                                 prefixIcon: Icon(Icons.search),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50),
@@ -161,17 +163,29 @@ class _FilterTodosViewState extends State<FilterTodosView> {
                   inputDecorationTheme: InputDecorationTheme(
                     border: UnderlineInputBorder(),
                   ),
-                  label: Text('Select Priority'),
+                  label: Text(AppLocale.selectPriority.getString(context)),
                   controller: priorityController,
                   onSelected: (value) {
                     selectedPriority = value;
                     applySearch();
                   },
                   dropdownMenuEntries: [
-                    DropdownMenuEntry(label: 'Low', value: 'Low'),
-                    DropdownMenuEntry(label: 'Medium', value: 'Medium'),
-                    DropdownMenuEntry(label: 'High', value: 'High'),
-                    DropdownMenuEntry(label: 'All', value: ''),
+                    DropdownMenuEntry(
+                      label: AppLocale.low.getString(context),
+                      value: 'Low',
+                    ),
+                    DropdownMenuEntry(
+                      label: AppLocale.medium.getString(context),
+                      value: 'Medium',
+                    ),
+                    DropdownMenuEntry(
+                      label: AppLocale.high.getString(context),
+                      value: 'High',
+                    ),
+                    DropdownMenuEntry(
+                      label: AppLocale.all.getString(context),
+                      value: '',
+                    ),
                   ],
                 ),
                 verticalSpace(12),
@@ -184,7 +198,9 @@ class _FilterTodosViewState extends State<FilterTodosView> {
                           border: UnderlineInputBorder(),
                         ),
                         width: double.infinity,
-                        label: Text('Select Category'),
+                        label: Text(
+                          AppLocale.selectCategory.getString(context),
+                        ),
                         onSelected: (value) {
                           selectedCategory = value;
                           applySearch();
@@ -209,7 +225,7 @@ class _FilterTodosViewState extends State<FilterTodosView> {
                     searchController.clear();
                     priorityController.clear();
                   },
-                  child: Text('Clear Filters'),
+                  child: Text(AppLocale.clearFilters.getString(context)),
                 ),
               ],
             ),

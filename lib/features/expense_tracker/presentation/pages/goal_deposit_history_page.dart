@@ -2,7 +2,9 @@
 import 'package:dailycore/features/expense_tracker/utils/expense_util.dart';
 import 'package:dailycore/utils/dates_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
+import '../../../../localization/locales.dart';
 import '../../domain/models/goal.dart';
 
 class GoalDepositHistoryPage extends StatelessWidget {
@@ -13,7 +15,7 @@ class GoalDepositHistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     depositHistoryList.sort((a, b) => b.dateTime.compareTo(a.dateTime));
     return Scaffold(
-      appBar: AppBar(title: Text('Deposit History')),
+      appBar: AppBar(title: Text(AppLocale.depositHistory.getString(context))),
       backgroundColor: Colors.white,
       body: ListView.separated(
         itemCount: depositHistoryList.length,

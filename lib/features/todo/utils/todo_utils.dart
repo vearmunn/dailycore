@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import '../../../components/custom_textfield.dart';
 import '../../../components/date_picker/pick_date.dart';
 import '../../../components/date_picker/pick_date_cubit.dart';
+import '../../../localization/locales.dart';
 import '../../../utils/custom_toast.dart';
 import '../../../utils/spaces.dart';
 import '../domain/models/todo.dart';
@@ -111,7 +113,7 @@ void showAddTodoBox(BuildContext context) {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Add Todo',
+                        AppLocale.addTodo.getString(context),
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -124,7 +126,10 @@ void showAddTodoBox(BuildContext context) {
                     ],
                   ),
                   verticalSpace(20),
-                  customTextfield('What is to be done?', todoController),
+                  customTextfield(
+                    AppLocale.whatIsTobeDone.getString(context),
+                    todoController,
+                  ),
                   verticalSpace(12),
                   BlocBuilder<TodoCategoryCubit, TodoCategoryState>(
                     builder: (context, state) {
@@ -139,7 +144,9 @@ void showAddTodoBox(BuildContext context) {
                           enableFilter: true,
                           enableSearch: true,
                           width: double.infinity,
-                          label: Text('Select Category'),
+                          label: Text(
+                            AppLocale.selectCategory.getString(context),
+                          ),
                           onSelected: (value) {
                             selectedCategory = value!;
                           },
@@ -169,15 +176,27 @@ void showAddTodoBox(BuildContext context) {
                     inputDecorationTheme: InputDecorationTheme(
                       border: UnderlineInputBorder(),
                     ),
-                    label: Text('Select Priority'),
+                    label: Text(AppLocale.selectPriority.getString(context)),
                     onSelected: (value) {
                       selectedPriority = value ?? '';
                     },
                     dropdownMenuEntries: [
-                      DropdownMenuEntry(label: 'Low', value: 'Low'),
-                      DropdownMenuEntry(label: 'Medium', value: 'Medium'),
-                      DropdownMenuEntry(label: 'High', value: 'High'),
-                      DropdownMenuEntry(label: 'None', value: ''),
+                      DropdownMenuEntry(
+                        label: AppLocale.low.getString(context),
+                        value: 'Low',
+                      ),
+                      DropdownMenuEntry(
+                        label: AppLocale.medium.getString(context),
+                        value: 'Medium',
+                      ),
+                      DropdownMenuEntry(
+                        label: AppLocale.high.getString(context),
+                        value: 'High',
+                      ),
+                      DropdownMenuEntry(
+                        label: AppLocale.none.getString(context),
+                        value: '',
+                      ),
                     ],
                   ),
                   verticalSpace(20),
@@ -189,31 +208,45 @@ void showAddTodoBox(BuildContext context) {
                           inputDecorationTheme: InputDecorationTheme(
                             border: UnderlineInputBorder(),
                           ),
-                          label: Text('When should we remind you?'),
+                          label: Text(
+                            AppLocale.whenShouldWeRemindYou.getString(context),
+                          ),
                           onSelected: (value) {
                             selectedTimeReminder = value ?? 0;
                           },
                           dropdownMenuEntries: [
-                            DropdownMenuEntry(label: 'On time', value: 0),
-                            DropdownMenuEntry(label: '5 mins before', value: 5),
                             DropdownMenuEntry(
-                              label: '15 mins before',
+                              label: AppLocale.onTime.getString(context),
+                              value: 0,
+                            ),
+                            DropdownMenuEntry(
+                              label:
+                                  '5 ${AppLocale.minsBefore.getString(context)}',
+                              value: 5,
+                            ),
+                            DropdownMenuEntry(
+                              label:
+                                  '15 ${AppLocale.minsBefore.getString(context)}',
                               value: 15,
                             ),
                             DropdownMenuEntry(
-                              label: '30 mins before',
+                              label:
+                                  '30 ${AppLocale.minsBefore.getString(context)}',
                               value: 30,
                             ),
                             DropdownMenuEntry(
-                              label: '1 hour before',
+                              label:
+                                  '1 ${AppLocale.hoursBefore.getString(context)}',
                               value: 60,
                             ),
                             DropdownMenuEntry(
-                              label: '2 hours before',
+                              label:
+                                  '2 ${AppLocale.hoursBefore.getString(context)}',
                               value: 120,
                             ),
                             DropdownMenuEntry(
-                              label: '3 hours before',
+                              label:
+                                  '3 ${AppLocale.hoursBefore.getString(context)}',
                               value: 180,
                             ),
                           ],
@@ -222,7 +255,14 @@ void showAddTodoBox(BuildContext context) {
                       return SizedBox.shrink();
                     },
                   ),
-                  verticalSpace(30),
+                  BlocBuilder<DateCubit, DateTime?>(
+                    builder: (context, selectedDate) {
+                      if (selectedDate != null) {
+                        return verticalSpace(30);
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
                   Row(
                     children: [
                       Checkbox(
@@ -235,7 +275,11 @@ void showAddTodoBox(BuildContext context) {
                           });
                         },
                       ),
-                      Text('Add to Finance Tracker when task is done?'),
+                      Expanded(
+                        child: Text(
+                          AppLocale.addToFinanceTracker.getString(context),
+                        ),
+                      ),
                     ],
                   ),
                   verticalSpace(30),
@@ -246,7 +290,10 @@ void showAddTodoBox(BuildContext context) {
                         child: ElevatedButton(
                           onPressed: () {
                             if (todoController.text.isEmpty) {
-                              errorToast(context, 'Name must not be empty!');
+                              errorToast(
+                                context,
+                                AppLocale.nameMustNotEmpty.getString(context),
+                              );
                             } else {
                               todoCubit.addTodo(
                                 todoController.text,
@@ -258,10 +305,13 @@ void showAddTodoBox(BuildContext context) {
                               );
                               Navigator.pop(context);
                               context.read<DateCubit>().clearDate();
-                              successToast(context, 'New todo added!');
+                              successToast(
+                                context,
+                                AppLocale.newTodoAdded.getString(context),
+                              );
                             }
                           },
-                          child: Text('Add'),
+                          child: Text(AppLocale.add.getString(context)),
                         ),
                       );
                     },
@@ -284,30 +334,41 @@ void showAddSubTodoBox(BuildContext context, int id) {
     context: context,
     builder:
         (context) => AlertDialog(
-          title: Text('Add Sub Todo'),
+          title: Text(AppLocale.addSubtodo.getString(context)),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [customTextfield('Subtodo', textController)],
+              children: [
+                customTextfield(
+                  AppLocale.subtodo.getString(context),
+                  textController,
+                ),
+              ],
             ),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
+              child: Text(AppLocale.cancel.getString(context)),
             ),
             TextButton(
               onPressed: () {
                 if (textController.text.isEmpty) {
-                  errorToast(context, 'Name must not be empty!');
+                  errorToast(
+                    context,
+                    AppLocale.subtodoMustNotBeEmpty.getString(context),
+                  );
                 } else {
                   todoCubit.addNewSubTodo(id, textController.text);
                   Navigator.pop(context);
-                  successToast(context, 'New subtodo added!');
+                  successToast(
+                    context,
+                    AppLocale.newSubtodoAdded.getString(context),
+                  );
                 }
               },
-              child: Text('Add'),
+              child: Text(AppLocale.add.getString(context)),
             ),
           ],
         ),
@@ -326,19 +387,25 @@ void showEditSubTodoBox(
     context: context,
     builder:
         (context) => AlertDialog(
-          title: Text('Edit Sub Todo'),
-          content: customTextfield('Subtodo', textController),
+          title: Text(AppLocale.editSubtodo.getString(context)),
+          content: customTextfield(
+            AppLocale.subtodo.getString(context),
+            textController,
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
+              child: Text(AppLocale.cancel.getString(context)),
             ),
             BlocBuilder<DateCubit, DateTime?>(
               builder: (context, selectedDate) {
                 return TextButton(
                   onPressed: () {
                     if (textController.text.isEmpty) {
-                      errorToast(context, 'Subtodo must not be empty!');
+                      errorToast(
+                        context,
+                        AppLocale.subtodoMustNotBeEmpty.getString(context),
+                      );
                     } else {
                       todoCubit.updateSubTodo(
                         id,
@@ -346,7 +413,10 @@ void showEditSubTodoBox(
                         shouldLoadAllTodos: shouldLoadAllTodos,
                       );
                       Navigator.pop(context);
-                      successToast(context, 'Subtodo updated!');
+                      successToast(
+                        context,
+                        AppLocale.subtodoUpdated.getString(context),
+                      );
                     }
                   },
                   child: Text('Update'),

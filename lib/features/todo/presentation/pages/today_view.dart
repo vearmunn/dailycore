@@ -1,8 +1,10 @@
 import 'package:dailycore/features/todo/utils/todo_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import '../../../../components/date_picker/pick_date_cubit.dart';
+import '../../../../localization/locales.dart';
 import '../../../../utils/colors_and_icons.dart';
 import '../../../../utils/spaces.dart';
 import '../../widgets/todo_tile.dart';
@@ -37,7 +39,7 @@ class TodayView extends StatelessWidget {
                   ),
             );
             return ListView(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(16),
               children: [
                 todaysTodos.isEmpty
                     ? SizedBox.shrink()
@@ -55,23 +57,23 @@ class TodayView extends StatelessWidget {
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _buildTodoNumberitem(
-                        title: 'All',
+                        title: AppLocale.all.getString(context),
                         number: state.allTodos.length,
                         bgColor: Colors.grey,
                         isFirst: true,
                       ),
                       _buildTodoNumberitem(
-                        title: 'Today',
+                        title: AppLocale.today.getString(context),
                         number: todaysTodos.length,
                         bgColor: Colors.grey,
                       ),
                       _buildTodoNumberitem(
-                        title: 'Upcoming',
+                        title: AppLocale.upcoming.getString(context),
                         number: upcomingTodos.length,
                         bgColor: Colors.grey,
                       ),
                       _buildTodoNumberitem(
-                        title: 'Overdue',
+                        title: AppLocale.overdue.getString(context),
                         number: overdueTodos.length,
                         bgColor: dailyCoreRed,
                         isLast: true,
@@ -161,7 +163,7 @@ class TodayView extends StatelessWidget {
   }) {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.all(12),
+        padding: EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
           color: bgColor.withAlpha(50),
           borderRadius: BorderRadius.horizontal(
@@ -174,9 +176,11 @@ class TodayView extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
+                fontSize: 12,
                 color: bgColor == Colors.grey ? Colors.black54 : bgColor,
               ),
             ),
+            verticalSpace(4),
             Text(
               number.toString(),
               style: TextStyle(

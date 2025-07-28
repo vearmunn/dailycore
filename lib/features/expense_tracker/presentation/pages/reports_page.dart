@@ -4,7 +4,9 @@ import 'package:dailycore/features/expense_tracker/widgets/report_header.dart';
 import 'package:dailycore/utils/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
+import '../../../../localization/locales.dart';
 import '../../../../utils/colors_and_icons.dart';
 import '../../domain/models/monthly_total.dart';
 import '../../utils/expense_util.dart';
@@ -34,7 +36,7 @@ class _ReportsPageState extends State<ReportsPage> {
       appBar: AppBar(
         backgroundColor: dailyCoreOrange,
         title: Text(
-          'Finance',
+          AppLocale.financeTitle.getString(context),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,
@@ -114,7 +116,9 @@ class _ReportsPageState extends State<ReportsPage> {
                 return DropdownMenuItem(
                   value: year,
                   child: Text(
-                    year == 0 ? 'All' : year.toString(),
+                    year == 0
+                        ? AppLocale.all.getString(context)
+                        : year.toString(),
                     style: TextStyle(fontSize: 18),
                   ),
                 );
@@ -149,10 +153,16 @@ class _ReportsPageState extends State<ReportsPage> {
 
           headingRowHeight: 30,
           columns: [
-            DataColumn(label: Text(state.selectedYear == 0 ? 'Date' : 'Month')),
-            DataColumn(label: Text('Expenses')),
-            DataColumn(label: Text('Income')),
-            DataColumn(label: Text('Balance')),
+            DataColumn(
+              label: Text(
+                state.selectedYear == 0
+                    ? AppLocale.date.getString(context)
+                    : AppLocale.month.getString(context),
+              ),
+            ),
+            DataColumn(label: Text(AppLocale.expense.getString(context))),
+            DataColumn(label: Text(AppLocale.income.getString(context))),
+            DataColumn(label: Text(AppLocale.balance.getString(context))),
           ],
           rows: List.generate(state.totalList.length, (index) {
             final item = state.totalList[index];

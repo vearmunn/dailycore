@@ -8,7 +8,9 @@ import 'package:dailycore/utils/dates_utils.dart';
 import 'package:dailycore/utils/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
+import '../../../../localization/locales.dart';
 import '../../../../utils/colors_and_icons.dart';
 import '../cubit/goal/goal_cubit.dart';
 
@@ -29,7 +31,10 @@ class GoalPage extends StatelessWidget {
             child: TabBar(
               labelColor: dailyCoreOrange,
               indicatorColor: dailyCoreOrange,
-              tabs: [Tab(text: 'Ongoing'), Tab(text: 'Finished')],
+              tabs: [
+                Tab(text: AppLocale.ongoing.getString(context)),
+                Tab(text: AppLocale.finished.getString(context)),
+              ],
             ),
           ),
         ),
@@ -88,7 +93,9 @@ class GoalPage extends StatelessWidget {
             );
             context.read<GoalCubit>().loadSingleGoal(goal.id);
           },
-          child: Stack(children: [_buildGoalItem(goal), _buildDeadline(goal)]),
+          child: Stack(
+            children: [_buildGoalItem(goal), _buildDeadline(goal, context)],
+          ),
         );
       },
     );
@@ -108,7 +115,9 @@ class GoalPage extends StatelessWidget {
             );
             context.read<GoalCubit>().loadSingleGoal(goal.id);
           },
-          child: Stack(children: [_buildGoalItem(goal), _buildDeadline(goal)]),
+          child: Stack(
+            children: [_buildGoalItem(goal), _buildDeadline(goal, context)],
+          ),
         );
       },
     );
@@ -180,7 +189,7 @@ class GoalPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDeadline(Goal goal) {
+  Widget _buildDeadline(Goal goal, context) {
     if (goal.deadline == null) {
       return SizedBox.shrink();
     } else {
@@ -200,7 +209,7 @@ class GoalPage extends StatelessWidget {
               horizontalSpace(8),
               Text(
                 goal.deadline!.difference(DateTime.now()).inDays < 30
-                    ? 'Days left: ${goal.deadline!.difference(DateTime.now()).inDays}'
+                    ? '${AppLocale.daysLeft.getString(context)} ${goal.deadline!.difference(DateTime.now()).inDays}'
                     : formattedDate(goal.deadline!),
                 style: TextStyle(color: Colors.white),
               ),

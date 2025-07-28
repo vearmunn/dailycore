@@ -7,7 +7,9 @@ import 'package:dailycore/utils/delete_confirmation.dart';
 import 'package:dailycore/utils/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
+import '../../../../localization/locales.dart';
 import '../../../../utils/colors_and_icons.dart';
 import '../../../../utils/custom_toast.dart';
 
@@ -68,10 +70,28 @@ class DetailExpensePage extends StatelessWidget {
                   ],
                 ),
                 verticalSpace(34),
-                _buildItem(context, 'Note', expense.note ?? ''),
-                _buildItem(context, 'Type', expense.type),
-                _buildItem(context, 'Amount', formatAmountRP(expense.amount)),
-                _buildItem(context, 'Date', formattedDate(expense.date)),
+                _buildItem(
+                  context,
+                  AppLocale.note.getString(context),
+                  expense.note ?? '',
+                ),
+                _buildItem(
+                  context,
+                  AppLocale.type.getString(context),
+                  expense.type == 'Income'
+                      ? AppLocale.income.getString(context)
+                      : AppLocale.expense.getString(context),
+                ),
+                _buildItem(
+                  context,
+                  AppLocale.amount.getString(context),
+                  formatAmountRP(expense.amount),
+                ),
+                _buildItem(
+                  context,
+                  AppLocale.date.getString(context),
+                  formattedDate(expense.date),
+                ),
                 Row(
                   children: [
                     Expanded(
@@ -108,7 +128,7 @@ class DetailExpensePage extends StatelessWidget {
                         onPressed: () async {
                           final result = await showDeleteBox(
                             context,
-                            'Delete this transaction ?',
+                            AppLocale.deleteThisTransaction.getString(context),
                           );
                           if (result == true) {
                             expenseCubit.deleteExpense(expense);
@@ -120,12 +140,12 @@ class DetailExpensePage extends StatelessWidget {
                             successToast(
                               context,
                               expense.type == 'Expense'
-                                  ? 'Expense deleted!'
-                                  : 'Income deleted!',
+                                  ? AppLocale.expenseDeleted.getString(context)
+                                  : AppLocale.incomeDeleted.getString(context),
                             );
                           }
                         },
-                        label: Text('Delete'),
+                        label: Text(AppLocale.delete.getString(context)),
                         icon: Icon(Icons.delete),
                       ),
                     ),

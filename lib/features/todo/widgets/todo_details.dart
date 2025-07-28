@@ -5,10 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:dailycore/features/todo/domain/models/todo.dart';
 import 'package:dailycore/features/todo/utils/todo_utils.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import '../../../components/custom_textfield.dart';
 import '../../../components/date_picker/pick_date.dart';
 import '../../../components/date_picker/pick_date_cubit.dart';
+import '../../../localization/locales.dart';
 import '../../../utils/delete_confirmation.dart';
 import '../../../utils/spaces.dart';
 import '../domain/models/todo_category.dart';
@@ -57,7 +59,10 @@ class _TodoDetailsState extends State<TodoDetails> {
         ListView(
           padding: EdgeInsets.all(20),
           children: [
-            customTextfield('What is to be done?', todoController),
+            customTextfield(
+              AppLocale.whatIsTobeDone.getString(context),
+              todoController,
+            ),
             verticalSpace(28),
             BlocBuilder<TodoCategoryCubit, TodoCategoryState>(
               builder: (context, state) {
@@ -70,7 +75,7 @@ class _TodoDetailsState extends State<TodoDetails> {
                     inputDecorationTheme: InputDecorationTheme(
                       border: UnderlineInputBorder(),
                     ),
-                    label: Text('Select Category'),
+                    label: Text(AppLocale.selectCategory.getString(context)),
                     initialSelection: state.categoryList[initialValue],
                     onSelected: (value) {
                       selectedCategory = value!;
@@ -101,16 +106,28 @@ class _TodoDetailsState extends State<TodoDetails> {
                 border: UnderlineInputBorder(),
               ),
               width: double.infinity,
-              label: Text('Select Priority'),
+              label: Text(AppLocale.selectPriority.getString(context)),
               initialSelection: widget.todo.priority,
               onSelected: (value) {
                 selectedPriority = value ?? '';
               },
               dropdownMenuEntries: [
-                DropdownMenuEntry(label: 'Low', value: 'Low'),
-                DropdownMenuEntry(label: 'Medium', value: 'Medium'),
-                DropdownMenuEntry(label: 'High', value: 'High'),
-                DropdownMenuEntry(label: 'None', value: ''),
+                DropdownMenuEntry(
+                  label: AppLocale.low.getString(context),
+                  value: 'Low',
+                ),
+                DropdownMenuEntry(
+                  label: AppLocale.medium.getString(context),
+                  value: 'Medium',
+                ),
+                DropdownMenuEntry(
+                  label: AppLocale.high.getString(context),
+                  value: 'High',
+                ),
+                DropdownMenuEntry(
+                  label: AppLocale.none.getString(context),
+                  value: '',
+                ),
               ],
             ),
             verticalSpace(20),
@@ -122,19 +139,42 @@ class _TodoDetailsState extends State<TodoDetails> {
                     inputDecorationTheme: InputDecorationTheme(
                       border: UnderlineInputBorder(),
                     ),
-                    label: Text('When should we remind you?'),
+                    label: Text(
+                      AppLocale.whenShouldWeRemindYou.getString(context),
+                    ),
                     initialSelection: widget.todo.timeReminder,
                     onSelected: (value) {
                       selectedTimeReminder = value ?? 0;
                     },
                     dropdownMenuEntries: [
-                      DropdownMenuEntry(label: 'On time', value: 0),
-                      DropdownMenuEntry(label: '5 mins before', value: 5),
-                      DropdownMenuEntry(label: '15 mins before', value: 15),
-                      DropdownMenuEntry(label: '30 mins before', value: 30),
-                      DropdownMenuEntry(label: '1 hour before', value: 60),
-                      DropdownMenuEntry(label: '2 hour before', value: 120),
-                      DropdownMenuEntry(label: '3 hour before', value: 180),
+                      DropdownMenuEntry(
+                        label: AppLocale.onTime.getString(context),
+                        value: 0,
+                      ),
+                      DropdownMenuEntry(
+                        label: '5 ${AppLocale.minsBefore.getString(context)}',
+                        value: 5,
+                      ),
+                      DropdownMenuEntry(
+                        label: '15 ${AppLocale.minsBefore.getString(context)}',
+                        value: 15,
+                      ),
+                      DropdownMenuEntry(
+                        label: '30 ${AppLocale.minsBefore.getString(context)}',
+                        value: 30,
+                      ),
+                      DropdownMenuEntry(
+                        label: '1 ${AppLocale.hoursBefore.getString(context)}',
+                        value: 60,
+                      ),
+                      DropdownMenuEntry(
+                        label: '2 ${AppLocale.hoursBefore.getString(context)}',
+                        value: 120,
+                      ),
+                      DropdownMenuEntry(
+                        label: '3 ${AppLocale.hoursBefore.getString(context)}',
+                        value: 180,
+                      ),
                     ],
                   );
                 }
@@ -154,7 +194,9 @@ class _TodoDetailsState extends State<TodoDetails> {
                     });
                   },
                 ),
-                Text('Add to Finance Tracker when task is done?'),
+                Expanded(
+                  child: Text(AppLocale.addToFinanceTracker.getString(context)),
+                ),
               ],
             ),
             verticalSpace(30),
@@ -209,12 +251,15 @@ class _TodoDetailsState extends State<TodoDetails> {
               onPressed: () async {
                 final result = await showDeleteBox(
                   context,
-                  'Delete this todo ?',
+                  AppLocale.deleteThisTodo.getString(context),
                 );
                 if (result == true) {
                   todoCubit.deleteTodo(widget.todo);
                   Navigator.pop(context);
-                  successToast(context, 'Todo deleted!');
+                  successToast(
+                    context,
+                    AppLocale.todoDeleted.getString(context),
+                  );
                 }
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
@@ -236,7 +281,7 @@ class _TodoDetailsState extends State<TodoDetails> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'SubTodos',
+                  AppLocale.subTodos.getString(context),
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 ElevatedButton.icon(
@@ -247,7 +292,7 @@ class _TodoDetailsState extends State<TodoDetails> {
                     foregroundColor: Colors.white,
                   ),
                   icon: Icon(Icons.add),
-                  label: Text('Add'),
+                  label: Text(AppLocale.add.getString(context)),
                 ),
               ],
             ),

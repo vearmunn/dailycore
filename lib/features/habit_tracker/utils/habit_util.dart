@@ -1,4 +1,7 @@
 import 'package:dailycore/features/habit_tracker/domain/models/habit.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+
+import '../../../localization/locales.dart';
 
 bool isHabitCompletedToday(List<DateTime> completedDays) {
   final today = DateTime.now();
@@ -209,28 +212,55 @@ List<int> getMonthlyStreak({
 }
 
 List<String> getStreak(
+  context,
   List<DateTime>? dates, {
   required String repeatType,
   required List<int> selectedDaysOrDates,
+  required String locale,
 }) {
   if (selectedDaysOrDates.isEmpty) {
     return [
-      '${getDailyStreaks(dates)[0]} ${getDailyStreaks(dates)[0] == 1 ? 'day' : 'days'}',
-      '${getDailyStreaks(dates)[1]} ${getDailyStreaks(dates)[1] == 1 ? 'day' : 'days'}',
+      '${getDailyStreaks(dates)[0]} ${getRepeatFrequency(getDailyStreaks(dates)[0], repeatType, locale, context)}',
+      '${getDailyStreaks(dates)[1]} ${getRepeatFrequency(getDailyStreaks(dates)[1], repeatType, locale, context)}',
     ];
   } else {
     if (repeatType == 'weekly') {
       return [
-        '${getWeeklyStreaks(dates: dates, selectedDays: selectedDaysOrDates)[0]} ${getWeeklyStreaks(dates: dates, selectedDays: selectedDaysOrDates)[0] == 1 ? 'week' : 'weeks'}',
-        '${getWeeklyStreaks(dates: dates, selectedDays: selectedDaysOrDates)[1]} ${getWeeklyStreaks(dates: dates, selectedDays: selectedDaysOrDates)[1] == 1 ? 'week' : 'weeks'}',
+        '${getWeeklyStreaks(dates: dates, selectedDays: selectedDaysOrDates)[0]} ${getRepeatFrequency(getWeeklyStreaks(dates: dates, selectedDays: selectedDaysOrDates)[0], repeatType, locale, context)}',
+        '${getWeeklyStreaks(dates: dates, selectedDays: selectedDaysOrDates)[1]} ${getRepeatFrequency(getWeeklyStreaks(dates: dates, selectedDays: selectedDaysOrDates)[1], repeatType, locale, context)}',
       ];
     } else {
       return [
-        '${getMonthlyStreak(dates: dates, selectedDates: selectedDaysOrDates)[0]} ${getMonthlyStreak(dates: dates, selectedDates: selectedDaysOrDates)[0] == 1 ? 'month' : 'months'}',
-        '${getMonthlyStreak(dates: dates, selectedDates: selectedDaysOrDates)[1]} ${getMonthlyStreak(dates: dates, selectedDates: selectedDaysOrDates)[1] == 1 ? 'month' : 'months'}',
+        '${getMonthlyStreak(dates: dates, selectedDates: selectedDaysOrDates)[0]} ${getRepeatFrequency(getMonthlyStreak(dates: dates, selectedDates: selectedDaysOrDates)[0], repeatType, locale, context)}',
+        '${getMonthlyStreak(dates: dates, selectedDates: selectedDaysOrDates)[1]} ${getRepeatFrequency(getMonthlyStreak(dates: dates, selectedDates: selectedDaysOrDates)[1], repeatType, locale, context)}',
       ];
     }
   }
+}
+
+String getRepeatFrequency(int num, String repeatType, String locale, context) {
+  if (repeatType == 'daily') {
+    if (num != 1 && locale == 'en') {
+      return 'days';
+    } else {
+      return AppLocale.day.getString(context);
+    }
+  }
+  if (repeatType == 'weekly') {
+    if (num != 1 && locale == 'en') {
+      return 'weeks';
+    } else {
+      return AppLocale.week.getString(context);
+    }
+  }
+  if (repeatType == 'monthly') {
+    if (num != 1 && locale == 'en') {
+      return 'months';
+    } else {
+      return AppLocale.month.getString(context);
+    }
+  }
+  return '';
 }
 
 String getRepeatDuration(Habit habit) {

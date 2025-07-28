@@ -6,10 +6,12 @@ import 'package:dailycore/utils/custom_toast.dart';
 import 'package:dailycore/utils/delete_confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import '../../../../components/custom_textfield.dart';
 import '../../../../components/numpad/numpad.dart';
 import '../../../../components/numpad/numpad_cubit.dart';
+import '../../../../localization/locales.dart';
 import '../../../../utils/colors_and_icons.dart';
 import '../../../../utils/dates_utils.dart';
 import '../../../../utils/spaces.dart';
@@ -80,7 +82,7 @@ class _GoalDetailState extends State<GoalDetail> {
                   foregroundColor: Colors.white,
                   elevation: 0,
                 ),
-                child: Text('Add Deposit'),
+                child: Text(AppLocale.addDeposit.getString(context)),
               ),
             ),
             horizontalSpace(12),
@@ -91,12 +93,15 @@ class _GoalDetailState extends State<GoalDetail> {
                     if (state is SingleGoalLoaded) {
                       final result = await showDeleteBox(
                         context,
-                        'Delete this goal?',
+                        AppLocale.deleteThisGoal.getString(context),
                       );
                       if (result == true) {
                         context.read<GoalCubit>().deleteGoal(state.goal.id);
                         Navigator.pop(context);
-                        successToast(context, 'Goal deleted!');
+                        successToast(
+                          context,
+                          AppLocale.goalDeleted.getString(context),
+                        );
                       }
                     }
                   },
@@ -135,13 +140,16 @@ class _GoalDetailState extends State<GoalDetail> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Add Deposit',
+                          AppLocale.addDeposit.getString(context),
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        customTextfield('Note', noteController),
+                        customTextfield(
+                          AppLocale.note.getString(context),
+                          noteController,
+                        ),
 
                         verticalSpace(20),
                         Container(
@@ -179,7 +187,7 @@ class _GoalDetailState extends State<GoalDetail> {
                                     foregroundColor: Colors.white,
                                     elevation: 0,
                                   ),
-                                  child: Text('Add'),
+                                  child: Text(AppLocale.add.getString(context)),
                                 );
                               }
                               return SizedBox.shrink();
@@ -227,7 +235,7 @@ class _GoalDetailState extends State<GoalDetail> {
                           Text(
                             goal.deadline!.difference(DateTime.now()).inDays <
                                     30
-                                ? 'Days left: ${goal.deadline!.difference(DateTime.now()).inDays}'
+                                ? '${AppLocale.daysLeft.getString(context)} ${goal.deadline!.difference(DateTime.now()).inDays}'
                                 : formattedDate(goal.deadline!),
                             style: TextStyle(color: Colors.white),
                           ),

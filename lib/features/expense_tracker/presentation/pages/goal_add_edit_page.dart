@@ -5,6 +5,7 @@ import 'package:currency_textfield/currency_textfield.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:dailycore/components/date_picker/pick_date.dart';
@@ -14,6 +15,7 @@ import 'package:dailycore/utils/spaces.dart';
 
 import '../../../../components/custom_textfield.dart';
 import '../../../../components/date_picker/pick_date_cubit.dart';
+import '../../../../localization/locales.dart';
 import '../../../../utils/custom_toast.dart';
 import '../../domain/models/goal.dart';
 import '../cubit/goal/goal_cubit.dart';
@@ -61,22 +63,25 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.isUpdating ? 'Edit Goal' : 'Add Goal'),
+        title: Text(
+          widget.isUpdating
+              ? 'Edit Goal'
+              : AppLocale.addGoal.getString(context),
+        ),
         backgroundColor: Colors.white,
       ),
       body: ListView(
         padding: EdgeInsets.all(20),
         children: [
-          customTextfield('Title', titleController),
-          // TextField(
-          //   controller: titleController,
-          //   decoration: InputDecoration(hintText: 'Title'),
-          // ),
-          verticalSpace(16),
-          customTextfield('Description', descriptionController),
+          customTextfield(AppLocale.title.getString(context), titleController),
           verticalSpace(16),
           customTextfield(
-            'Target Amount',
+            AppLocale.description.getString(context),
+            descriptionController,
+          ),
+          verticalSpace(16),
+          customTextfield(
+            AppLocale.targetAmount.getString(context),
             amountController,
             keyboardType: TextInputType.number,
           ),
@@ -92,7 +97,7 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
                   });
                 },
               ),
-              Text('Set deadline'),
+              Text(AppLocale.setDeadline.getString(context)),
             ],
           ),
           verticalSpace(16),
@@ -107,9 +112,15 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
                   return ElevatedButton(
                     onPressed: () {
                       if (titleController.text.isEmpty) {
-                        errorToast(context, 'Title must not be empty!');
+                        errorToast(
+                          context,
+                          AppLocale.titleMustNotBeEmpty.getString(context),
+                        );
                       } else if (amountController.text.isEmpty) {
-                        errorToast(context, 'Amount must not be empty!');
+                        errorToast(
+                          context,
+                          AppLocale.amountMustNotBeEmpty.getString(context),
+                        );
                       } else {
                         if (state is ImagePicked) {
                           if (widget.isUpdating) {
@@ -124,7 +135,10 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
                                 currentAmount: widget.goal!.currentAmount,
                               ),
                             );
-                            successToast(context, 'Goal updated!');
+                            successToast(
+                              context,
+                              AppLocale.goalUpdated.getString(context),
+                            );
                           } else {
                             context.read<GoalCubit>().addNewGoal(
                               context,
@@ -134,12 +148,18 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
                               deadline: showDatePicker ? selectedDate : null,
                               imagePath: state.imagePath,
                             );
-                            successToast(context, 'Goal added!');
+                            successToast(
+                              context,
+                              AppLocale.goalAdded.getString(context),
+                            );
                           }
                           context.read<ImagePickerCubit>().clearImage();
                           Navigator.pop(context);
                         } else {
-                          errorToast(context, 'Please select an image!');
+                          errorToast(
+                            context,
+                            AppLocale.pleaseSelectAnImage.getString(context),
+                          );
                         }
                       }
                     },
@@ -148,7 +168,11 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
                       foregroundColor: Colors.white,
                       elevation: 0,
                     ),
-                    child: Text(widget.isUpdating ? 'Update' : 'Add'),
+                    child: Text(
+                      widget.isUpdating
+                          ? 'Update'
+                          : AppLocale.add.getString(context),
+                    ),
                   );
                 },
               );
@@ -180,7 +204,7 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
                           Navigator.pop(context);
                         },
                         icon: Icon(Icons.camera_alt),
-                        label: Text('Camera'),
+                        label: Text(AppLocale.camera.getString(context)),
                       ),
                       Divider(),
                       TextButton.icon(
@@ -191,7 +215,7 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
                           Navigator.pop(context);
                         },
                         icon: Icon(Icons.photo_library_rounded),
-                        label: Text('Gallery'),
+                        label: Text(AppLocale.gallery.getString(context)),
                       ),
                     ],
                   ),
@@ -200,7 +224,7 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
       child: BlocBuilder<ImagePickerCubit, ImagePickerState>(
         builder: (context, state) {
           if (state is ImagePicked) {
-            return Container(child: Image.file(File(state.imagePath)));
+            return Image.file(File(state.imagePath));
           }
           if (state is ImageLoading) {
             return Center(child: CircularProgressIndicator());
@@ -225,7 +249,7 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
                   ),
                   verticalSpace(12),
                   Text(
-                    'Pick an image of the item you’re saving for',
+                    AppLocale.pickAnImage.getString(context),
                     style: TextStyle(color: Colors.grey),
                   ),
                 ],

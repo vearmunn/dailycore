@@ -7,12 +7,14 @@ import 'package:dailycore/utils/spaces.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import '../../../../components/custom_textfield.dart';
 import '../../../../components/date_picker/pick_date.dart';
 import '../../../../components/date_picker/pick_date_cubit.dart';
 import '../../../../components/numpad/numpad.dart';
 import '../../../../components/numpad/numpad_cubit.dart';
+import '../../../../localization/locales.dart';
 import '../../domain/models/expense.dart';
 import '../../domain/models/expense_category.dart';
 import '../cubit/expense_crud/expense_crud_cubit.dart';
@@ -91,12 +93,19 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
           },
           icon: Icon(Icons.arrow_back),
         ),
-        title: Text(widget.isUpdating ? 'Update Expense' : 'Add Expense'),
+        title: Text(
+          widget.isUpdating
+              ? AppLocale.editTransaction.getString(context)
+              : AppLocale.addTransaction.getString(context),
+        ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(50),
           child: TabBar(
             controller: _tabController,
-            tabs: [Tab(text: 'Expense'), Tab(text: 'Income')],
+            tabs: [
+              Tab(text: AppLocale.expense.getString(context)),
+              Tab(text: AppLocale.income.getString(context)),
+            ],
           ),
         ),
       ),
@@ -116,7 +125,9 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
                 });
               },
               label: Text(
-                _expandableController.expanded == true ? 'Hide' : 'Show',
+                _expandableController.expanded == true
+                    ? AppLocale.hide.getString(context)
+                    : AppLocale.show.getString(context),
               ),
               icon: Icon(
                 _expandableController.expanded
@@ -167,7 +178,10 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
                     ),
                   ),
                   verticalSpace(20),
-                  customTextfield('Note', noteController),
+                  customTextfield(
+                    AppLocale.note.getString(context),
+                    noteController,
+                  ),
                   verticalSpace(20),
                   Text('Select Date'),
                   verticalSpace(8),
@@ -185,11 +199,22 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
                         child: ElevatedButton(
                           onPressed: () {
                             if (selectedCategory == null) {
-                              errorToast(context, 'Please select category!');
+                              errorToast(
+                                context,
+                                AppLocale.pleaseSelectCategory.getString(
+                                  context,
+                                ),
+                              );
                             } else if (input.isEmpty) {
-                              errorToast(context, 'Please enter amount!');
+                              errorToast(
+                                context,
+                                AppLocale.pleaseEnterAmount.getString(context),
+                              );
                             } else if (noteController.text.isEmpty) {
-                              errorToast(context, 'Please enter note!');
+                              errorToast(
+                                context,
+                                AppLocale.pleaseEnterNote.getString(context),
+                              );
                             } else {
                               if (widget.isUpdating) {
                                 expenseCubit.updateExpense(
@@ -205,8 +230,12 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
                                 successToast(
                                   context,
                                   selectedCategory!.type == 'Expense'
-                                      ? 'Expense updated!'
-                                      : 'Income updated!',
+                                      ? AppLocale.expenseUpdated.getString(
+                                        context,
+                                      )
+                                      : AppLocale.incomeUpdated.getString(
+                                        context,
+                                      ),
                                 );
                               } else {
                                 expenseCubit.addExpense(
@@ -219,8 +248,12 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
                                 successToast(
                                   context,
                                   selectedCategory!.type == 'Expense'
-                                      ? 'Expense added!'
-                                      : 'Income added!',
+                                      ? AppLocale.expenseAdded.getString(
+                                        context,
+                                      )
+                                      : AppLocale.incomeAdded.getString(
+                                        context,
+                                      ),
                                 );
                               }
 
@@ -230,7 +263,11 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
                               Navigator.pop(context);
                             }
                           },
-                          child: Text(widget.isUpdating ? 'Update' : 'Add'),
+                          child: Text(
+                            widget.isUpdating
+                                ? AppLocale.update.getString(context)
+                                : AppLocale.add.getString(context),
+                          ),
                         ),
                       );
                     },

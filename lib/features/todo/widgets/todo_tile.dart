@@ -1,11 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 import 'package:dailycore/features/expense_tracker/presentation/pages/add_edit_expense_page.dart';
 import 'package:dailycore/features/todo/widgets/subtodo_tile.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
+import '../../../localization/locales.dart';
 import '../../../utils/colors_and_icons.dart';
 import '../../../utils/dates_utils.dart';
 import '../../../utils/spaces.dart';
@@ -140,6 +140,20 @@ class _TodoTileState extends State<TodoTile> {
       }
     }
 
+    String getPriorityText() {
+      switch (widget.todo.priority) {
+        case 'Low':
+          return AppLocale.low.getString(context);
+        case 'Medium':
+          return AppLocale.medium.getString(context);
+        case 'High':
+          return AppLocale.high.getString(context);
+
+        default:
+          return '';
+      }
+    }
+
     return Padding(
       padding: const EdgeInsets.only(left: 16.0),
       child: Row(
@@ -159,7 +173,7 @@ class _TodoTileState extends State<TodoTile> {
                   child: Row(
                     children: [
                       Text(
-                        widget.todo.priority,
+                        getPriorityText(),
                         style: TextStyle(
                           color: getPriorityColor(),
                           fontWeight: FontWeight.w500,

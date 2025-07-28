@@ -1,14 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dailycore/components/scheduled_notifs_list/cubit/schedule_notif_cubit.dart';
 import 'package:dailycore/hive/hive_registrar.g.dart';
+import 'package:dailycore/localization/locales.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:toastification/toastification.dart';
 
-import 'components/color_selector/color_icon_selector_cubit.dart';
+import 'components/color_icon_selector/color_icon_selector_cubit.dart';
 import 'components/date_picker/pick_date_cubit.dart';
 import 'components/image_picker/image_picker_cubit.dart';
 import 'components/numpad/numpad_cubit.dart';
@@ -42,6 +44,7 @@ import 'utils/notification_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService.initialize();
+  await FlutterLocalization.instance.ensureInitialized();
   final dir = await getApplicationDocumentsDirectory();
 
   Hive
@@ -96,14 +99,40 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final FlutterLocalization localization = FlutterLocalization.instance;
+  @override
+  void initState() {
+    localization.init(
+      mapLocales: [
+        const MapLocale('en', AppLocale.EN),
+        const MapLocale('id', AppLocale.ID),
+      ],
+      initLanguageCode: 'en',
+    );
+    localization.onTranslatedLanguage = _onTranslatedLanguage;
+    super.initState();
+  }
+
+  // the setState function here is a must to add
+  void _onTranslatedLanguage(Locale? locale) {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return ToastificationWrapper(
       child: MaterialApp(
         title: 'DailyCore',
+        supportedLocales: localization.supportedLocales,
+        localizationsDelegates: localization.localizationsDelegates,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         ),

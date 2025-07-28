@@ -1,7 +1,9 @@
 import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
+import '../../../../localization/locales.dart';
 import '../../../../utils/add_edit_category.dart';
 import '../../../../utils/delete_confirmation.dart';
 import '../../domain/models/expense_category.dart';
@@ -17,10 +19,15 @@ class ExpenseCategoryPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Expense Category'),
+          title: Text(AppLocale.category.getString(context)),
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(50),
-            child: TabBar(tabs: [Tab(text: 'Expense'), Tab(text: 'Income')]),
+            child: TabBar(
+              tabs: [
+                Tab(text: AppLocale.expense.getString(context)),
+                Tab(text: AppLocale.income.getString(context)),
+              ],
+            ),
           ),
         ),
         body: TabBarView(
@@ -64,7 +71,10 @@ class ExpenseCategoryPage extends StatelessWidget {
               return Dismissible(
                 key: ValueKey(category.id),
                 confirmDismiss: (direction) async {
-                  return await showDeleteBox(context, 'Delete this category?');
+                  return await showDeleteBox(
+                    context,
+                    AppLocale.deleteThisCategory.getString(context),
+                  );
                 },
                 onDismissed: (direction) {
                   context.read<ExpenseCategoryCubit>().deleteExpenseCategory(

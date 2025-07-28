@@ -1,8 +1,10 @@
 import 'package:dailycore/features/todo/presentation/cubit/crud_cubit/todo_crud_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import '../../../../components/date_picker/pick_date_cubit.dart';
+import '../../../../localization/locales.dart';
 import '../../widgets/todo_tile.dart';
 import 'todo_details_view.dart';
 
@@ -12,7 +14,7 @@ class CompletedTodosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Completed Todos')),
+      appBar: AppBar(title: Text(AppLocale.completedTodos.getString(context))),
       body: BlocBuilder<TodoCrudCubit, TodoCrudState>(
         builder: (context, state) {
           if (state is TodoCrudLoaded) {

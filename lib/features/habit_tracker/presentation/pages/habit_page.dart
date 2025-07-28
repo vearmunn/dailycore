@@ -5,7 +5,9 @@ import 'package:dailycore/features/habit_tracker/widgets/table_calendart.dart';
 import 'package:dailycore/features/habit_tracker/utils/habit_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../components/color_selector/color_icon_selector_cubit.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import '../../../../components/color_icon_selector/color_icon_selector_cubit.dart';
+import '../../../../localization/locales.dart';
 import '../../../../utils/spaces.dart';
 import '../../widgets/habit_tile.dart';
 import '../crud_cubit/habit_crud_cubit.dart';
@@ -25,7 +27,7 @@ class _HabitPageState extends State<HabitPage> {
       appBar: AppBar(
         backgroundColor: dailyCoreGreen,
         title: Text(
-          'Habit Tracker',
+          AppLocale.habitTitle.getString(context),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,
@@ -93,7 +95,9 @@ class _HabitPageState extends State<HabitPage> {
                           Icon(Icons.sort, color: Colors.white),
                           horizontalSpace(6),
                           Text(
-                            showTodaysHabits ? "Today's Habits" : "All Habits",
+                            showTodaysHabits
+                                ? AppLocale.todaysHabit.getString(context)
+                                : AppLocale.allHabit.getString(context),
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,

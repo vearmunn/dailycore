@@ -2,6 +2,7 @@
 import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'package:dailycore/features/todo/presentation/cubit/upcoming_cubit/upcoming_cubit.dart';
@@ -19,6 +20,14 @@ class _UpcomingTableCalendarState extends State<UpcomingTableCalendar> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay = DateTime.now();
 
+  late FlutterLocalization _flutterLocalization;
+  @override
+  void initState() {
+    _flutterLocalization = FlutterLocalization.instance;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     print(widget.todoDates);
@@ -30,6 +39,7 @@ class _UpcomingTableCalendarState extends State<UpcomingTableCalendar> {
       formatAnimationCurve: Curves.fastOutSlowIn,
       formatAnimationDuration: Duration(milliseconds: 300),
       calendarFormat: _calendarFormat,
+      locale: _flutterLocalization.currentLocale!.languageCode,
 
       eventLoader: (day) {
         final normalizedDay = DateTime(day.year, day.month, day.day);

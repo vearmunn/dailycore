@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:dailycore/components/color_selector/color_icon_selector_cubit.dart';
-import 'package:dailycore/components/color_selector/color_selector_widget.dart';
-import 'package:dailycore/components/color_selector/icon_selector_widget.dart';
+import 'package:dailycore/components/color_icon_selector/color_icon_selector_cubit.dart';
+import 'package:dailycore/components/color_icon_selector/color_selector_widget.dart';
+import 'package:dailycore/components/color_icon_selector/icon_selector_widget.dart';
 import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:dailycore/utils/custom_toast.dart';
 import 'package:dailycore/utils/delete_confirmation.dart';
@@ -9,10 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:dailycore/features/habit_tracker/presentation/crud_cubit/habit_crud_cubit.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 
-import '../../../../components/color_selector/icon_color_selected_widget.dart';
+import '../../../../components/color_icon_selector/icon_color_selected_widget.dart';
 import '../../../../components/custom_textfield.dart';
+import '../../../../localization/locales.dart';
 import '../../../../utils/spaces.dart';
 import '../../domain/models/habit.dart';
 
@@ -34,6 +36,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
   final descriptionController = TextEditingController();
   String _selectedFrequency = 'daily';
   List<String> days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  List<String> hariHari = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
   List<int> selectedDays = [];
   List<int> dates = List.generate(31, (index) => index + 1);
   List<int> selectedDates = [];
@@ -42,6 +45,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
   bool shouldAddtoExpense = false;
   int hourTimeReminder = 9;
   int minuteTimeReminder = 0;
+  late FlutterLocalization _flutterLocalization;
 
   @override
   void dispose() {
@@ -53,6 +57,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
 
   @override
   void initState() {
+    _flutterLocalization = FlutterLocalization.instance;
     if (widget.isUpadting) {
       hourTimeReminder = widget.habit.hourTimeReminder;
       minuteTimeReminder = widget.habit.minuteTimeReminder;
@@ -76,15 +81,22 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.isUpadting ? 'Edit Habit' : 'Add Habit'),
+        title: Text(
+          widget.isUpadting
+              ? AppLocale.editHabit.getString(context)
+              : AppLocale.addHabit.getString(context),
+        ),
       ),
       backgroundColor: Colors.grey.shade200,
       body: ListView(
         padding: EdgeInsets.all(16),
         children: [
-          customTextfield('Name', nameController),
+          customTextfield(AppLocale.name.getString(context), nameController),
           verticalSpace(16),
-          customTextfield('Description (Optional)', descriptionController),
+          customTextfield(
+            '${AppLocale.description.getString(context)} ${AppLocale.optional.getString(context)}',
+            descriptionController,
+          ),
           verticalSpace(16),
           Row(
             children: [
@@ -121,17 +133,20 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 0, 0),
                   child: Text(
-                    'Frequency',
+                    AppLocale.frequency.getString(context),
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
-                _buildFrequencyOption(title: 'Everyday', repeatType: 'daily'),
                 _buildFrequencyOption(
-                  title: 'Specific days of the week',
+                  title: AppLocale.everyday.getString(context),
+                  repeatType: 'daily',
+                ),
+                _buildFrequencyOption(
+                  title: AppLocale.specificDaysofWeek.getString(context),
                   repeatType: 'weekly',
                 ),
                 _buildFrequencyOption(
-                  title: 'Specific dates of the month',
+                  title: AppLocale.specificDatesofMonth.getString(context),
                   repeatType: 'monthly',
                 ),
                 verticalSpace(16),
@@ -171,7 +186,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'When should we remind you?',
+                    AppLocale.whenShouldWeRemindYou.getString(context),
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   verticalSpace(12),
@@ -226,7 +241,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                 ),
                 Expanded(
                   child: Text(
-                    ' Add to Finance Tracker when habit is checked?',
+                    ' ${AppLocale.addToFinanceTracker.getString(context)}',
                     textAlign: TextAlign.start,
                   ),
                 ),
@@ -254,7 +269,10 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                         ),
                         onPressed: () {
                           if (nameController.text.isEmpty) {
-                            errorToast(context, 'Name must not be empty!');
+                            errorToast(
+                              context,
+                              AppLocale.nameMustNotEmpty.getString(context),
+                            );
                           } else {
                             if (widget.isUpadting) {
                               context.read<HabitCrudCubit>().updateHabit(
@@ -275,7 +293,10 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                                 ),
                                 shouldLoadAllHabits: false,
                               );
-                              successToast(context, 'Habit updated!');
+                              successToast(
+                                context,
+                                AppLocale.habitUpdated.getString(context),
+                              );
                             } else {
                               context.read<HabitCrudCubit>().addHabit(
                                 name: nameController.text,
@@ -289,12 +310,19 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                                 hourTimeReminder: hourTimeReminder,
                                 minuteTimeReminder: minuteTimeReminder,
                               );
-                              successToast(context, 'Habit added!');
+                              successToast(
+                                context,
+                                AppLocale.habitAdded.getString(context),
+                              );
                             }
                             Navigator.pop(context);
                           }
                         },
-                        child: Text(widget.isUpadting ? 'Update' : 'Add'),
+                        child: Text(
+                          widget.isUpadting
+                              ? 'Update'
+                              : AppLocale.add.getString(context),
+                        ),
                       );
                     },
                   );
@@ -307,13 +335,16 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                 onPressed: () async {
                   final result = await showDeleteBox(
                     context,
-                    'Delete this habit?',
+                    AppLocale.deleteThisHabit.getString(context),
                   );
                   if (result == true) {
                     context.read<HabitCrudCubit>().deleteHabit(widget.habit);
                     Navigator.pop(context);
                     Navigator.pop(context);
-                    successToast(context, 'Habit deleted');
+                    successToast(
+                      context,
+                      AppLocale.habitDeleted.getString(context),
+                    );
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -377,7 +408,12 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                         child: ChoiceChip(
                           labelPadding: EdgeInsets.all(2),
                           visualDensity: VisualDensity.compact,
-                          label: Text(days[index]),
+                          label: Text(
+                            _flutterLocalization.currentLocale!.languageCode ==
+                                    'en'
+                                ? days[index]
+                                : hariHari[index],
+                          ),
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           labelStyle: TextStyle(
                             fontSize: 12,

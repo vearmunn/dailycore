@@ -1,16 +1,18 @@
 import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
-import '../components/color_selector/color_icon_selector_cubit.dart';
-import '../components/color_selector/color_selector_widget.dart';
-import '../components/color_selector/icon_color_selected_widget.dart';
-import '../components/color_selector/icon_selector_widget.dart';
+import '../components/color_icon_selector/color_icon_selector_cubit.dart';
+import '../components/color_icon_selector/color_selector_widget.dart';
+import '../components/color_icon_selector/icon_color_selected_widget.dart';
+import '../components/color_icon_selector/icon_selector_widget.dart';
 import '../components/custom_textfield.dart';
 import '../features/expense_tracker/domain/models/expense_category.dart';
 import '../features/expense_tracker/presentation/cubit/expense_category/expense_category_cubit.dart';
 import '../features/todo/domain/models/todo_category.dart';
 import '../features/todo/presentation/cubit/category_cubit/category_cubit.dart';
+import '../localization/locales.dart';
 import 'custom_toast.dart';
 import 'spaces.dart';
 
@@ -62,14 +64,19 @@ void showAddEditCategoryModalBottomSheet(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        isUpadting ? 'Edit Category' : 'Add Category',
+                        isUpadting
+                            ? AppLocale.editCategory.getString(context)
+                            : AppLocale.addCategory.getString(context),
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       verticalSpace(16),
-                      customTextfield('Name', nameController),
+                      customTextfield(
+                        AppLocale.name.getString(context),
+                        nameController,
+                      ),
                       verticalSpace(20),
                       Row(
                         children: [
@@ -107,7 +114,7 @@ void showAddEditCategoryModalBottomSheet(
                                 });
                               },
                             ),
-                            Text('Expense'),
+                            Text(AppLocale.expense.getString(context)),
                           ],
                         ),
                       if (isExpenseCategory)
@@ -124,7 +131,7 @@ void showAddEditCategoryModalBottomSheet(
                                 });
                               },
                             ),
-                            Text('Income'),
+                            Text(AppLocale.income.getString(context)),
                           ],
                         ),
                       verticalSpace(16),
@@ -163,7 +170,10 @@ Widget _buildButton(
             child: ElevatedButton(
               onPressed: () {
                 if (nameController.text.isEmpty) {
-                  errorToast(context, 'Name must not be empty!');
+                  errorToast(
+                    context,
+                    AppLocale.nameMustNotEmpty.getString(context),
+                  );
                 } else {
                   if (isExpenceCategory) {
                     if (isUpadting) {
@@ -178,7 +188,10 @@ Widget _buildButton(
                               type: selectedType,
                             ),
                           );
-                      successToast(context, 'Category updated!');
+                      successToast(
+                        context,
+                        AppLocale.categoryUpdated.getString(context),
+                      );
                     } else {
                       context.read<ExpenseCategoryCubit>().addExpenseCategory(
                         categoryName: nameController.text,
@@ -186,7 +199,10 @@ Widget _buildButton(
                         iconName: getIconNameByIcon(selectedIcon),
                         type: selectedType,
                       );
-                      successToast(context, 'Category added!');
+                      successToast(
+                        context,
+                        AppLocale.categoryAdded.getString(context),
+                      );
                     }
                   }
 
@@ -200,20 +216,30 @@ Widget _buildButton(
                           iconName: getIconNameByIcon(selectedIcon),
                         ),
                       );
-                      successToast(context, 'Category updated!');
+                      successToast(
+                        context,
+                        AppLocale.categoryUpdated.getString(context),
+                      );
                     } else {
                       context.read<TodoCategoryCubit>().addTodoCategory(
                         categoryName: nameController.text,
                         color: selectedColor,
                         iconName: getIconNameByIcon(selectedIcon),
                       );
-                      successToast(context, 'Category added!');
+                      successToast(
+                        context,
+                        AppLocale.categoryAdded.getString(context),
+                      );
                     }
                   }
                   Navigator.pop(context);
                 }
               },
-              child: Text(isUpadting ? 'Update' : 'Add'),
+              child: Text(
+                isUpadting
+                    ? AppLocale.update.getString(context)
+                    : AppLocale.add.getString(context),
+              ),
             ),
           );
         },

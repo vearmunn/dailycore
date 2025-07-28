@@ -1,9 +1,12 @@
 import 'package:dailycore/components/scheduled_notifs_list/scheduled_notifs_list_page.dart';
+import 'package:dailycore/features/home/settings_page.dart';
 import 'package:dailycore/features/todo/presentation/pages/todo_dashboard_page.dart';
 import 'package:dailycore/utils/dates_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
+import '../../localization/locales.dart';
 import '../../utils/colors_and_icons.dart';
 import '../../utils/spaces.dart';
 import '../expense_tracker/presentation/cubit/expense_crud/expense_crud_cubit.dart';
@@ -23,25 +26,37 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: GestureDetector(
+          onTap:
+              () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ScheduledNotifsListPage(),
+                ),
+              ),
+          child: Text(
+            'DailyCore',
+            style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsPage()),
+              );
+            },
+            icon: Icon(Icons.settings),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.all(16),
           children: [
-            Center(
-              child: GestureDetector(
-                onTap:
-                    () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ScheduledNotifsListPage(),
-                      ),
-                    ),
-                child: Text(
-                  'DailyCore',
-                  style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
             verticalSpace(20),
             _buildTodaysTodos(),
             verticalSpace(30),
@@ -67,8 +82,8 @@ class Homepage extends StatelessWidget {
         if (state is TodoCrudLoaded) {
           final todaysTodos = getTodaysTodos(state.allTodos);
           return _buildFeatureCard(
-            title: "Today's Todos",
-            buttonTitle: 'View All Todos',
+            title: AppLocale.todaysTodos.getString(context),
+            buttonTitle: AppLocale.viewAllTodos.getString(context),
             color: dailyCoreBlue,
             icon: Icons.photo_album,
             onTap: () {
@@ -77,11 +92,12 @@ class Homepage extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => TodoDashboardPage()),
               );
             },
-            subtitle:
-                'You have ${getTodaysTodos(state.allTodos).length} ${state.allTodos.length == 1 ? 'work' : 'works'} today!',
+            subtitle: context.formatString(AppLocale.todaysTodosSubtitle, [
+              '${getTodaysTodos(state.allTodos).length}',
+            ]),
             body:
                 todaysTodos.isEmpty
-                    ? _buildEmptyBody('No Todos found')
+                    ? _buildEmptyBody(AppLocale.noTodosFound.getString(context))
                     : ListView.separated(
                       padding: EdgeInsets.all(16),
                       shrinkWrap: true,
@@ -265,7 +281,7 @@ class Homepage extends StatelessWidget {
         if (state is ExpenseCrudLoaded) {
           return _buildFeatureCard(
             color: dailyCoreOrange,
-            title: "This Month's Summary",
+            title: AppLocale.thisMonthsSummary.getString(context),
             subtitle: formatMonthYear(DateTime.now()),
             icon: Icons.analytics,
             onTap: () {
@@ -274,15 +290,24 @@ class Homepage extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => ExpenseDashboard()),
               );
             },
-            buttonTitle: 'View Finance Tracker Details',
+            buttonTitle: AppLocale.viewFinanceTrackerDetails.getString(context),
             body: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildTracker('Total Expenses', state.monthlyTotal!.expenses),
-                  _buildTracker('Total Income', state.monthlyTotal!.income),
-                  _buildTracker('Total Balance', state.monthlyTotal!.balance),
+                  _buildTracker(
+                    AppLocale.totalExpenses.getString(context),
+                    state.monthlyTotal!.expenses,
+                  ),
+                  _buildTracker(
+                    AppLocale.totalIncome.getString(context),
+                    state.monthlyTotal!.income,
+                  ),
+                  _buildTracker(
+                    AppLocale.totalBalance.getString(context),
+                    state.monthlyTotal!.balance,
+                  ),
                 ],
               ),
             ),
@@ -324,11 +349,12 @@ class Homepage extends StatelessWidget {
 
           return _buildFeatureCard(
             color: dailyCoreGreen,
-            title: "Today's Habits",
-            subtitle:
-                'You have ${todaysHabits.length}${todaysHabits.length == 1 ? ' activity' : ' activities'} undone today',
+            title: AppLocale.todaysHabits.getString(context),
+            subtitle: context.formatString(AppLocale.todaysHabitsSubtitle, [
+              '${todaysHabits.length}',
+            ]),
             icon: Icons.replay_circle_filled_rounded,
-            buttonTitle: 'View All Habits',
+            buttonTitle: AppLocale.viewAllHabits.getString(context),
             onTap: () {
               Navigator.push(
                 context,
@@ -337,7 +363,9 @@ class Homepage extends StatelessWidget {
             },
             body:
                 todaysHabits.isEmpty
-                    ? _buildEmptyBody('No habits found')
+                    ? _buildEmptyBody(
+                      AppLocale.noHabitsFound.getString(context),
+                    )
                     : ListView.separated(
                       padding: EdgeInsets.all(16),
                       physics: NeverScrollableScrollPhysics(),

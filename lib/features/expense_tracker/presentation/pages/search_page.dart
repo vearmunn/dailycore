@@ -3,8 +3,10 @@ import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:dailycore/utils/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
+import '../../../../localization/locales.dart';
 import '../../domain/models/expense_category.dart';
 import '../../widgets/expense_list.dart';
 import '../cubit/expense_crud/expense_crud_cubit.dart';
@@ -21,9 +23,11 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
   List<ExpenseCategory> selectedCategories = [];
   late TextEditingController searchController;
   bool isButtonEnabled = false;
+  late FlutterLocalization _flutterLocalization;
 
   @override
   void initState() {
+    _flutterLocalization = FlutterLocalization.instance;
     searchController = TextEditingController();
     searchController.addListener(() {
       setState(() {
@@ -59,7 +63,7 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(0),
             prefixIcon: Icon(Icons.search),
-            hintText: 'Enter keywords...',
+            hintText: AppLocale.enterKeywords.getString(context),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: Colors.grey),
@@ -151,7 +155,7 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
                         );
                       }
                     },
-                    child: Text('Submit'),
+                    child: Text(AppLocale.submit.getString(context)),
                   ),
                 ),
               ],
@@ -182,7 +186,7 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
               padding: EdgeInsets.symmetric(horizontal: 16),
               scrollDirection: Axis.horizontal,
               children: [
-                Center(child: Text('Category')),
+                Center(child: Text(AppLocale.category.getString(context))),
                 horizontalSpace(16),
                 selectedCategories.isEmpty
                     ? Container(
@@ -195,7 +199,7 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        'All',
+                        AppLocale.all.getString(context),
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Colors.white,
@@ -254,7 +258,10 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
                       builder: (ctx) {
                         return MultiSelectDialog(
                           selectedColor: dailyCoreBlue,
-                          title: Text('Select Category'),
+                          title: Text(
+                            AppLocale.selectCategory.getString(context),
+                          ),
+                          cancelText: Text(AppLocale.cancel.getString(context)),
                           searchable: true,
                           items: List.generate(categories.length, (index) {
                             return MultiSelectItem(
@@ -292,11 +299,12 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
 
   Widget _buildTypeDropDown() {
     List<String> typeOptions = ['All', 'Expense', 'Income'];
+    List<String> typeOptionsID = ['Semua', 'Pengeluaran', 'Pemasukan'];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
         children: [
-          Text('Type'),
+          Text(AppLocale.type.getString(context)),
           horizontalSpace(16),
           Container(
             decoration: BoxDecoration(
@@ -309,39 +317,40 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
                 padding: EdgeInsets.fromLTRB(16, 0, 12, 0),
                 value: selectedType,
                 iconEnabledColor: Colors.white,
-                items:
-                    typeOptions
-                        .map(
-                          (type) => DropdownMenuItem(
-                            value: type,
-                            child: Text(
-                              type,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
+                items: [
+                  for (int i = 0; i < typeOptions.length; i++)
+                    DropdownMenuItem(
+                      value: typeOptions[i],
+                      child: Text(
+                        _flutterLocalization.currentLocale!.languageCode == 'en'
+                            ? typeOptions[i]
+                            : typeOptionsID[i],
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                ],
+                selectedItemBuilder:
+                    (context) => [
+                      for (int i = 0; i < typeOptions.length; i++)
+                        Padding(
+                          padding: EdgeInsets.only(top: 14, right: 12),
+                          child: Text(
+                            _flutterLocalization.currentLocale!.languageCode ==
+                                    'en'
+                                ? typeOptions[i]
+                                : typeOptionsID[i],
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
                             ),
                           ),
-                        )
-                        .toList(),
-                selectedItemBuilder:
-                    (context) =>
-                        typeOptions
-                            .map(
-                              (type) => Padding(
-                                padding: EdgeInsets.only(top: 14, right: 12),
-                                child: Text(
-                                  type,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList(),
+                        ),
+                    ],
                 onChanged: (v) {
                   setState(() {
                     selectedType = v!;

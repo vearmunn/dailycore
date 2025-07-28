@@ -3,8 +3,10 @@ import 'package:dailycore/utils/add_edit_category.dart';
 import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import '../../../../components/list_tile_icon.dart';
+import '../../../../localization/locales.dart';
 import '../../../../utils/delete_confirmation.dart';
 import '../../domain/models/todo_category.dart';
 
@@ -15,7 +17,7 @@ class TodoCategoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Todo Category List'),
+        title: Text(AppLocale.todoCategoryList.getString(context)),
         actions: [
           IconButton(
             onPressed:
@@ -51,7 +53,7 @@ class TodoCategoryView extends StatelessWidget {
                   confirmDismiss: (direction) async {
                     return await showDeleteBox(
                       context,
-                      'Delete this category ?',
+                      AppLocale.deleteThisCategory.getString(context),
                     );
                   },
                   onDismissed: (direction) {
