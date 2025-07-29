@@ -98,7 +98,7 @@ class DetailExpensePage extends StatelessWidget {
                       child: ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
-                          backgroundColor: dailyCoreBlue,
+                          backgroundColor: dailyCorePurple,
                           foregroundColor: Colors.white,
                         ),
                         onPressed: () {

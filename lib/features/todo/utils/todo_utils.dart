@@ -127,6 +127,7 @@ void showAddTodoBox(BuildContext context) {
                   ),
                   verticalSpace(20),
                   customTextfield(
+                    context,
                     AppLocale.whatIsTobeDone.getString(context),
                     todoController,
                   ),
@@ -341,6 +342,7 @@ void showAddSubTodoBox(BuildContext context, int id) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 customTextfield(
+                  context,
                   AppLocale.subtodo.getString(context),
                   textController,
                 ),
@@ -389,6 +391,7 @@ void showEditSubTodoBox(
         (context) => AlertDialog(
           title: Text(AppLocale.editSubtodo.getString(context)),
           content: customTextfield(
+            context,
             AppLocale.subtodo.getString(context),
             textController,
           ),

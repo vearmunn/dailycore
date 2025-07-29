@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dailycore/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utils/colors_and_icons.dart';
@@ -46,7 +47,7 @@ Widget buildHabitTile({
       padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       margin: EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ThemeHelper.containerColor(context),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -96,6 +97,7 @@ Widget buildHabitTile({
           horizontalSpace(12),
           Checkbox(
             shape: CircleBorder(),
+            checkColor: Colors.white,
             visualDensity: VisualDensity.compact,
             value: isCompletedToday,
             activeColor: fromArgb32(habit.color),

@@ -4,6 +4,7 @@ import 'package:dailycore/features/expense_tracker/domain/models/goal.dart';
 import 'package:dailycore/features/expense_tracker/presentation/pages/goal_add_edit_page.dart';
 import 'package:dailycore/features/expense_tracker/presentation/pages/goal_detail.dart';
 import 'package:dailycore/features/expense_tracker/utils/expense_util.dart';
+import 'package:dailycore/theme/theme_helper.dart';
 import 'package:dailycore/utils/dates_utils.dart';
 import 'package:dailycore/utils/spaces.dart';
 import 'package:flutter/material.dart';
@@ -22,15 +23,15 @@ class GoalPage extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
-          title: Text('Goals'),
+          backgroundColor: dailyCorePurple,
+          title: Text('Goals', style: TextStyle(fontWeight: FontWeight.bold)),
           centerTitle: true,
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(50),
             child: TabBar(
-              labelColor: dailyCoreOrange,
-              indicatorColor: dailyCoreOrange,
+              labelColor: Colors.white,
+              indicatorColor: Colors.white,
               tabs: [
                 Tab(text: AppLocale.ongoing.getString(context)),
                 Tab(text: AppLocale.finished.getString(context)),
@@ -66,7 +67,7 @@ class GoalPage extends StatelessWidget {
           },
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: dailyCoreOrange,
+          backgroundColor: dailyCorePurple,
           foregroundColor: Colors.white,
           child: Icon(Icons.add),
           onPressed:
@@ -94,7 +95,10 @@ class GoalPage extends StatelessWidget {
             context.read<GoalCubit>().loadSingleGoal(goal.id);
           },
           child: Stack(
-            children: [_buildGoalItem(goal), _buildDeadline(goal, context)],
+            children: [
+              _buildGoalItem(context, goal),
+              _buildDeadline(goal, context),
+            ],
           ),
         );
       },
@@ -116,19 +120,22 @@ class GoalPage extends StatelessWidget {
             context.read<GoalCubit>().loadSingleGoal(goal.id);
           },
           child: Stack(
-            children: [_buildGoalItem(goal), _buildDeadline(goal, context)],
+            children: [
+              _buildGoalItem(context, goal),
+              _buildDeadline(goal, context),
+            ],
           ),
         );
       },
     );
   }
 
-  Widget _buildGoalItem(Goal goal) {
+  Widget _buildGoalItem(context, Goal goal) {
     return Container(
       margin: EdgeInsets.only(bottom: 16),
       padding: EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ThemeHelper.containerColor(context),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -147,7 +154,11 @@ class GoalPage extends StatelessWidget {
               children: [
                 Text(
                   goal.title,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: ThemeHelper.defaultTextColor(context),
+                  ),
                 ),
                 verticalSpace(8),
                 Row(
@@ -168,7 +179,7 @@ class GoalPage extends StatelessWidget {
                   children: [
                     Expanded(
                       child: LinearProgressIndicator(
-                        color: dailyCoreOrange,
+                        color: dailyCorePurple,
                         minHeight: 8,
                         borderRadius: BorderRadius.circular(20),
                         value: goal.currentAmount / goal.targetAmount,
@@ -177,7 +188,7 @@ class GoalPage extends StatelessWidget {
                     horizontalSpace(10),
                     Text(
                       '${getPercentage(goal.currentAmount, goal.targetAmount).toStringAsFixed(0)}%',
-                      style: TextStyle(color: dailyCoreOrange),
+                      style: TextStyle(color: dailyCorePurple),
                     ),
                   ],
                 ),
@@ -199,7 +210,7 @@ class GoalPage extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           decoration: BoxDecoration(
-            color: dailyCoreOrange,
+            color: dailyCorePurple,
             borderRadius: BorderRadius.circular(50),
           ),
           child: Row(

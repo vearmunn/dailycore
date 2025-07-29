@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dailycore/theme/theme_helper.dart';
 import 'package:dailycore/utils/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +36,6 @@ class _DetailPeMonthPageState extends State<DetailPeMonthPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.white,
         title: Text(
           '${getMonthName(widget.monthlyTotal.month)} ${widget.monthlyTotal.year}',
         ),
@@ -85,17 +85,17 @@ class _DetailPeMonthPageState extends State<DetailPeMonthPage> {
                 margin: EdgeInsets.only(right: 16),
                 padding: EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: ThemeHelper.containerColor(context),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton(
                     value: selectedFilter,
-                    iconEnabledColor: Colors.black,
+                    iconEnabledColor: ThemeHelper.defaultTextColor(context),
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
-                      color: Colors.black,
+                      color: ThemeHelper.defaultTextColor(context),
                     ),
                     items: [
                       _dropDownItem(
@@ -225,7 +225,7 @@ class _DetailPeMonthPageState extends State<DetailPeMonthPage> {
             label2,
             style: TextStyle(
               fontSize: 12,
-              color: Colors.grey,
+              color: ThemeHelper.secondaryTextColor(context),
               fontWeight: FontWeight.w500,
             ),
           ),

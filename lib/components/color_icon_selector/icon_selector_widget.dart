@@ -1,10 +1,11 @@
+import 'package:dailycore/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../utils/colors_and_icons.dart';
 import 'color_icon_selector_cubit.dart';
 
-Widget iconSelector(bool showIconSelections) {
+Widget iconSelector(BuildContext context, bool showIconSelections) {
   return AnimatedOpacity(
     opacity: showIconSelections ? 1 : 0,
     duration: Duration(milliseconds: 100),
@@ -14,7 +15,7 @@ Widget iconSelector(bool showIconSelections) {
       curve: Curves.fastEaseInToSlowEaseOut,
       height: showIconSelections ? 200 : 0,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ThemeHelper.containerColor(context),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.grey),
       ),

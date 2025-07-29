@@ -6,6 +6,7 @@ const Color dailyCoreGreen = Color.fromARGB(255, 48, 175, 146);
 const Color dailyCoreOrange = Color.fromARGB(255, 228, 162, 100);
 const Color dailyCoreRed = Color.fromARGB(255, 245, 85, 85);
 const Color dailyCoreBlue = Color.fromARGB(255, 69, 152, 216);
+const Color dailyCorePurple = Color.fromARGB(255, 144, 100, 221);
 
 List<Color> colorSelections = [
   Color(0xFF16a085), // greenish teal

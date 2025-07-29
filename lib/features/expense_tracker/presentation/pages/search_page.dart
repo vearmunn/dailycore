@@ -1,4 +1,5 @@
 import 'package:dailycore/features/expense_tracker/presentation/cubit/expense_category/expense_category_cubit.dart';
+import 'package:dailycore/theme/theme_helper.dart';
 import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:dailycore/utils/spaces.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,6 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
@@ -70,7 +70,7 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: dailyCoreBlue),
+              borderSide: BorderSide(color: dailyCorePurple),
             ),
           ),
         ),
@@ -137,7 +137,7 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      backgroundColor: dailyCoreBlue.withAlpha(
+                      backgroundColor: dailyCorePurple.withAlpha(
                         isButtonEnabled ? 255 : 100,
                       ),
                       foregroundColor: Colors.white,
@@ -195,7 +195,7 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
                         horizontal: 12,
                       ),
                       decoration: BoxDecoration(
-                        color: dailyCoreBlue,
+                        color: dailyCorePurple,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
@@ -219,7 +219,7 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
                             horizontal: 12,
                           ),
                           decoration: BoxDecoration(
-                            color: dailyCoreBlue,
+                            color: dailyCorePurple,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Row(
@@ -257,11 +257,21 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
                       context: context,
                       builder: (ctx) {
                         return MultiSelectDialog(
-                          selectedColor: dailyCoreBlue,
+                          selectedColor: dailyCorePurple,
+                          itemsTextStyle: TextStyle(
+                            color: ThemeHelper.secondaryTextColor(context),
+                          ),
+                          searchHint: AppLocale.search.getString(context),
+                          selectedItemsTextStyle: TextStyle(
+                            color: ThemeHelper.defaultTextColor(context),
+                          ),
                           title: Text(
                             AppLocale.selectCategory.getString(context),
                           ),
-                          cancelText: Text(AppLocale.cancel.getString(context)),
+                          cancelText: Text(
+                            AppLocale.cancel.getString(context),
+                            style: TextStyle(color: Colors.grey),
+                          ),
                           searchable: true,
                           items: List.generate(categories.length, (index) {
                             return MultiSelectItem(
@@ -283,7 +293,7 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
                     padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: dailyCoreBlue,
+                      color: dailyCorePurple,
                     ),
                     child: Icon(Icons.add, color: Colors.white),
                   ),
@@ -310,7 +320,7 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               // border: Border.all(),
-              color: dailyCoreBlue,
+              color: dailyCorePurple,
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton(
@@ -328,7 +338,6 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
                         ),
                       ),
                     ),

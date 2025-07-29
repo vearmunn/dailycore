@@ -1,6 +1,7 @@
 import 'package:dailycore/features/expense_tracker/presentation/cubit/expense_crud/expense_crud_cubit.dart';
 import 'package:dailycore/features/expense_tracker/presentation/pages/detail_pe_month_page.dart';
 import 'package:dailycore/features/expense_tracker/widgets/report_header.dart';
+import 'package:dailycore/theme/theme_helper.dart';
 import 'package:dailycore/utils/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +35,7 @@ class _ReportsPageState extends State<ReportsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: dailyCoreOrange,
+        backgroundColor: dailyCorePurple,
         title: Text(
           AppLocale.financeTitle.getString(context),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
@@ -105,11 +106,11 @@ class _ReportsPageState extends State<ReportsPage> {
           DropdownButtonHideUnderline(
             child: DropdownButton(
               value: state.selectedYear,
-              iconEnabledColor: Colors.black,
+              iconEnabledColor: ThemeHelper.defaultTextColor(context),
               style: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 14,
-                color: Colors.black,
+                color: ThemeHelper.defaultTextColor(context),
               ),
               items: List.generate(state.yearsAvailable.length, (index) {
                 final year = state.yearsAvailable[index];

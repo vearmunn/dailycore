@@ -2,7 +2,9 @@
 import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
+import '../../../../localization/locales.dart';
 import '../../../../utils/spaces.dart';
 import '../../domain/models/piechart_category_data.dart';
 import '../../utils/expense_util.dart';
@@ -60,9 +62,17 @@ class CategoryDetailTransactionPage extends StatelessWidget {
               ],
             ),
             verticalSpace(34),
-            _buildItem(context, 'Type', type),
-            _buildItem(context, 'Amount', formatAmountRP(category.amount)),
-            _buildItem(context, 'Date', '${getMonthName(month)} $year'),
+            _buildItem(context, AppLocale.type.getString(context), type),
+            _buildItem(
+              context,
+              AppLocale.amount.getString(context),
+              formatAmountRP(category.amount),
+            ),
+            _buildItem(
+              context,
+              AppLocale.date.getString(context),
+              '${getMonthName(month)} $year',
+            ),
             Divider(),
             verticalSpace(30),
             BlocBuilder<ExpenseCrudCubit, ExpenseCrudState>(

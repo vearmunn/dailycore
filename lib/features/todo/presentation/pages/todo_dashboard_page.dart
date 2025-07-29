@@ -35,6 +35,7 @@ class TodoDashboardPage extends StatelessWidget {
           ),
           body: screens[state],
           bottomNavigationBar: BottomNavigationBar(
+            selectedItemColor: dailyCoreBlue,
             currentIndex: state,
             onTap:
                 (index) => context.read<TodoDashboardCubit>().changeTab(index),

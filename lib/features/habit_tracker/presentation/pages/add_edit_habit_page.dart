@@ -2,6 +2,7 @@
 import 'package:dailycore/components/color_icon_selector/color_icon_selector_cubit.dart';
 import 'package:dailycore/components/color_icon_selector/color_selector_widget.dart';
 import 'package:dailycore/components/color_icon_selector/icon_selector_widget.dart';
+import 'package:dailycore/theme/theme_helper.dart';
 import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:dailycore/utils/custom_toast.dart';
 import 'package:dailycore/utils/delete_confirmation.dart';
@@ -87,44 +88,56 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
               : AppLocale.addHabit.getString(context),
         ),
       ),
-      backgroundColor: Colors.grey.shade200,
       body: ListView(
         padding: EdgeInsets.all(16),
         children: [
-          customTextfield(AppLocale.name.getString(context), nameController),
+          customTextfield(
+            context,
+            AppLocale.name.getString(context),
+            nameController,
+          ),
           verticalSpace(16),
           customTextfield(
+            context,
             '${AppLocale.description.getString(context)} ${AppLocale.optional.getString(context)}',
             descriptionController,
           ),
           verticalSpace(16),
           Row(
             children: [
-              colorOrIconSelected(true, () {
-                setState(() {
-                  showColorSelections = !showColorSelections;
-                  showIconSelections = false;
-                });
-              }),
+              colorOrIconSelected(
+                context,
+                isColor: true,
+                onTap: () {
+                  setState(() {
+                    showColorSelections = !showColorSelections;
+                    showIconSelections = false;
+                  });
+                },
+              ),
               horizontalSpace(16),
-              colorOrIconSelected(false, () {
-                setState(() {
-                  showIconSelections = !showIconSelections;
-                  showColorSelections = false;
-                });
-              }),
+              colorOrIconSelected(
+                context,
+                isColor: false,
+                onTap: () {
+                  setState(() {
+                    showIconSelections = !showIconSelections;
+                    showColorSelections = false;
+                  });
+                },
+              ),
             ],
           ),
           verticalSpace(16),
 
-          colorSelector(showColorSelections),
+          colorSelector(context, showColorSelections),
 
-          iconSelector(showIconSelections),
+          iconSelector(context, showIconSelections),
 
           if (showColorSelections || showIconSelections) verticalSpace(16),
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: ThemeHelper.containerColor(context),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
@@ -179,7 +192,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
             child: Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: ThemeHelper.containerColor(context),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
@@ -219,7 +232,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
           Container(
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: ThemeHelper.containerColor(context),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
@@ -241,7 +254,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                 ),
                 Expanded(
                   child: Text(
-                    ' ${AppLocale.addToFinanceTracker.getString(context)}',
+                    AppLocale.addToFinanceTracker.getString(context),
                     textAlign: TextAlign.start,
                   ),
                 ),
@@ -253,7 +266,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
       ),
       bottomSheet: Container(
         padding: EdgeInsets.all(16),
-        color: Colors.white,
+        color: ThemeHelper.containerColor(context),
         child: Row(
           children: [
             Expanded(
@@ -433,7 +446,10 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                             });
                           },
                           showCheckmark: false,
-                          backgroundColor: Colors.grey.shade100,
+                          backgroundColor:
+                              ThemeHelper.isDark(context)
+                                  ? Colors.grey.shade800
+                                  : Colors.grey.shade100,
                           selectedColor: selectedColor,
                         ),
                       );
@@ -477,7 +493,10 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                         });
                       },
                       showCheckmark: false,
-                      backgroundColor: Colors.grey.shade100,
+                      backgroundColor:
+                          ThemeHelper.isDark(context)
+                              ? Colors.grey.shade800
+                              : Colors.grey.shade100,
                       selectedColor: selectedColor,
                     );
                   },

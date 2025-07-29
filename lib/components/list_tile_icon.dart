@@ -1,3 +1,4 @@
+import 'package:dailycore/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/spaces.dart';
@@ -18,7 +19,7 @@ Widget listTileIcon(
       padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       margin: margin,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ThemeHelper.containerColor(context),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(

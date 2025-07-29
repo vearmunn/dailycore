@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 
 import '../../../localization/locales.dart';
+import '../../../theme/theme_helper.dart';
 import '../utils/expense_util.dart';
 
 class ReportHeader extends StatelessWidget {
@@ -22,21 +23,24 @@ class ReportHeader extends StatelessWidget {
       padding: EdgeInsets.all(20),
       margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ThemeHelper.containerColor(context),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _buildTotalTracker(
+            context,
             AppLocale.totalExpenses.getString(context),
             formatAmountRP(totalExpense, useSymbol: false),
           ),
           _buildTotalTracker(
+            context,
             AppLocale.totalIncome.getString(context),
             formatAmountRP(totalIncome, useSymbol: false),
           ),
           _buildTotalTracker(
+            context,
             AppLocale.totalBalance.getString(context),
             formatAmountRP(totalBalance, useSymbol: false),
           ),
@@ -45,11 +49,17 @@ class ReportHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildTotalTracker(String label, String value) {
+  Widget _buildTotalTracker(context, String label, String value) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(fontSize: 12, color: Colors.grey)),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            color: ThemeHelper.secondaryTextColor(context),
+          ),
+        ),
         Text(
           value,
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),

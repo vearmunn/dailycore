@@ -1,3 +1,5 @@
+import 'package:dailycore/theme/theme_helper.dart';
+import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,7 +31,7 @@ class _ExpenseDashboardState extends State<ExpenseDashboard> {
       body: screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
+        backgroundColor: ThemeHelper.containerColor(context),
         currentIndex: _selectedIndex,
         onTap: (index) {
           setState(() {
@@ -43,6 +45,9 @@ class _ExpenseDashboardState extends State<ExpenseDashboard> {
           }
         },
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+        selectedItemColor: dailyCorePurple,
+        unselectedItemColor:
+            ThemeHelper.isDark(context) ? Colors.white24 : Colors.black45,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.wallet), label: 'Expense'),
           BottomNavigationBarItem(icon: Icon(Icons.pie_chart), label: 'Chart'),

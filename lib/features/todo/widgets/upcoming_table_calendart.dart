@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dailycore/theme/theme_helper.dart';
 import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +41,6 @@ class _UpcomingTableCalendarState extends State<UpcomingTableCalendar> {
       formatAnimationDuration: Duration(milliseconds: 300),
       calendarFormat: _calendarFormat,
       locale: _flutterLocalization.currentLocale!.languageCode,
-
       eventLoader: (day) {
         final normalizedDay = DateTime(day.year, day.month, day.day);
         List<DateTime> todoDates = [];
@@ -57,6 +57,14 @@ class _UpcomingTableCalendarState extends State<UpcomingTableCalendar> {
 
         return hasMarker ? ['marker'] : [];
       },
+      headerStyle: HeaderStyle(
+        formatButtonDecoration: BoxDecoration(
+          border: Border.all(
+            color: ThemeHelper.isDark(context) ? Colors.white24 : Colors.black,
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
       calendarBuilders: CalendarBuilders(
         todayBuilder:
             (context, day, focusedDay) => Padding(

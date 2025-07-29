@@ -60,6 +60,7 @@ class _TodoDetailsState extends State<TodoDetails> {
           padding: EdgeInsets.all(20),
           children: [
             customTextfield(
+              context,
               AppLocale.whatIsTobeDone.getString(context),
               todoController,
             ),

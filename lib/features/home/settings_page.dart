@@ -1,6 +1,9 @@
 import 'package:country_flags/country_flags.dart';
+import 'package:dailycore/theme/theme_cubit.dart';
+import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 
 import '../../localization/locales.dart';
@@ -25,7 +28,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(AppLocale.settings.getString(context))),
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       body: ListView(
         padding: EdgeInsets.only(left: 4, top: 16),
         children: [
@@ -39,10 +42,25 @@ class _SettingsPageState extends State<SettingsPage> {
             },
           ),
           Divider(indent: 16, endIndent: 28),
-          ListTile(
-            leading: Icon(Icons.light_mode),
-            title: Text(AppLocale.lightMode.getString(context)),
-            trailing: CupertinoSwitch(value: false, onChanged: (v) {}),
+          BlocBuilder<ThemeCubit, ThemeMode>(
+            builder: (context, themeMode) {
+              final isDark = themeMode == ThemeMode.dark;
+              return ListTile(
+                leading: Icon(isDark ? Icons.dark_mode : Icons.light_mode),
+                title: Text(
+                  isDark
+                      ? AppLocale.darkMode.getString(context)
+                      : AppLocale.lightMode.getString(context),
+                ),
+                trailing: CupertinoSwitch(
+                  activeTrackColor: dailyCoreBlue,
+                  value: isDark,
+                  onChanged: (v) {
+                    context.read<ThemeCubit>().toggleTheme();
+                  },
+                ),
+              );
+            },
           ),
           Divider(indent: 16, endIndent: 28),
           ListTile(

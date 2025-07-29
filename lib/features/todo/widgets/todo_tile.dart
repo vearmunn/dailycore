@@ -1,5 +1,6 @@
 import 'package:dailycore/features/expense_tracker/presentation/pages/add_edit_expense_page.dart';
 import 'package:dailycore/features/todo/widgets/subtodo_tile.dart';
+import 'package:dailycore/theme/theme_helper.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,15 +44,16 @@ class _TodoTileState extends State<TodoTile> {
         ),
         margin: EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: ThemeHelper.containerColor(context),
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withValues(alpha: 0.1),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: Offset(0, 1),
-            ),
+            if (!ThemeHelper.isDark(context))
+              BoxShadow(
+                color: Colors.grey.withValues(alpha: 0.1),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(0, 1),
+              ),
           ],
         ),
         child: ExpandableNotifier(
@@ -99,7 +101,9 @@ class _TodoTileState extends State<TodoTile> {
                             padding: EdgeInsets.symmetric(vertical: 6),
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: Colors.blue.withAlpha(40),
+                              color: dailyCoreBlue.withAlpha(
+                                ThemeHelper.isDark(context) ? 200 : 100,
+                              ),
                               borderRadius: BorderRadius.vertical(
                                 bottom: Radius.circular(10),
                               ),
@@ -108,7 +112,10 @@ class _TodoTileState extends State<TodoTile> {
                               controller.expanded
                                   ? Icons.keyboard_arrow_up
                                   : Icons.keyboard_arrow_down,
-                              color: Colors.black38,
+                              color:
+                                  ThemeHelper.isDark(context)
+                                      ? Colors.white
+                                      : Colors.black38,
                             ),
                           ),
                         );
@@ -201,6 +208,7 @@ class _TodoTileState extends State<TodoTile> {
             ),
           ),
           Checkbox(
+            checkColor: Colors.white,
             shape: CircleBorder(),
             value: checked,
             onChanged: (v) async {

@@ -74,38 +74,56 @@ void showAddEditCategoryModalBottomSheet(
                       ),
                       verticalSpace(16),
                       customTextfield(
+                        context,
                         AppLocale.name.getString(context),
                         nameController,
                       ),
                       verticalSpace(20),
                       Row(
                         children: [
-                          colorOrIconSelected(true, () {
-                            setModalState(() {
-                              showColorSelections = !showColorSelections;
-                              showIconSelections = false;
-                            });
-                          }),
-                          horizontalSpace(12),
-                          colorOrIconSelected(false, () {
-                            setModalState(() {
-                              showIconSelections = !showIconSelections;
-                              showColorSelections = false;
-                            });
-                          }),
+                          colorOrIconSelected(
+                            context,
+                            isColor: true,
+                            onTap: () {
+                              setModalState(() {
+                                showColorSelections = !showColorSelections;
+                                showIconSelections = false;
+                              });
+                            },
+                          ),
+                          horizontalSpace(16),
+                          colorOrIconSelected(
+                            context,
+                            isColor: false,
+                            onTap: () {
+                              setModalState(() {
+                                showIconSelections = !showIconSelections;
+                                showColorSelections = false;
+                              });
+                            },
+                          ),
                         ],
                       ),
                       verticalSpace(16),
-                      colorSelector(showColorSelections),
-                      iconSelector(showIconSelections),
+                      colorSelector(context, showColorSelections),
+                      iconSelector(context, showIconSelections),
                       if (showColorSelections || showIconSelections)
                         verticalSpace(16),
+                      if (isExpenseCategory)
+                        Text(
+                          AppLocale.type.getString(context),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       if (isExpenseCategory)
                         Row(
                           children: [
                             horizontalSpace(12),
                             Radio(
-                              activeColor: Colors.black,
+                              visualDensity: VisualDensity.compact,
+                              activeColor: dailyCorePurple,
                               value: 'Expense',
                               groupValue: selectedType,
                               onChanged: (v) {
@@ -122,7 +140,8 @@ void showAddEditCategoryModalBottomSheet(
                           children: [
                             horizontalSpace(12),
                             Radio(
-                              activeColor: Colors.black,
+                              visualDensity: VisualDensity.compact,
+                              activeColor: dailyCorePurple,
                               value: 'Income',
                               groupValue: selectedType,
                               onChanged: (v) {
@@ -168,6 +187,10 @@ Widget _buildButton(
           return SizedBox(
             width: double.infinity,
             child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    isExpenceCategory ? dailyCorePurple : dailyCoreBlue,
+              ),
               onPressed: () {
                 if (nameController.text.isEmpty) {
                   errorToast(

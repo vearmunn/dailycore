@@ -1,3 +1,4 @@
+import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'numpad_cubit.dart';
@@ -45,6 +46,7 @@ class NumberPad extends StatelessWidget {
                 }
               },
               style: ElevatedButton.styleFrom(
+                backgroundColor: dailyCorePurple,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

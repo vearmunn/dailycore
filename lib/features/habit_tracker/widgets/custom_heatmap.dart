@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 
+import '../../../theme/theme_helper.dart';
 import '../../../utils/colors_and_icons.dart';
 import '../domain/models/habit.dart';
 import '../presentation/crud_cubit/habit_crud_cubit.dart';
@@ -24,7 +25,10 @@ class CustomHeatmap extends StatelessWidget {
       datasets: datasets,
       colorMode: ColorMode.opacity,
       showColorTip: false,
-      defaultColor: Colors.grey.shade100,
+      defaultColor:
+          ThemeHelper.isDark(context)
+              ? Colors.grey.shade900
+              : Colors.grey.shade100,
       onClick: (date) {
         if (date.isBefore(DateTime.now())) {
           context.read<HabitCrudCubit>().toggleHabit(
@@ -36,7 +40,7 @@ class CustomHeatmap extends StatelessWidget {
       },
       monthFontSize: 16,
       initDate: startDate,
-      textColor: Colors.black,
+      textColor: ThemeHelper.isDark(context) ? Colors.white70 : Colors.black,
       colorsets: {1: fromArgb32(habit.color)},
     );
   }

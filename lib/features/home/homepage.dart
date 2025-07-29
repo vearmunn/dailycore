@@ -1,6 +1,7 @@
 import 'package:dailycore/components/scheduled_notifs_list/scheduled_notifs_list_page.dart';
 import 'package:dailycore/features/home/settings_page.dart';
 import 'package:dailycore/features/todo/presentation/pages/todo_dashboard_page.dart';
+import 'package:dailycore/theme/theme_helper.dart';
 import 'package:dailycore/utils/dates_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,9 +26,9 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      // backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
         title: GestureDetector(
           onTap:
               () => Navigator.push(
@@ -120,50 +121,52 @@ class Homepage extends StatelessWidget {
                           }
                         }
 
-                        return Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                todo.text,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              todo.text,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
                               ),
-                              verticalSpace(6),
-                              IntrinsicHeight(
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      todo.priority,
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: getPriorityColor(),
+                            ),
+                            verticalSpace(6),
+                            IntrinsicHeight(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    todo.priority,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: getPriorityColor(),
+                                    ),
+                                  ),
+                                  VerticalDivider(),
+                                  Text(
+                                    todo.category.name,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: ThemeHelper.secondaryTextColor(
+                                        context,
                                       ),
                                     ),
-                                    VerticalDivider(),
+                                  ),
+                                  VerticalDivider(),
+                                  if (todo.dueDate != null)
                                     Text(
-                                      todo.category.name,
+                                      formatTime(todo.dueDate!),
                                       style: TextStyle(
                                         fontSize: 12,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    VerticalDivider(),
-                                    if (todo.dueDate != null)
-                                      Text(
-                                        formatTime(todo.dueDate!),
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey,
+                                        color: ThemeHelper.secondaryTextColor(
+                                          context,
                                         ),
                                       ),
-                                  ],
-                                ),
+                                    ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         );
                       },
                     ),
@@ -187,16 +190,9 @@ class Homepage extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          // color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withValues(alpha: 0.2),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: Offset(5, 4),
-            ),
-          ],
+          border: Border.all(width: 3, color: color),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,7 +202,7 @@ class Homepage extends StatelessWidget {
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: color,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
               ),
               child: Row(
                 children: [
@@ -245,9 +241,7 @@ class Homepage extends StatelessWidget {
               // width: double.infinity,
               decoration: BoxDecoration(
                 color: color,
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(12),
-                ),
+                borderRadius: BorderRadius.vertical(bottom: Radius.circular(8)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -280,7 +274,7 @@ class Homepage extends StatelessWidget {
       builder: (context, state) {
         if (state is ExpenseCrudLoaded) {
           return _buildFeatureCard(
-            color: dailyCoreOrange,
+            color: dailyCorePurple,
             title: AppLocale.thisMonthsSummary.getString(context),
             subtitle: formatMonthYear(DateTime.now()),
             icon: Icons.analytics,
@@ -299,14 +293,17 @@ class Homepage extends StatelessWidget {
                   _buildTracker(
                     AppLocale.totalExpenses.getString(context),
                     state.monthlyTotal!.expenses,
+                    context,
                   ),
                   _buildTracker(
                     AppLocale.totalIncome.getString(context),
                     state.monthlyTotal!.income,
+                    context,
                   ),
                   _buildTracker(
                     AppLocale.totalBalance.getString(context),
                     state.monthlyTotal!.balance,
+                    context,
                   ),
                 ],
               ),
@@ -318,11 +315,17 @@ class Homepage extends StatelessWidget {
     );
   }
 
-  Widget _buildTracker(String title, double amount) {
+  Widget _buildTracker(String title, double amount, context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: TextStyle(color: Colors.black54, fontSize: 12)),
+        Text(
+          title,
+          style: TextStyle(
+            color: ThemeHelper.secondaryTextColor(context),
+            fontSize: 12,
+          ),
+        ),
         verticalSpace(4),
         Text(
           formatAmountRP(amount),

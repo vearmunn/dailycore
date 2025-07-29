@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dailycore/theme/theme_helper.dart';
 import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +44,9 @@ class CategoryGrid extends StatelessWidget {
                   shape: BoxShape.circle,
                   color:
                       !selectedCategoryIdList.contains(category.id)
-                          ? Colors.grey.shade300
+                          ? ThemeHelper.isDark(context)
+                              ? Colors.grey.shade900
+                              : Colors.grey.shade300
                           : category.color,
                 ),
                 child: Icon(

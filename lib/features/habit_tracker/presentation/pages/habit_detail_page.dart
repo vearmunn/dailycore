@@ -4,6 +4,7 @@ import 'package:dailycore/features/expense_tracker/presentation/pages/add_edit_e
 import 'package:dailycore/features/habit_tracker/domain/models/habit.dart';
 import 'package:dailycore/features/habit_tracker/presentation/crud_cubit/habit_crud_cubit.dart';
 import 'package:dailycore/features/habit_tracker/presentation/pages/add_edit_habit_page.dart';
+import 'package:dailycore/theme/theme_helper.dart';
 import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:dailycore/features/habit_tracker/widgets/custom_heatmap.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,6 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
       body: BlocBuilder<HabitCrudCubit, HabitCrudState>(
         builder: (context, state) {
           if (state is HabitCrudLoading) {
@@ -80,7 +80,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                     elevation: 0,
                     backgroundColor: fromArgb32(
                       habit.color,
-                    ).withAlpha(isCompletedToday ? 255 : 50),
+                    ).withAlpha(isCompletedToday ? 255 : 100),
                     foregroundColor:
                         isCompletedToday ? Colors.white : Colors.black54,
                   ),
@@ -125,7 +125,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
           child: Container(
             padding: EdgeInsets.fromLTRB(16, 8, 8, 8),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: ThemeHelper.containerColor(context),
               shape: BoxShape.circle,
               // borderRadius: BorderRadius.circular(10),
             ),
@@ -146,7 +146,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
           child: Container(
             padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: ThemeHelper.containerColor(context),
               shape: BoxShape.circle,
               // borderRadius: BorderRadius.circular(10),
             ),
@@ -186,7 +186,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: ThemeHelper.defaultTextColor(context),
             ),
           ),
           verticalSpace(4),
@@ -194,7 +194,10 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
               ? SizedBox.shrink()
               : Text(
                 habit.description,
-                style: TextStyle(color: Colors.black54, fontSize: 12),
+                style: TextStyle(
+                  color: ThemeHelper.secondaryTextColor(context),
+                  fontSize: 12,
+                ),
               ),
           verticalSpace(16),
           Container(
@@ -217,7 +220,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
     return Container(
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ThemeHelper.containerColor(context),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -272,7 +275,10 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
         Expanded(
           child: Text(
             title,
-            style: TextStyle(fontSize: 12, color: Colors.black54),
+            style: TextStyle(
+              fontSize: 12,
+              color: ThemeHelper.secondaryTextColor(context),
+            ),
           ),
         ),
         Expanded(

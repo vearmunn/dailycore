@@ -63,25 +63,40 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+            context.read<ImagePickerCubit>().clearImage();
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
         title: Text(
           widget.isUpdating
               ? 'Edit Goal'
               : AppLocale.addGoal.getString(context),
         ),
-        backgroundColor: Colors.white,
       ),
       body: ListView(
         padding: EdgeInsets.all(20),
         children: [
-          customTextfield(AppLocale.title.getString(context), titleController),
+          customTextfield(
+            context,
+            AppLocale.title.getString(context),
+            borderColor: dailyCorePurple,
+            titleController,
+          ),
           verticalSpace(16),
           customTextfield(
+            context,
             AppLocale.description.getString(context),
+            borderColor: dailyCorePurple,
             descriptionController,
           ),
           verticalSpace(16),
           customTextfield(
+            context,
             AppLocale.targetAmount.getString(context),
+            borderColor: dailyCorePurple,
             amountController,
             keyboardType: TextInputType.number,
           ),
@@ -89,6 +104,8 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
           Row(
             children: [
               Checkbox(
+                activeColor: dailyCorePurple,
+                checkColor: Colors.white,
                 value: showDatePicker,
                 visualDensity: VisualDensity.compact,
                 onChanged: (v) {
@@ -164,7 +181,7 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: dailyCoreBlue,
+                      backgroundColor: dailyCorePurple,
                       foregroundColor: Colors.white,
                       elevation: 0,
                     ),
@@ -203,8 +220,11 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
                           );
                           Navigator.pop(context);
                         },
-                        icon: Icon(Icons.camera_alt),
-                        label: Text(AppLocale.camera.getString(context)),
+                        icon: Icon(Icons.camera_alt, color: dailyCorePurple),
+                        label: Text(
+                          AppLocale.camera.getString(context),
+                          style: TextStyle(color: dailyCorePurple),
+                        ),
                       ),
                       Divider(),
                       TextButton.icon(
@@ -214,8 +234,14 @@ class _GoalAddEditPageState extends State<GoalAddEditPage> {
                           );
                           Navigator.pop(context);
                         },
-                        icon: Icon(Icons.photo_library_rounded),
-                        label: Text(AppLocale.gallery.getString(context)),
+                        icon: Icon(
+                          Icons.photo_library_rounded,
+                          color: dailyCorePurple,
+                        ),
+                        label: Text(
+                          AppLocale.gallery.getString(context),
+                          style: TextStyle(color: dailyCorePurple),
+                        ),
                       ),
                     ],
                   ),

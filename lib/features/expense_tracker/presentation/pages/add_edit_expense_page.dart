@@ -2,6 +2,7 @@
 import 'package:dailycore/features/expense_tracker/presentation/cubit/expense_category/expense_category_cubit.dart';
 import 'package:dailycore/features/expense_tracker/utils/expense_util.dart';
 import 'package:dailycore/features/expense_tracker/widgets/category_grid.dart';
+import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:dailycore/utils/custom_toast.dart';
 import 'package:dailycore/utils/spaces.dart';
 import 'package:expandable/expandable.dart';
@@ -101,6 +102,8 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(50),
           child: TabBar(
+            labelColor: dailyCorePurple,
+            indicatorColor: dailyCorePurple,
             controller: _tabController,
             tabs: [
               Tab(text: AppLocale.expense.getString(context)),
@@ -128,19 +131,17 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
                 _expandableController.expanded == true
                     ? AppLocale.hide.getString(context)
                     : AppLocale.show.getString(context),
+                style: TextStyle(color: dailyCorePurple),
               ),
               icon: Icon(
                 _expandableController.expanded
                     ? Icons.keyboard_arrow_down
                     : Icons.keyboard_arrow_up,
+                color: dailyCorePurple,
               ),
             ),
             Expandable(
-              collapsed: Container(
-                color: Colors.grey.shade200,
-                width: double.infinity,
-                height: 10,
-              ),
+              collapsed: SizedBox(width: double.infinity, height: 10),
               expanded: _buildRecordBox(),
             ),
           ],
@@ -179,6 +180,7 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
                   ),
                   verticalSpace(20),
                   customTextfield(
+                    context,
                     AppLocale.note.getString(context),
                     noteController,
                   ),
@@ -197,6 +199,9 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
                       return SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: dailyCorePurple,
+                          ),
                           onPressed: () {
                             if (selectedCategory == null) {
                               errorToast(

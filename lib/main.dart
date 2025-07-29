@@ -2,6 +2,7 @@
 import 'package:dailycore/components/scheduled_notifs_list/cubit/schedule_notif_cubit.dart';
 import 'package:dailycore/hive/hive_registrar.g.dart';
 import 'package:dailycore/localization/locales.dart';
+import 'package:dailycore/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 
@@ -39,6 +40,7 @@ import 'features/todo/presentation/cubit/crud_cubit/todo_crud_cubit.dart';
 import 'features/todo/presentation/cubit/dashboard_cubit/todo_dashboard_cubit.dart';
 import 'features/todo/presentation/cubit/upcoming_cubit/upcoming_cubit.dart';
 import 'hive_boxes/boxes.dart';
+import 'theme/theme_cubit.dart';
 import 'utils/notification_service.dart';
 
 void main() async {
@@ -93,6 +95,7 @@ void main() async {
         ),
         BlocProvider(create: (context) => GoalCubit(hiveGoalRepo)),
         BlocProvider(create: (context) => ScheduleNotifCubit()),
+        BlocProvider(create: (context) => ThemeCubit()),
       ],
       child: MyApp(),
     ),
@@ -129,14 +132,18 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ToastificationWrapper(
-      child: MaterialApp(
-        title: 'DailyCore',
-        supportedLocales: localization.supportedLocales,
-        localizationsDelegates: localization.localizationsDelegates,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        ),
-        home: Homepage(),
+      child: BlocBuilder<ThemeCubit, ThemeMode>(
+        builder: (context, themeMode) {
+          return MaterialApp(
+            title: 'DailyCore',
+            supportedLocales: localization.supportedLocales,
+            localizationsDelegates: localization.localizationsDelegates,
+            theme: AppThemes.lightTheme,
+            darkTheme: AppThemes.darkTheme,
+            themeMode: themeMode,
+            home: Homepage(),
+          );
+        },
       ),
     );
   }

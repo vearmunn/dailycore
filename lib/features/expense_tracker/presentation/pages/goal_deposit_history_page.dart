@@ -16,7 +16,6 @@ class GoalDepositHistoryPage extends StatelessWidget {
     depositHistoryList.sort((a, b) => b.dateTime.compareTo(a.dateTime));
     return Scaffold(
       appBar: AppBar(title: Text(AppLocale.depositHistory.getString(context))),
-      backgroundColor: Colors.white,
       body: ListView.separated(
         itemCount: depositHistoryList.length,
         itemBuilder: (BuildContext context, int index) {

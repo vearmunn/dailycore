@@ -1,11 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dailycore/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../utils/colors_and_icons.dart';
 import 'color_icon_selector_cubit.dart';
 
-Widget colorSelector(bool showColorSelections) {
+Widget colorSelector(BuildContext context, bool showColorSelections) {
   return AnimatedOpacity(
     duration: Duration(milliseconds: 100),
     opacity: showColorSelections ? 1 : 0,
@@ -15,7 +16,7 @@ Widget colorSelector(bool showColorSelections) {
       height: showColorSelections ? 60 : 0,
 
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ThemeHelper.containerColor(context),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.grey),
       ),

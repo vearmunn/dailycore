@@ -25,7 +25,7 @@ class _ChartPageState extends State<ChartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: dailyCoreOrange,
+        backgroundColor: dailyCorePurple,
         title: Text(
           AppLocale.financeTitle.getString(context),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
@@ -66,7 +66,7 @@ class _ChartPageState extends State<ChartPage> {
   Widget _buildChartFilter(PieChartState state) {
     return Container(
       padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
-      color: dailyCoreOrange,
+      color: dailyCorePurple,
       child: Row(
         children: [
           Expanded(
@@ -85,7 +85,7 @@ class _ChartPageState extends State<ChartPage> {
                     fontSize: 14,
                     color: Colors.white,
                   ),
-                  dropdownColor: dailyCoreOrange,
+                  dropdownColor: dailyCorePurple,
                   items: [
                     DropdownMenuItem(
                       value: 'Expense',
@@ -128,7 +128,7 @@ class _ChartPageState extends State<ChartPage> {
                   lastYear: DateTime.now().year,
                   selectButtonText: 'OK',
                   cancelButtonText: AppLocale.cancel.getString(context),
-                  highlightColor: dailyCoreOrange,
+                  highlightColor: dailyCorePurple,
                   textColor: Colors.black,
                   contentBackgroundColor: Colors.white,
                   dialogBackgroundColor: Colors.grey[200],

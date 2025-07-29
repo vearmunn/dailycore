@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dailycore/theme/theme_helper.dart';
 import 'package:dailycore/utils/custom_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,9 +48,16 @@ class SubTodoTile extends StatelessWidget {
           children: [
             ListTile(
               visualDensity: VisualDensity.compact,
-              leading: Icon(Icons.drag_indicator, color: Colors.black12),
+              leading: Icon(
+                Icons.drag_indicator,
+                color:
+                    ThemeHelper.isDark(context)
+                        ? Colors.white24
+                        : Colors.black12,
+              ),
               title: Text(subTodo.text, style: TextStyle(fontSize: 14)),
               trailing: Checkbox(
+                checkColor: Colors.white,
                 shape: CircleBorder(),
                 value: subTodo.isCompleted,
                 onChanged:

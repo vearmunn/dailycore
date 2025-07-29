@@ -36,9 +36,10 @@ class _HabitPageState extends State<HabitPage> {
           icon: Icon(Icons.arrow_back, color: Colors.white),
         ),
       ),
-      backgroundColor: Colors.grey.shade200,
+      // backgroundColor: Colors.grey.shade200,
       body: _buildHabitList(context),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: dailyCoreGreen,
         onPressed: () {
           context.read<ColorSelectorCubit>().setColor(
             colorSelections[randomIndex(colorSelections.length)],

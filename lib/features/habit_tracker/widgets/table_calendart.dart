@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dailycore/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -17,7 +18,6 @@ class HabitTableCalendar extends StatefulWidget {
 }
 
 class _HabitTableCalendarState extends State<HabitTableCalendar> {
-  final CalendarFormat _calendarFormat = CalendarFormat.week;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay = DateTime.now();
 
@@ -33,7 +33,7 @@ class _HabitTableCalendarState extends State<HabitTableCalendar> {
   Widget build(BuildContext context) {
     // context.read<UpcomingDateCubit>().setUpcomingDate(_selectedDay!);
     return Container(
-      color: Colors.white,
+      color: ThemeHelper.containerColor(context),
       padding: EdgeInsets.only(bottom: 20),
       child: TableCalendar(
         locale: _flutterLocalization.currentLocale!.languageCode,
@@ -42,29 +42,14 @@ class _HabitTableCalendarState extends State<HabitTableCalendar> {
         focusedDay: _focusedDay,
         formatAnimationCurve: Curves.fastOutSlowIn,
         formatAnimationDuration: Duration(milliseconds: 300),
-        calendarFormat: _calendarFormat,
+        calendarFormat: CalendarFormat.week,
         headerStyle: HeaderStyle(
           titleCentered: true,
           titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-
-          // titleTextFormatter: (date, locale) => formattedDate(date),
           formatButtonVisible: false,
         ),
-
         calendarBuilders: CalendarBuilders(
-          outsideBuilder: (context, day, focusedDay) {
-            final progress =
-                widget.dailyProgress[DateTime(day.year, day.month, day.day)] ??
-                0;
-            return _buildPercentBorder(progress: progress, day: day.day);
-          },
           defaultBuilder: (context, day, focusedDay) {
-            final progress =
-                widget.dailyProgress[DateTime(day.year, day.month, day.day)] ??
-                0;
-            return _buildPercentBorder(progress: progress, day: day.day);
-          },
-          todayBuilder: (context, day, focusedDay) {
             final progress =
                 widget.dailyProgress[DateTime(day.year, day.month, day.day)] ??
                 0;
@@ -88,18 +73,10 @@ class _HabitTableCalendarState extends State<HabitTableCalendar> {
           if (!isSameDay(_selectedDay, selectedDay)) {
             setState(() {
               _selectedDay = selectedDay;
-              // context.read<UpcomingDateCubit>().setUpcomingDate(_selectedDay!);
               _focusedDay = focusedDay;
             });
           }
         },
-        // onFormatChanged: (format) {
-        //   if (_calendarFormat != format) {
-        //     setState(() {
-        //       _calendarFormat = format;
-        //     });
-        //   }
-        // },
         onPageChanged: (focusedDay) {
           setState(() {
             _focusedDay = focusedDay;
@@ -128,13 +105,19 @@ class _HabitTableCalendarState extends State<HabitTableCalendar> {
         animateFromLastPercent: true,
         percent: progress > 1 ? 1 : progress,
         progressColor: dailyCoreGreen,
-        backgroundColor: Colors.grey.shade300,
+        backgroundColor:
+            ThemeHelper.isDark(context)
+                ? Colors.grey.shade800
+                : Colors.grey.shade300,
         center: Text(
           day.toString(),
           style: TextStyle(
             fontSize: isSelected ? 14 : 12,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            color: isSelected ? dailyCoreGreen : Colors.black,
+            color:
+                isSelected
+                    ? dailyCoreGreen
+                    : ThemeHelper.defaultTextColor(context),
           ),
         ),
       ),

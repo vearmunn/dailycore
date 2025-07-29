@@ -12,6 +12,7 @@ import '../../../../components/custom_textfield.dart';
 import '../../../../components/numpad/numpad.dart';
 import '../../../../components/numpad/numpad_cubit.dart';
 import '../../../../localization/locales.dart';
+import '../../../../theme/theme_helper.dart';
 import '../../../../utils/colors_and_icons.dart';
 import '../../../../utils/dates_utils.dart';
 import '../../../../utils/spaces.dart';
@@ -44,7 +45,6 @@ class _GoalDetailState extends State<GoalDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
       body: BlocBuilder<GoalCubit, GoalState>(
         builder: (context, state) {
           if (state is SingleGoalLoaded) {
@@ -68,7 +68,7 @@ class _GoalDetailState extends State<GoalDetail> {
       bottomSheet: Container(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         width: double.infinity,
-        color: Colors.white,
+        color: ThemeHelper.containerColor(context),
         child: Row(
           children: [
             Expanded(
@@ -78,7 +78,7 @@ class _GoalDetailState extends State<GoalDetail> {
                   _buildAmountModalSheet(context);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: dailyCoreBlue,
+                  backgroundColor: dailyCorePurple,
                   foregroundColor: Colors.white,
                   elevation: 0,
                 ),
@@ -146,7 +146,9 @@ class _GoalDetailState extends State<GoalDetail> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        verticalSpace(16),
                         customTextfield(
+                          context,
                           AppLocale.note.getString(context),
                           noteController,
                         ),
@@ -154,7 +156,7 @@ class _GoalDetailState extends State<GoalDetail> {
                         verticalSpace(20),
                         Container(
                           width: double.infinity,
-                          color: Colors.white,
+                          color: ThemeHelper.containerColor(context),
                           child: Text(
                             input.isEmpty
                                 ? '0'
@@ -183,7 +185,7 @@ class _GoalDetailState extends State<GoalDetail> {
                                     noteController.clear();
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: dailyCoreBlue,
+                                    backgroundColor: dailyCorePurple,
                                     foregroundColor: Colors.white,
                                     elevation: 0,
                                   ),
@@ -220,7 +222,7 @@ class _GoalDetailState extends State<GoalDetail> {
                     Container(
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: dailyCoreBlue,
+                        color: dailyCorePurple,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(
@@ -247,7 +249,11 @@ class _GoalDetailState extends State<GoalDetail> {
               verticalSpace(12),
               Text(
                 goal.title,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: ThemeHelper.defaultTextColor(context),
+                ),
               ),
               verticalSpace(10),
               if (goal.description != null)
@@ -276,7 +282,7 @@ class _GoalDetailState extends State<GoalDetail> {
               ),
               verticalSpace(10),
               LinearProgressIndicator(
-                color: dailyCoreBlue,
+                color: dailyCorePurple,
                 minHeight: 10,
                 borderRadius: BorderRadius.circular(20),
                 value: goal.currentAmount / goal.targetAmount,
@@ -301,6 +307,7 @@ class _GoalDetailState extends State<GoalDetail> {
               icon: Icons.arrow_back,
               onTap: () {
                 Navigator.pop(context);
+
                 context.read<GoalCubit>().loadGoals();
               },
             ),
@@ -352,7 +359,7 @@ class _GoalDetailState extends State<GoalDetail> {
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.white54,
+          color: ThemeHelper.isDark(context) ? Colors.black45 : Colors.white54,
         ),
         child: Icon(icon),
       ),

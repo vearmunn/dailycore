@@ -5,6 +5,7 @@ import 'package:flutter_localization/flutter_localization.dart';
 
 import '../../../../components/date_picker/pick_date_cubit.dart';
 import '../../../../localization/locales.dart';
+import '../../../../theme/theme_helper.dart';
 import '../../../../utils/colors_and_icons.dart';
 import '../../../../utils/spaces.dart';
 import '../../widgets/todo_tile.dart';
@@ -18,7 +19,7 @@ class TodayView extends StatelessWidget {
   Widget build(BuildContext context) {
     // final todoCubit = context.read<TodoCrudCubit>();
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      // backgroundColor: Colors.grey.shade100,
       body: BlocBuilder<TodoCrudCubit, TodoCrudState>(
         builder: (context, state) {
           if (state is TodoCrudLoading) {
@@ -45,34 +46,40 @@ class TodayView extends StatelessWidget {
                     ? SizedBox.shrink()
                     : Text(
                       'You have work today!',
-                      style: TextStyle(color: Colors.black45, fontSize: 16),
+                      style: TextStyle(
+                        color: ThemeHelper.secondaryTextColor(context),
+                        fontSize: 16,
+                      ),
                     ),
                 verticalSpace(todaysTodos.isEmpty ? 0 : 12),
                 Container(
                   decoration: BoxDecoration(
-                    // border: Border.all(color: Colors.black12),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _buildTodoNumberitem(
+                        context,
                         title: AppLocale.all.getString(context),
                         number: state.allTodos.length,
                         bgColor: Colors.grey,
                         isFirst: true,
                       ),
                       _buildTodoNumberitem(
+                        context,
                         title: AppLocale.today.getString(context),
                         number: todaysTodos.length,
                         bgColor: Colors.grey,
                       ),
                       _buildTodoNumberitem(
+                        context,
                         title: AppLocale.upcoming.getString(context),
                         number: upcomingTodos.length,
                         bgColor: Colors.grey,
                       ),
                       _buildTodoNumberitem(
+                        context,
                         title: AppLocale.overdue.getString(context),
                         number: overdueTodos.length,
                         bgColor: dailyCoreRed,
@@ -154,7 +161,8 @@ class TodayView extends StatelessWidget {
     );
   }
 
-  Widget _buildTodoNumberitem({
+  Widget _buildTodoNumberitem(
+    context, {
     required String title,
     required int number,
     required Color bgColor,
@@ -177,7 +185,10 @@ class TodayView extends StatelessWidget {
               title,
               style: TextStyle(
                 fontSize: 12,
-                color: bgColor == Colors.grey ? Colors.black54 : bgColor,
+                color:
+                    bgColor == Colors.grey
+                        ? ThemeHelper.secondaryTextColor(context)
+                        : bgColor,
               ),
             ),
             verticalSpace(4),
@@ -186,7 +197,10 @@ class TodayView extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
-                color: bgColor == Colors.grey ? Colors.black54 : bgColor,
+                color:
+                    bgColor == Colors.grey
+                        ? ThemeHelper.secondaryTextColor(context)
+                        : bgColor,
               ),
             ),
           ],
