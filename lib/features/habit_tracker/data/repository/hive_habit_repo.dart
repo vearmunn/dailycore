@@ -1,6 +1,6 @@
 import 'package:dailycore/features/habit_tracker/domain/models/habit.dart';
 import 'package:dailycore/features/habit_tracker/domain/repository/habit_repo.dart';
-import 'package:dailycore/hive_boxes/boxes.dart';
+import 'package:dailycore/consts/boxes.dart';
 import 'package:hive_ce/hive.dart';
 
 import '../models/hive_habit.dart';

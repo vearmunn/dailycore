@@ -2,7 +2,7 @@ import 'package:dailycore/features/expense_tracker/data/models/hive_expense.dart
 import 'package:dailycore/features/expense_tracker/data/models/hive_expense_category.dart';
 import 'package:dailycore/features/expense_tracker/domain/models/expense.dart';
 import 'package:dailycore/features/expense_tracker/domain/repository/expense_repo.dart';
-import 'package:dailycore/hive_boxes/boxes.dart';
+import 'package:dailycore/consts/boxes.dart';
 import 'package:hive_ce/hive.dart';
 
 class HiveExpenseRepo implements ExpenseRepo {

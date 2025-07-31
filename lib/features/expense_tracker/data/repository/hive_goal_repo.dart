@@ -1,6 +1,6 @@
 import 'package:hive_ce/hive.dart';
 
-import '../../../../hive_boxes/boxes.dart';
+import '../../../../consts/boxes.dart';
 import '../../domain/models/goal.dart';
 import '../../domain/repository/goal_repo.dart';
 import '../models/hive_goal.dart';

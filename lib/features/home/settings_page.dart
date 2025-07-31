@@ -1,4 +1,7 @@
 import 'package:country_flags/country_flags.dart';
+import 'package:dailycore/components/pin/cubit/pin_cubit.dart';
+import 'package:dailycore/components/pin/pin_enum.dart';
+import 'package:dailycore/features/home/pin_page.dart';
 import 'package:dailycore/theme/theme_cubit.dart';
 import 'package:dailycore/utils/colors_and_icons.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,6 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(AppLocale.settings.getString(context))),
+
       // backgroundColor: Colors.white,
       body: ListView(
         padding: EdgeInsets.only(left: 4, top: 16),
@@ -55,8 +59,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 trailing: CupertinoSwitch(
                   activeTrackColor: dailyCoreBlue,
                   value: isDark,
-                  onChanged: (v) {
-                    context.read<ThemeCubit>().toggleTheme();
+                  onChanged: (isDarkMode) {
+                    if (isDarkMode) {
+                      context.read<ThemeCubit>().setDarkMode();
+                    } else {
+                      context.read<ThemeCubit>().setLightMode();
+                    }
                   },
                 ),
               );
@@ -67,9 +75,66 @@ class _SettingsPageState extends State<SettingsPage> {
             leading: Icon(Icons.lock),
             title: Text(AppLocale.lock.getString(context)),
             trailing: Icon(Icons.keyboard_arrow_right),
+            onTap: () {
+              final isPinSet = context.read<PinCubit>().isPinSet();
+              if (isPinSet) {
+                showPinModalBottomSheet(context);
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PinPage(pinEnum: PinEnum.isSettingUp),
+                  ),
+                );
+              }
+            },
           ),
         ],
       ),
+    );
+  }
+
+  Future<dynamic> showPinModalBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      builder:
+          (context) => Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: Icon(Icons.lock_open),
+                  title: Text(AppLocale.updatePin.getString(context)),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => PinPage(pinEnum: PinEnum.isUpdating),
+                      ),
+                    );
+                  },
+                ),
+                Divider(),
+                ListTile(
+                  leading: Icon(Icons.lock_reset),
+                  title: Text(AppLocale.removePin.getString(context)),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => PinPage(pinEnum: PinEnum.isRemoving),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
     );
   }
 

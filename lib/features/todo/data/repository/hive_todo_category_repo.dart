@@ -5,7 +5,7 @@ import 'package:dailycore/features/todo/domain/repository/todo_category_repo.dar
 import 'package:dailycore/features/todo/utils/initial_todo_categories.dart';
 import 'package:hive_ce/hive.dart';
 
-import '../../../../hive_boxes/boxes.dart';
+import '../../../../consts/boxes.dart';
 
 class HiveTodoCategoryRepo implements TodoCategoryRepo {
   final box = Hive.box<TodoCategoryHive>(todoCategoryBox);

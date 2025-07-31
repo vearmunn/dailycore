@@ -98,7 +98,10 @@ class Homepage extends StatelessWidget {
             ]),
             body:
                 todaysTodos.isEmpty
-                    ? _buildEmptyBody(AppLocale.noTodosFound.getString(context))
+                    ? _buildEmptyBody(
+                      context,
+                      AppLocale.noTodosFound.getString(context),
+                    )
                     : ListView.separated(
                       padding: EdgeInsets.all(16),
                       shrinkWrap: true,
@@ -367,6 +370,7 @@ class Homepage extends StatelessWidget {
             body:
                 todaysHabits.isEmpty
                     ? _buildEmptyBody(
+                      context,
                       AppLocale.noHabitsFound.getString(context),
                     )
                     : ListView.separated(
@@ -449,17 +453,22 @@ class Homepage extends StatelessWidget {
     );
   }
 
-  Center _buildEmptyBody(String title) {
+  Center _buildEmptyBody(BuildContext context, String title) {
     return Center(
       child: Column(
         children: [
           verticalSpace(20),
           Opacity(
-            opacity: 0.5,
+            opacity: ThemeHelper.isDark(context) ? 0.2 : 0.5,
             child: Image.asset('assets/images/empty-inbox.png', width: 100),
           ),
           verticalSpace(8),
-          Text(title, style: TextStyle(color: Colors.grey)),
+          Text(
+            title,
+            style: TextStyle(
+              color: ThemeHelper.isDark(context) ? Colors.white30 : Colors.grey,
+            ),
+          ),
           verticalSpace(30),
         ],
       ),

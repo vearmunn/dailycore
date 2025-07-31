@@ -167,6 +167,31 @@ mixin AppLocale {
   static const String goalAdded = 'goalAdded';
   static const String pleaseSelectAnImage = 'pleaseSelectAnImage';
 
+  // PIN
+  static const String pinTitleSet = 'pinTitleSet';
+  static const String pinTitleUpdateCurrent = 'pinTitleUpdateCurrent';
+  static const String pinTitleUpdateNew = 'pinTitleUpdateNew';
+  static const String pinTitleRemove = 'pinTitleRemove';
+  static const String pinTitleLogin = 'pinTitleLogin';
+
+  static const String pinAppBarSet = 'pinAppBarSet';
+  static const String pinAppBarUpdate = 'pinAppBarUpdate';
+  static const String pinAppBarRemove = 'pinAppBarRemove';
+  static const String pinAppBarLogin = 'pinAppBarLogin';
+
+  static const String pinDescSet = 'pinDescSet';
+  static const String pinDescUpdateCurrent = 'pinDescUpdateCurrent';
+  static const String pinDescUpdateNew = 'pinDescUpdateNew';
+  static const String pinDescRemove = 'pinDescRemove';
+  static const String pinDescLogin = 'pinDescLogin';
+
+  static const String pinSaved = 'pinSaved';
+  static const String pinDeleted = 'pinDeleted';
+  static const String pinUpdated = 'pinUpdated';
+  static const String pinIncorrect = 'pinIncorrect';
+  static const String updatePin = 'updatePin';
+  static const String removePin = 'removePin';
+
   static const Map<String, dynamic> EN = {
     // HOME
     todoTitle: 'Todo',
@@ -189,7 +214,7 @@ mixin AppLocale {
     // SETTINGS
     language: 'Language',
     whatLanguage: 'English',
-    lock: 'Lock',
+    lock: 'PIN',
     lightMode: 'Light Mode',
     darkMode: 'Dark Mode',
     settings: 'Settings',
@@ -333,6 +358,34 @@ mixin AppLocale {
     goalUpdated: 'Goal updated!',
     goalAdded: 'Goal added!',
     pleaseSelectAnImage: 'Please select an image!',
+
+    // PIN
+    pinTitleSet: 'Set Your PIN',
+    pinTitleUpdateCurrent: 'Enter Your Current PIN',
+    pinTitleUpdateNew: 'Enter Your New PIN',
+    pinTitleRemove: 'Enter your current PIN',
+    pinTitleLogin: 'Enter Your PIN to log in',
+
+    pinAppBarSet: 'Setup PIN',
+    pinAppBarUpdate: 'Update PIN',
+    pinAppBarRemove: 'Remove PIN',
+    pinAppBarLogin: 'Enter PIN',
+
+    pinDescSet:
+        'Create a 4-digit PIN to secure your app.\nYou’ll use this PIN to log in next time.',
+    pinDescUpdateCurrent: 'Enter your existing 4-digit PIN to continue.',
+    pinDescUpdateNew:
+        'Enter a new 4-digit PIN to replace your current one.\nYou’ll use this new PIN to log in next time.',
+    pinDescRemove:
+        'This will remove your PIN from the app.\nYou will no longer need a PIN to log in.',
+    pinDescLogin: 'Enter your 4-digit PIN to unlock the app.',
+
+    pinSaved: 'PIN saved successfully!',
+    pinDeleted: 'PIN deleted!',
+    pinUpdated: 'PIN updated!',
+    pinIncorrect: 'PIN incorrect!',
+    updatePin: 'Update PIN',
+    removePin: 'Remove PIN',
   };
 
   static const Map<String, dynamic> ID = {
@@ -359,7 +412,7 @@ mixin AppLocale {
     // SETTINGS
     language: 'Bahasa',
     whatLanguage: 'Bahasa Indonesia',
-    lock: 'Kunci',
+    lock: 'PIN',
     lightMode: 'Mode Terang',
     darkMode: 'Mode Gelap',
     settings: 'Pengaturan',
@@ -500,5 +553,34 @@ mixin AppLocale {
     goalUpdated: 'Goal diperbarui!',
     goalAdded: 'Goal ditambahkan!',
     pleaseSelectAnImage: 'Silakan pilih gambar!',
+
+    // PIN
+    pinTitleSet: 'Atur PIN Anda',
+    pinTitleUpdateCurrent: 'Masukkan PIN Saat Ini',
+    pinTitleUpdateNew: 'Masukkan PIN Baru Anda',
+    pinTitleRemove: 'Masukkan PIN Anda saat ini',
+    pinTitleLogin: 'Masukkan PIN Anda untuk masuk',
+
+    pinAppBarSet: 'Atur PIN',
+    pinAppBarUpdate: 'Perbarui PIN',
+    pinAppBarRemove: 'Hapus PIN',
+    pinAppBarLogin: 'Masuk dengan PIN',
+
+    pinDescSet:
+        'Buat PIN 4 digit untuk mengamankan aplikasi Anda.\nAnda akan menggunakan PIN ini saat masuk nanti.',
+    pinDescUpdateCurrent:
+        'Masukkan PIN 4 digit Anda saat ini untuk melanjutkan.',
+    pinDescUpdateNew:
+        'Masukkan PIN 4 digit baru untuk menggantikan PIN Anda saat ini.\nPIN ini akan digunakan untuk masuk di lain waktu.',
+    pinDescRemove:
+        'Ini akan menghapus PIN dari aplikasi.\nAnda tidak perlu lagi menggunakan PIN untuk masuk.',
+    pinDescLogin: 'Masukkan PIN 4 digit Anda untuk membuka aplikasi.',
+
+    pinSaved: 'PIN berhasil disimpan!',
+    pinDeleted: 'PIN dihapus!',
+    pinUpdated: 'PIN diperbarui!',
+    pinIncorrect: 'PIN salah!',
+    updatePin: 'Perbarui PIN',
+    removePin: 'Hapus PIN',
   };
 }

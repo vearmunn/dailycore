@@ -10,7 +10,7 @@ deleting in the isar db.
 import 'package:dailycore/features/todo/data/models/hive_todo_category.dart';
 import 'package:dailycore/features/todo/domain/models/todo.dart';
 import 'package:dailycore/features/todo/domain/repository/todo_repo.dart';
-import 'package:dailycore/hive_boxes/boxes.dart';
+import 'package:dailycore/consts/boxes.dart';
 import 'package:hive_ce/hive.dart';
 
 import '../models/hive_todo.dart';

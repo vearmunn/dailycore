@@ -55,6 +55,16 @@ class _HabitTableCalendarState extends State<HabitTableCalendar> {
                 0;
             return _buildPercentBorder(progress: progress, day: day.day);
           },
+          todayBuilder: (context, day, focusedDay) {
+            final progress =
+                widget.dailyProgress[DateTime(day.year, day.month, day.day)] ??
+                0;
+            return _buildPercentBorder(
+              progress: progress,
+              day: day.day,
+              isSelected: false,
+            );
+          },
           selectedBuilder: (context, day, focusedDay) {
             final progress =
                 widget.dailyProgress[DateTime(day.year, day.month, day.day)] ??
