@@ -11,6 +11,7 @@ import 'package:flutter_localization/flutter_localization.dart';
 
 import '../../../../localization/locales.dart';
 import '../../../../utils/colors_and_icons.dart';
+import '../cubit/expense_crud/expense_crud_cubit.dart';
 
 class ChartPage extends StatefulWidget {
   const ChartPage({super.key});
@@ -32,7 +33,13 @@ class _ChartPageState extends State<ChartPage> {
         ),
         centerTitle: true,
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.pop(context);
+            context.read<ExpenseCrudCubit>().loadExpenses(
+              DateTime.now().year,
+              DateTime.now().month,
+            );
+          },
           icon: Icon(Icons.arrow_back, color: Colors.white),
         ),
       ),

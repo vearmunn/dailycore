@@ -42,7 +42,13 @@ class _ReportsPageState extends State<ReportsPage> {
         ),
         centerTitle: true,
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.pop(context);
+            context.read<ExpenseCrudCubit>().loadExpenses(
+              DateTime.now().year,
+              DateTime.now().month,
+            );
+          },
           icon: Icon(Icons.arrow_back, color: Colors.white),
         ),
         actions: [

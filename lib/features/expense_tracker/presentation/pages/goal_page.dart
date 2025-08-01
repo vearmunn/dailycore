@@ -13,6 +13,7 @@ import 'package:flutter_localization/flutter_localization.dart';
 
 import '../../../../localization/locales.dart';
 import '../../../../utils/colors_and_icons.dart';
+import '../cubit/expense_crud/expense_crud_cubit.dart';
 import '../cubit/goal/goal_cubit.dart';
 
 class GoalPage extends StatelessWidget {
@@ -27,6 +28,16 @@ class GoalPage extends StatelessWidget {
           backgroundColor: dailyCorePurple,
           title: Text('Goals', style: TextStyle(fontWeight: FontWeight.bold)),
           centerTitle: true,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+              context.read<ExpenseCrudCubit>().loadExpenses(
+                DateTime.now().year,
+                DateTime.now().month,
+              );
+            },
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+          ),
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(50),
             child: TabBar(

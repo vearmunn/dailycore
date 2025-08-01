@@ -55,7 +55,11 @@ class PinPage extends StatelessWidget {
                       context,
                       AppLocale.pinSaved.getString(context),
                     );
-                    Navigator.pop(context);
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => Homepage()),
+                      (Route<dynamic> route) => false,
+                    );
                   }
                   if (state is PinCorrect && pinEnum == PinEnum.isLoggingIn) {
                     Navigator.pushReplacement(

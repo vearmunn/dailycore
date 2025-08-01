@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dailycore/components/scheduled_notifs_list/cubit/schedule_notif_cubit.dart';
-import 'package:dailycore/features/home/initial_page.dart';
+import 'package:dailycore/features/home/cubit/onboarding.dart';
 import 'package:dailycore/hive/hive_registrar.g.dart';
 import 'package:dailycore/localization/locales.dart';
 import 'package:dailycore/theme/app_theme.dart';
@@ -18,6 +18,7 @@ import 'components/date_picker/pick_date_cubit.dart';
 import 'components/image_picker/image_picker_cubit.dart';
 import 'components/numpad/numpad_cubit.dart';
 import 'components/pin/cubit/pin_cubit.dart';
+import 'components/pin/pin_enum.dart';
 import 'features/expense_tracker/data/models/hive_expense.dart';
 import 'features/expense_tracker/data/models/hive_expense_category.dart';
 import 'features/expense_tracker/data/models/hive_goal.dart';
@@ -33,6 +34,9 @@ import 'features/habit_tracker/data/models/hive_habit.dart';
 import 'features/habit_tracker/data/models/hive_routine.dart';
 import 'features/habit_tracker/data/repository/hive_habit_repo.dart';
 import 'features/habit_tracker/presentation/crud_cubit/habit_crud_cubit.dart';
+import 'features/home/homepage.dart';
+import 'features/home/onboarding_page.dart';
+import 'features/home/pin_page.dart';
 import 'features/todo/data/models/hive_todo.dart';
 import 'features/todo/data/models/hive_todo_category.dart';
 import 'features/todo/data/repository/hive_todo_category_repo.dart';
@@ -101,6 +105,7 @@ void main() async {
         BlocProvider(create: (context) => ScheduleNotifCubit()),
         BlocProvider(create: (context) => ThemeCubit(prefs)),
         BlocProvider(create: (context) => PinCubit(prefs)),
+        BlocProvider(create: (context) => OnboardingCubit(prefs)),
       ],
       child: MyApp(),
     ),
@@ -146,7 +151,19 @@ class _MyAppState extends State<MyApp> {
             theme: AppThemes.lightTheme,
             darkTheme: AppThemes.darkTheme,
             themeMode: themeMode,
-            home: InitialPage(),
+            home: BlocBuilder<OnboardingCubit, bool>(
+              builder: (context, showOnboarding) {
+                print(showOnboarding);
+                final isPinSet = context.read<PinCubit>().isPinSet();
+                if (showOnboarding) {
+                  return OnboardingPage();
+                } else if (isPinSet) {
+                  return PinPage(pinEnum: PinEnum.isLoggingIn);
+                } else {
+                  return Homepage();
+                }
+              },
+            ),
           );
         },
       ),

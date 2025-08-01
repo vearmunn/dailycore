@@ -192,6 +192,27 @@ mixin AppLocale {
   static const String updatePin = 'updatePin';
   static const String removePin = 'removePin';
 
+  // ONBOARDING
+  static const String onboardingTitleWelcome = 'onboardingTitleWelcome';
+  static const String onboardingDescWelcome = 'onboardingDescWelcome';
+
+  static const String onboardingTitleTodo = 'onboardingTitleTodo';
+  static const String onboardingDescTodo = 'onboardingDescTodo';
+
+  static const String onboardingTitleHabit = 'onboardingTitleHabit';
+  static const String onboardingDescHabit = 'onboardingDescHabit';
+
+  static const String onboardingTitleFinance = 'onboardingTitleFinance';
+  static const String onboardingDescFinance = 'onboardingDescFinance';
+
+  static const String onboardingTitlePIN = 'onboardingTitlePIN';
+  static const String onboardingDescPIN = 'onboardingDescPIN';
+
+  static const String next = 'next';
+  static const String back = 'back';
+  static const String skipForNow = 'skipForNow';
+  static const String setUpPin = 'setUpPin';
+
   static const Map<String, dynamic> EN = {
     // HOME
     todoTitle: 'Todo',
@@ -386,6 +407,31 @@ mixin AppLocale {
     pinIncorrect: 'PIN incorrect!',
     updatePin: 'Update PIN',
     removePin: 'Remove PIN',
+
+    // ONBOARDING
+    onboardingTitleWelcome: 'Welcome to DailyCore',
+    onboardingDescWelcome:
+        'Your all-in-one tool to build better habits, manage spending, and stay on top of tasks.',
+
+    onboardingTitleTodo: 'Stay on Top of Your To-Do List',
+    onboardingDescTodo:
+        'Capture tasks, prioritize them, and boost your daily productivity with ease.',
+
+    onboardingTitleHabit: 'Build Positive Habits',
+    onboardingDescHabit:
+        'Track your daily routines, set reminders, and stay consistent with your goals.',
+
+    onboardingTitleFinance: 'Track Your Finances',
+    onboardingDescFinance:
+        'Easily record your expenses and income to understand where your money goes.',
+
+    onboardingTitlePIN: 'Protect Your App with a PIN',
+    onboardingDescPIN:
+        'Set up a 4-digit PIN to keep your data safe and private. You can skip this for now and set it up later in Settings.',
+    next: 'Next',
+    back: 'Back',
+    skipForNow: 'Skip for Now',
+    setUpPin: 'Set Up PIN',
   };
 
   static const Map<String, dynamic> ID = {
@@ -582,5 +628,31 @@ mixin AppLocale {
     pinIncorrect: 'PIN salah!',
     updatePin: 'Perbarui PIN',
     removePin: 'Hapus PIN',
+
+    // ONBOARDING
+    onboardingTitleWelcome: 'Selamat Datang di DailyCore',
+    onboardingDescWelcome:
+        'Alat serbaguna Anda untuk membangun kebiasaan baik, mengatur pengeluaran, dan menyelesaikan tugas.',
+
+    onboardingTitleTodo: 'Kelola Daftar Agenda Anda',
+    onboardingDescTodo:
+        'Catat tugas, atur prioritas, dan tingkatkan produktivitas harian Anda dengan mudah.',
+
+    onboardingTitleHabit: 'Bangun Kebiasaan Positif',
+    onboardingDescHabit:
+        'Lacak rutinitas harian, atur pengingat, dan tetap konsisten dengan tujuan Anda.',
+
+    onboardingTitleFinance: 'Lacak Keuangan Anda',
+    onboardingDescFinance:
+        'Catat pengeluaran dan pendapatan dengan mudah untuk memahami ke mana uang Anda pergi.',
+
+    onboardingTitlePIN: 'Lindungi Aplikasi Anda dengan PIN',
+    onboardingDescPIN:
+        'Atur PIN 4 digit untuk menjaga data Anda tetap aman dan pribadi. Anda dapat melewati ini dan mengaturnya nanti di Pengaturan.',
+
+    next: 'Lanjut',
+    back: 'Kembali',
+    skipForNow: 'Lewati Dulu',
+    setUpPin: 'Atur PIN',
   };
 }
