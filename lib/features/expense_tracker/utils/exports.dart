@@ -142,7 +142,7 @@ pw.Column _buildColumn(String label, double amount) {
   return pw.Column(
     crossAxisAlignment: pw.CrossAxisAlignment.start,
     children: [
-      pw.Text('Total Expenses'),
+      pw.Text(label),
       pw.SizedBox(height: 4),
       pw.Text(
         formatAmountRP(amount),
