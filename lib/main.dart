@@ -146,6 +146,7 @@ class _MyAppState extends State<MyApp> {
         builder: (context, themeMode) {
           return MaterialApp(
             title: 'DailyCore',
+            debugShowCheckedModeBanner: false,
             supportedLocales: localization.supportedLocales,
             localizationsDelegates: localization.localizationsDelegates,
             theme: AppThemes.lightTheme,

@@ -1,8 +1,10 @@
+import 'package:country_flags/country_flags.dart';
 import 'package:dailycore/components/pin/pin_enum.dart';
 import 'package:dailycore/features/home/cubit/onboarding.dart';
 import 'package:dailycore/features/home/homepage.dart';
 import 'package:dailycore/features/home/pin_page.dart';
 import 'package:dailycore/theme/theme_helper.dart';
+import 'package:dailycore/utils/custom_toast.dart';
 import 'package:dailycore/utils/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,8 +13,20 @@ import 'package:introduction_screen/introduction_screen.dart';
 
 import '../../localization/locales.dart';
 
-class OnboardingPage extends StatelessWidget {
+class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
+
+  @override
+  State<OnboardingPage> createState() => _OnboardingPageState();
+}
+
+class _OnboardingPageState extends State<OnboardingPage> {
+  late FlutterLocalization _flutterLocalization;
+  @override
+  void initState() {
+    _flutterLocalization = FlutterLocalization.instance;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +38,41 @@ class OnboardingPage extends StatelessWidget {
                 ThemeHelper.isDark(context) ? Colors.white : Colors.grey,
           ),
           pages: [
+            PageViewModel(
+              title: 'Choose Language',
+              bodyWidget: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    leading: CountryFlag.fromLanguageCode(
+                      'en',
+                      shape: Circle(),
+                      height: 30,
+                      width: 30,
+                    ),
+                    title: Text('English'),
+                    onTap: () {
+                      _flutterLocalization.translate('en');
+                      successToast(context, 'English selected!');
+                    },
+                  ),
+                  Divider(),
+                  ListTile(
+                    leading: CountryFlag.fromLanguageCode(
+                      'id',
+                      shape: Circle(),
+                      height: 30,
+                      width: 30,
+                    ),
+                    title: Text('Bahasa Indonesia'),
+                    onTap: () {
+                      _flutterLocalization.translate('id');
+                      successToast(context, 'Bahasa Indonesia terpilih!');
+                    },
+                  ),
+                ],
+              ),
+            ),
             _buildPage(
               context,
               title: AppLocale.onboardingTitleWelcome.getString(context),
