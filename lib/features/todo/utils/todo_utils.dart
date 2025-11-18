@@ -295,6 +295,12 @@ void showAddTodoBox(BuildContext context) {
                                 context,
                                 AppLocale.nameMustNotEmpty.getString(context),
                               );
+                            } else if (selectedDate != null &&
+                                selectedDate.isBefore(DateTime.now())) {
+                              warningToast(
+                                context,
+                                AppLocale.invalidDeadline.getString(context),
+                              );
                             } else {
                               todoCubit.addTodo(
                                 todoController.text,

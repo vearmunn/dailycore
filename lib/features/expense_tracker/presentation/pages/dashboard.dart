@@ -45,7 +45,7 @@ class _ExpenseDashboardState extends State<ExpenseDashboard> {
           }
         },
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-        selectedItemColor: dailyCorePurple,
+        selectedItemColor: dailyCoreCyan,
         unselectedItemColor:
             ThemeHelper.isDark(context) ? Colors.white24 : Colors.black45,
         items: const [
@@ -55,7 +55,7 @@ class _ExpenseDashboardState extends State<ExpenseDashboard> {
             icon: Icon(Icons.receipt_long_rounded),
             label: 'Reports',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.tag_rounded), label: 'Goal'),
+          // BottomNavigationBarItem(icon: Icon(Icons.tag_rounded), label: 'Goal'),
         ],
       ),
     );

@@ -23,8 +23,8 @@ class ExpenseCategoryPage extends StatelessWidget {
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(50),
             child: TabBar(
-              labelColor: dailyCorePurple,
-              indicatorColor: dailyCorePurple,
+              labelColor: dailyCoreCyan,
+              indicatorColor: dailyCoreCyan,
               tabs: [
                 Tab(text: AppLocale.expense.getString(context)),
                 Tab(text: AppLocale.income.getString(context)),
@@ -36,7 +36,7 @@ class ExpenseCategoryPage extends StatelessWidget {
           children: [_buidTabCategory(true), _buidTabCategory(false)],
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: dailyCorePurple,
+          backgroundColor: dailyCoreCyan,
           onPressed: () {
             showAddEditCategoryModalBottomSheet(context);
           },

@@ -104,7 +104,7 @@ class _HabitTableCalendarState extends State<HabitTableCalendar> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        color: isSelected ? dailyCoreGreen.withAlpha(50) : Colors.transparent,
+        color: isSelected ? dailyCorePink.withAlpha(50) : Colors.transparent,
       ),
       child: CircularPercentIndicator(
         radius: 20,
@@ -114,7 +114,7 @@ class _HabitTableCalendarState extends State<HabitTableCalendar> {
         curve: Curves.fastEaseInToSlowEaseOut,
         animateFromLastPercent: true,
         percent: progress > 1 ? 1 : progress,
-        progressColor: dailyCoreGreen,
+        progressColor: dailyCorePink,
         backgroundColor:
             ThemeHelper.isDark(context)
                 ? Colors.grey.shade800
@@ -126,7 +126,7 @@ class _HabitTableCalendarState extends State<HabitTableCalendar> {
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             color:
                 isSelected
-                    ? dailyCoreGreen
+                    ? dailyCorePink
                     : ThemeHelper.defaultTextColor(context),
           ),
         ),

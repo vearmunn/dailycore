@@ -85,7 +85,9 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                         isCompletedToday ? Colors.white : Colors.black54,
                   ),
                   label: Text(
-                    AppLocale.check.getString(context),
+                    isCompletedToday
+                        ? AppLocale.checked.getString(context)
+                        : AppLocale.check.getString(context),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   icon: Icon(Icons.check_circle),

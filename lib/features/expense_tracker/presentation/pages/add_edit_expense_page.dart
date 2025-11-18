@@ -102,8 +102,8 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(50),
           child: TabBar(
-            labelColor: dailyCorePurple,
-            indicatorColor: dailyCorePurple,
+            labelColor: dailyCoreCyan,
+            indicatorColor: dailyCoreCyan,
             controller: _tabController,
             tabs: [
               Tab(text: AppLocale.expense.getString(context)),
@@ -131,13 +131,13 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
                 _expandableController.expanded == true
                     ? AppLocale.hide.getString(context)
                     : AppLocale.show.getString(context),
-                style: TextStyle(color: dailyCorePurple),
+                style: TextStyle(color: dailyCoreCyan),
               ),
               icon: Icon(
                 _expandableController.expanded
                     ? Icons.keyboard_arrow_down
                     : Icons.keyboard_arrow_up,
-                color: dailyCorePurple,
+                color: dailyCoreCyan,
               ),
             ),
             Expandable(
@@ -200,7 +200,7 @@ class _AddEditExpensePageState extends State<AddEditExpensePage>
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: dailyCorePurple,
+                            backgroundColor: dailyCoreCyan,
                           ),
                           onPressed: () {
                             if (selectedCategory == null) {

@@ -46,7 +46,7 @@ class NumberPad extends StatelessWidget {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: dailyCorePurple,
+                backgroundColor: dailyCoreCyan,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

@@ -70,7 +70,7 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: dailyCorePurple),
+              borderSide: BorderSide(color: dailyCoreCyan),
             ),
           ),
         ),
@@ -137,7 +137,7 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      backgroundColor: dailyCorePurple.withAlpha(
+                      backgroundColor: dailyCoreCyan.withAlpha(
                         isButtonEnabled ? 255 : 100,
                       ),
                       foregroundColor: Colors.white,
@@ -195,7 +195,7 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
                         horizontal: 12,
                       ),
                       decoration: BoxDecoration(
-                        color: dailyCorePurple,
+                        color: dailyCoreCyan,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
@@ -219,7 +219,7 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
                             horizontal: 12,
                           ),
                           decoration: BoxDecoration(
-                            color: dailyCorePurple,
+                            color: dailyCoreCyan,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Row(
@@ -257,7 +257,7 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
                       context: context,
                       builder: (ctx) {
                         return MultiSelectDialog(
-                          selectedColor: dailyCorePurple,
+                          selectedColor: dailyCoreCyan,
                           itemsTextStyle: TextStyle(
                             color: ThemeHelper.secondaryTextColor(context),
                           ),
@@ -293,7 +293,7 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
                     padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: dailyCorePurple,
+                      color: dailyCoreCyan,
                     ),
                     child: Icon(Icons.add, color: Colors.white),
                   ),
@@ -320,7 +320,7 @@ class _SearchExpensePageState extends State<SearchExpensePage> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               // border: Border.all(),
-              color: dailyCorePurple,
+              color: dailyCoreCyan,
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton(

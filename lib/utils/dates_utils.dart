@@ -13,6 +13,10 @@ String formattedDate2(DateTime date) {
   return today;
 }
 
+String formattedDate3(DateTime date) {
+  return DateFormat('dd MMMM yyyy').format(date);
+}
+
 String formattedDateAndTime(DateTime date) {
   final formatted = DateFormat('d MMMM yyyy - HH:mm').format(date);
 

@@ -19,7 +19,7 @@ class ExpensePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: dailyCorePurple,
+        backgroundColor: dailyCoreCyan,
         title: Text(
           AppLocale.financeTitle.getString(context),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
@@ -62,7 +62,7 @@ class ExpensePage extends StatelessWidget {
               if (state is ExpenseCrudLoaded) {
                 return Container(
                   height: 50,
-                  color: dailyCorePurple,
+                  color: dailyCoreCyan,
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,7 +118,7 @@ class ExpensePage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: dailyCorePurple,
+        backgroundColor: dailyCoreCyan,
         foregroundColor: Colors.white,
         onPressed:
             () => Navigator.push(
@@ -147,7 +147,7 @@ class ExpensePage extends StatelessWidget {
           lastYear: DateTime.now().year,
           selectButtonText: 'OK',
           cancelButtonText: 'Cancel',
-          highlightColor: dailyCorePurple,
+          highlightColor: dailyCoreCyan,
           textColor: Colors.black,
           contentBackgroundColor: Colors.white,
           dialogBackgroundColor: Colors.grey[200],

@@ -123,7 +123,7 @@ void showAddEditCategoryModalBottomSheet(
                             horizontalSpace(12),
                             Radio(
                               visualDensity: VisualDensity.compact,
-                              activeColor: dailyCorePurple,
+                              activeColor: dailyCoreCyan,
                               value: 'Expense',
                               groupValue: selectedType,
                               onChanged: (v) {
@@ -141,7 +141,7 @@ void showAddEditCategoryModalBottomSheet(
                             horizontalSpace(12),
                             Radio(
                               visualDensity: VisualDensity.compact,
-                              activeColor: dailyCorePurple,
+                              activeColor: dailyCoreCyan,
                               value: 'Income',
                               groupValue: selectedType,
                               onChanged: (v) {
@@ -189,7 +189,7 @@ Widget _buildButton(
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor:
-                    isExpenceCategory ? dailyCorePurple : dailyCoreBlue,
+                    isExpenceCategory ? dailyCoreCyan : dailyCoreBlue,
               ),
               onPressed: () {
                 if (nameController.text.isEmpty) {

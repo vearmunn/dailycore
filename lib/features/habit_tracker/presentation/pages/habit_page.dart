@@ -25,7 +25,7 @@ class _HabitPageState extends State<HabitPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: dailyCoreGreen,
+        backgroundColor: dailyCorePink,
         title: Text(
           AppLocale.habitTitle.getString(context),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
@@ -39,7 +39,7 @@ class _HabitPageState extends State<HabitPage> {
       // backgroundColor: Colors.grey.shade200,
       body: _buildHabitList(context),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: dailyCoreGreen,
+        backgroundColor: dailyCorePink,
         onPressed: () {
           context.read<ColorSelectorCubit>().setColor(
             colorSelections[randomIndex(colorSelections.length)],
@@ -89,7 +89,7 @@ class _HabitPageState extends State<HabitPage> {
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: dailyCoreGreen,
+                        color: dailyCorePink,
                       ),
                       child: Row(
                         children: [

@@ -5,8 +5,14 @@ import 'package:flutter/material.dart';
 const Color dailyCoreGreen = Color.fromARGB(255, 48, 175, 146);
 const Color dailyCoreOrange = Color.fromARGB(255, 228, 162, 100);
 const Color dailyCoreRed = Color.fromARGB(255, 245, 85, 85);
-const Color dailyCoreBlue = Color.fromARGB(255, 69, 152, 216);
-const Color dailyCorePurple = Color.fromARGB(255, 144, 100, 221);
+// const Color dailyCoreBlue = Color.fromARGB(255, 69, 152, 216);
+const Color dailyCoreBlue = Color(0xff6047EB);
+const Color dailyCorePurple = Color(0xff6047EB);
+const Color dailyCorePurpleAccent = Color(0xff4B33E1);
+const Color dailyCorePink = Color(0xffE569FF);
+const Color dailyCorePinkAccent = Color.fromARGB(255, 201, 86, 224);
+const Color dailyCoreCyan = Color(0xff20DDD7);
+const Color dailyCoreCyanAccent = Color.fromARGB(255, 21, 189, 183);
 
 List<Color> colorSelections = [
   Color(0xFF16a085), // greenish teal

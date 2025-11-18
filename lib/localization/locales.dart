@@ -3,8 +3,15 @@
 mixin AppLocale {
   // HOME
   static const String todoTitle = 'todoTitle';
+  static const String todoUnits = 'todoUnits';
   static const String habitTitle = 'habitTitle';
+  static const String habitUnits = 'habitUnits';
   static const String financeTitle = 'financeTitle';
+  static const String youHave = 'youHave';
+  static const String toWorkOn = 'toWorkOn';
+  static const String tasks = 'tasks';
+  static const String habits = 'habits';
+  static const String and = 'and';
   static const String todaysTodos = 'todaysTodos';
   static const String todaysHabits = 'todaysHabits';
   static const String thisMonthsSummary = 'thisMonthsSummary';
@@ -16,6 +23,7 @@ mixin AppLocale {
   static const String viewAllTodos = 'viewAllTodos';
   static const String viewAllHabits = 'viewAllHabits';
   static const String viewFinanceTrackerDetails = 'viewFinanceTrackerDetails';
+  static const String noTodosAndHabitsFound = 'noTodosAndHabitsFound';
   static const String noTodosFound = 'noTodosFound';
   static const String noHabitsFound = 'noHabitsFound';
 
@@ -62,6 +70,7 @@ mixin AppLocale {
   static const String subtodoMustNotBeEmpty = 'subtodoMustNotBeEmpty';
   static const String editSubtodo = 'editSubtodo';
   static const String subtodoUpdated = 'subtodoUpdated';
+  static const String invalidDeadline = 'invalidDate';
 
   // BROWSE
   static const String browseTodos = 'browseTodos';
@@ -108,6 +117,7 @@ mixin AppLocale {
   static const String week = 'week';
   static const String month = 'month';
   static const String check = 'check';
+  static const String checked = 'checked';
 
   // FINANCE
   static const String expense = 'expense';
@@ -215,9 +225,17 @@ mixin AppLocale {
 
   static const Map<String, dynamic> EN = {
     // HOME
-    todoTitle: 'Todo',
-    habitTitle: 'Habit',
+    todoTitle: 'Task\nList',
+    todoUnits: ' Tasks',
+    habitTitle: 'Habit\nTracker',
+    habitUnits: ' Activities',
     financeTitle: 'Finance Tracker',
+    youHave: 'You have ',
+    toWorkOn:
+        " to work on. Stay focused and complete them to keep your progress strong!",
+    tasks: "tasks",
+    habits: "habits",
+    and: "and",
     todaysTodos: "Today's Todos",
     todaysHabits: "Today's Habits",
     thisMonthsSummary: "This Month's Summary",
@@ -229,6 +247,7 @@ mixin AppLocale {
     viewAllTodos: 'View All Todos',
     viewAllHabits: 'View All Habits',
     viewFinanceTrackerDetails: 'View Finance Tracker Details',
+    noTodosAndHabitsFound: "You don't have tasks or habits to complete today.",
     noTodosFound: 'No Todos Found',
     noHabitsFound: 'No Habits Found',
 
@@ -275,6 +294,7 @@ mixin AppLocale {
     subtodoMustNotBeEmpty: 'Subtodo must not be empty!',
     editSubtodo: 'Edit Subtodo',
     subtodoUpdated: 'Subtodo updated!',
+    invalidDeadline: 'Invalid date. Choose a future deadline.',
 
     // BROWSE
     browseTodos: 'Browse Todos',
@@ -321,6 +341,7 @@ mixin AppLocale {
     week: 'week',
     month: 'month',
     check: 'Check',
+    checked: 'Checked',
 
     // FINANCE
     expense: 'Expense',
@@ -436,9 +457,17 @@ mixin AppLocale {
 
   static const Map<String, dynamic> ID = {
     // HOME
-    todoTitle: 'Agenda',
-    habitTitle: 'Rutinitas',
+    todoTitle: 'Daftar\nAgenda',
+    todoUnits: ' Tugas',
+    habitTitle: 'Daftar\nRutinitas',
+    habitUnits: ' Aktifitas',
     financeTitle: 'Keuangan Pribadi',
+    youHave: 'Terdapat ',
+    toWorkOn:
+        ' yang harus dikerjakan. Tetap fokus dan selesaikan semuanya untuk menjaga progresmu. Semangat!',
+    tasks: "tugas",
+    habits: "rutinitas",
+    and: "dan",
     todaysTodos: "Agenda Hari Ini",
     todaysHabits: "Rutinitas Hari Ini",
     thisMonthsSummary: "Rekap Bulan Ini",
@@ -450,6 +479,8 @@ mixin AppLocale {
     viewAllTodos: 'Lihat Semua Agenda',
     viewAllHabits: 'Lihat Semua Rutinitas',
     viewFinanceTrackerDetails: 'Lihat Rincian Keuangan Pribadi',
+    noTodosAndHabitsFound:
+        "Tidak ada tugas dan rutinitas untuk diselesaikan hari ini.",
     noTodosFound: 'Agenda Tidak Ditemukan',
     noHabitsFound: 'Rutinitas Tidak Ditemukan',
     deleteThisSubTodo: 'Hapus subtugas ini ?',
@@ -495,6 +526,7 @@ mixin AppLocale {
     subtodoMustNotBeEmpty: 'Subtugas tidak boleh kosong!',
     editSubtodo: 'Edit Subtugas',
     subtodoUpdated: 'Subtugas terupdate!',
+    invalidDeadline: 'Tanggal tidak valid. Pilih tenggat waktu di masa depan.',
 
     // BROWSE
     browseTodos: 'Telusuri Agenda',
@@ -541,6 +573,7 @@ mixin AppLocale {
     week: 'minggu',
     month: 'bulan',
     check: 'Cek',
+    checked: 'Sudah dicek',
 
     // FINANCE
     expense: 'Pengeluaran',

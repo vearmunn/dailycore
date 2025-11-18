@@ -227,20 +227,28 @@ class _TodoDetailsState extends State<TodoDetails> {
                 return Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      todoCubit.updateTodo(
-                        Todo(
-                          id: widget.todo.id,
-                          text: todoController.text,
-                          category: selectedCategory,
-                          priority: selectedPriority,
-                          dueDate: selectedDate,
-                          subTodos: widget.todo.subTodos,
-                          shouldAddToExpense: shouldAddToExpense,
-                        ),
-                      );
+                      if (selectedDate != null &&
+                          selectedDate.isBefore(DateTime.now())) {
+                        warningToast(
+                          context,
+                          AppLocale.invalidDeadline.getString(context),
+                        );
+                      } else {
+                        todoCubit.updateTodo(
+                          Todo(
+                            id: widget.todo.id,
+                            text: todoController.text,
+                            category: selectedCategory,
+                            priority: selectedPriority,
+                            dueDate: selectedDate,
+                            subTodos: widget.todo.subTodos,
+                            shouldAddToExpense: shouldAddToExpense,
+                          ),
+                        );
 
-                      Navigator.pop(context);
-                      context.read<DateCubit>().clearDate();
+                        Navigator.pop(context);
+                        context.read<DateCubit>().clearDate();
+                      }
                     },
                     child: Text('Update'),
                   ),

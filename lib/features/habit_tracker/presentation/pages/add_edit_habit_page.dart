@@ -277,7 +277,7 @@ class _AddEditHabitPageState extends State<AddEditHabitPage> {
                       return ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
-                          backgroundColor: dailyCoreBlue,
+                          backgroundColor: dailyCorePink,
                           foregroundColor: Colors.white,
                         ),
                         onPressed: () {
